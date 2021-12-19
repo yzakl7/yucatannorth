@@ -1,4 +1,5 @@
 import '../styles/globals.css'
+import * as firebase from 'firebase/app'
 import type { AppProps } from 'next/app'
 import { AuthProvider } from '../utils/auth/authContext'
 import { ProtectRoute } from '../components/ProtectRoute'
@@ -9,8 +10,16 @@ import { Page } from '../components/UI/style/page'
 import Head from 'next/head'
 import { LangProvider } from '../utils/lang/langContext'
 import Modal from '../components/UI/notifications/modal'
+import firebaseConfig from '../firebase/firebaseConfig'
 
 export const db = getFirestore();
+
+let firebaseApp
+if (firebase.getApps().length === 0) {
+  firebaseApp = firebase.initializeApp(firebaseConfig)
+} else {
+  firebaseApp = firebase.getApp()
+}
 
 function MyApp({ Component, pageProps }: AppProps) {
   const newProps = { ...pageProps }

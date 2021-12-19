@@ -19,12 +19,7 @@ type AuthProvideProps = {
   user?: {}
 }
 
-let firebaseApp
-if (firebase.getApps().length === 0) {
-  firebaseApp = firebase.initializeApp(firebaseConfig)
-} else {
-  firebaseApp = firebase.getApp()
-}
+
 
 const auth = getAuth();
 
