@@ -1,16 +1,23 @@
 {
   "name": "yucatannorth",
   "private": true,
+  "export": "next export",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/styled": "^11.6.0",
+    "firebase": "^9.5.0",
     "next": "12.0.4",
     "react": "17.0.2",
-    "react-dom": "17.0.2"
+    "react-dom": "17.0.2",
+    "react-firebase-hooks": "^4.0.1",
+    "react-firebaseui": "^6.0.0",
+    "react-icons": "^4.3.1"
   },
   "devDependencies": {
     "@types/node": "16.11.9",

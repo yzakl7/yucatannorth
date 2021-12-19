@@ -1,0 +1,54 @@
+{
+  "properties": {
+    "specifications": {
+      "measures": "Measures",
+      "features": "Features",
+      "title": "Specifications",
+      "built_area": "Built area",
+      "land_area": "Land Area",
+      "left": "Left",
+      "right": "Right",
+      "bottom": "Bottom",
+      "front": "Front",
+      "rooms": "Rooms",
+      "floors": "Floors",
+      "bathrooms": "Bathrooms",
+      "car_slots": "Car Slots"
+    },
+    "details": {
+      "contact_us": {
+        "title": "Contact Us",
+        "leave_a_comment": "Leave a Comment",
+        "name": "Name",
+        "email": "Email",
+        "phone": "Phone"
+      },
+      "location": "Location",
+      "tag_names": {
+        "rooms": "rooms",
+        "bathrooms": "bathrooms",
+        "floors": "floors",
+        "car_slots": "car slots",
+        "built_area": "built area",
+        "land_area": "total area"
+      },
+      "for_sale": "for sale",
+      "description": "Description",
+      "address": {
+        "title": "Address"
+      },
+      "built_area": "Built Area",
+      "name": "Name",
+      "land_area": "Land Area",
+      "measures": {
+        "title": "Measures"
+      },
+      "currency": "Currency",
+      "property_type": {
+        "house": "House",
+        "land": "Land"
+      },
+      "price_total": "Total price"
+    }
+  }
+}
