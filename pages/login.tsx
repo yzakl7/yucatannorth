@@ -2,16 +2,16 @@ import React, { useState } from "react";
 import { useAuth } from "../utils/auth/authContext";
 
 function SignInScreen() {
-  const [email, setemail] = useState('')
-  const [password, setpassword] = useState('')
-  const { signin, user, signout } = useAuth()
-  const login = async() => {
-    const response = await signin(email, password)
-    console.log({response});
-  }
+  // const [email, setemail] = useState('')
+  // const [password, setpassword] = useState('')
+  // const { signin, user, signout } = useAuth()
+  // const login = async() => {
+  //   const response = await signin(email, password)
+  //   console.log({response});
+  // }
   return (
     <div>
-      <h1> Login </h1>
+      {/* <h1> Login </h1>
       <p> 
         { JSON.stringify({user}) }
       </p>
@@ -31,7 +31,7 @@ function SignInScreen() {
       />
       <button onClick={login}>login</button>
 
-      <button onClick={signout}>logout</button>
+      <button onClick={signout}>logout</button> */}
     </div>
   );
 }
