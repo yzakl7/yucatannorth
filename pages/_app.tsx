@@ -75,9 +75,10 @@ function MyApp({ Component, pageProps }: AppProps) {
           dismiss={dismissModal}
         />
         {/* <ProtectRoute> */}
-          <Page>
+        hola
+          {/* <Page>
             <Component { ...newProps } />
-          </Page>
+          </Page> */}
         {/* </ProtectRoute> */}
       {/* </AuthProvider> */}
     </LangProvider>
