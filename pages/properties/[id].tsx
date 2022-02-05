@@ -16,6 +16,9 @@ import { BiBath, BiBed, BiCar } from 'react-icons/bi';
 import { MdHouseSiding } from 'react-icons/md';
 import { RiHomeSmile2Line } from 'react-icons/ri';
 import { SendEmail } from '../../components/send-email/send-email';
+import { getImageList } from '../../components/api/firebaseAPI';
+import { getDownloadURL } from 'firebase/storage';
+import { SlidesType } from '../../components/properties/types';
 
 export type TagType = {
   name: string
@@ -37,6 +40,7 @@ export type CommonProps = {
   type?: FormElementType
   value?: string
   wrap?: boolean
+  images?: Record<string, string | Record<string, string>>
   array?: CommonProps[]
   options?: string[]
   range?: number[]
@@ -51,31 +55,6 @@ export type CommonProps = {
   tooltip?: string
   multiline?: string
 }
-
-const slides = [
-    {
-      slideCaption: 'title3',
-      slideImage: {
-        asset: 'https://http2.mlstatic.com/D_NQ_NP_754640-MLM45689255247_042021-O.webp',
-        alt: 'alt'
-      }
-    },
-    {
-      slideCaption: 'title2',
-      slideImage: {
-        asset: 'https://http2.mlstatic.com/D_NQ_NP_799732-MLM45689255249_042021-O.webp',
-        alt: 'alt'
-      }
-    },
-    {
-      slideCaption: 'title1',
-      slideImage: {
-        asset: 'https://http2.mlstatic.com/D_NQ_NP_600635-MLM45689255246_042021-O.webp',
-        alt: 'alt'
-      }
-    }
-]
-
 
 const StyledProperty = styled(Container)`
   background: white;
@@ -178,7 +157,6 @@ const StyledProperty = styled(Container)`
 `
 
 const Property = ({ data }:any) => {
-  console.log({data});
   const router = useRouter()
   const [isLoading, setisLoading] = useState(true)
   const { dictionary, userLanguage } = useContext(LangContext) || ''
@@ -190,11 +168,22 @@ const Property = ({ data }:any) => {
     address,
     name,
     measures,
+    id,
     currency,
     property_type,
     price_total,
     price_m2  ,
+    images = []
   } = data || ''
+
+  const propertyImages: SlidesType[] = images.map(({name: imgName, imgUrl}: any) => ({
+    slideCaption: imgName,
+    slideImage: {
+      asset: imgUrl,
+      alt: imgName
+    }
+  }))
+
 
   const renderTags = () => {
     const { details }:any = dictionary.properties
@@ -239,14 +228,11 @@ const Property = ({ data }:any) => {
     let shouldRenderTitle 
     specificationsArray.forEach((prop) => {
       if (!!params[prop]) {
-        console.log({prop})
         shouldRenderTitle = true 
       } else {
         shouldRenderTitle = false
       }
     })
-
-    console.log({shouldRenderTitle})
       if (shouldRenderTitle) {
         return (
           <Container className="specification-row">
@@ -269,13 +255,15 @@ const Property = ({ data }:any) => {
       return <Text textType="p">{`${subTitle} not specified `}</Text>
     }
 
+    
+
   const renderContent = () => {
     const { details, specifications }:any = dictionary.properties
     
     return ( 
       <Container gap="16px">
         <Container className="content-container" flex="1">
-          <SlideShow data={slides} />
+          { propertyImages.length > 0 && <SlideShow data={propertyImages} /> }
           <Container gap="16px" className="text-content-container">
             <Text textType="h1">
               {`${details.property_type[property_type]} ${details.for_sale}`}
@@ -334,19 +322,11 @@ const Property = ({ data }:any) => {
     )
   }
 
-  const renderSlideshow = () => {
-    return (
-      <Card className="details-container">
-        <Container>
-          <Text textType="p">{description[userLanguage]}</Text>
-        </Container>
-      </Card>
-    )
-  }
+
   
   useEffect(() => {
     setisLoading(false)
-  }, []) 
+  }, [id]) 
 
   if (router.isFallback || isLoading) {
     return <div>Loading...</div>
@@ -373,7 +353,7 @@ export async function getStaticProps({ params }:any) {
 
   if (data) {
     return {
-      props: { data },
+      props: { data: {...data,  id: params.id} },
     }
   }
 

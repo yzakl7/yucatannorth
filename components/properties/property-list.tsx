@@ -5,8 +5,11 @@ import { PropertyProps } from './types'
 import { FileIcon } from '../UI/style/file-icon'
 import { HiOutlineHome } from 'react-icons/hi'
 import { GrStatusUnknown } from 'react-icons/gr'
-import { FaDrawPolygon } from 'react-icons/fa'
+import { FcDepartment } from 'react-icons/fc'
+import { BiBuildingHouse } from 'react-icons/bi'
+import { FaDrawPolygon, FaRegStar } from 'react-icons/fa'
 import { useRouter } from 'next/router'
+import { Text } from '../UI/style/text'
 
 const StyledPropertyList = styled(Container)`
   flex-wrap: wrap;
@@ -15,7 +18,7 @@ const StyledPropertyList = styled(Container)`
   gap: 32px;
   flex:1;
   padding: 16px;
-  flex-direction: row;
+  flex-direction: column;
   .property-element {
     cursor: pointer;
     border-radius: 3px;
@@ -33,17 +36,50 @@ export const PropertyList = ({data}: PropertyListProps) => {
   const { push } = useRouter()
   const icons:any = {
     house: <HiOutlineHome />,
-    land: <FaDrawPolygon />
+    land: <FaDrawPolygon />,
+    townhouse: <BiBuildingHouse />,
+    premiumLand: <FaRegStar />,
+    apartment: <FcDepartment />,
   }
+  const beach = data.filter(property => property.area === 'beach')
+  const city = data.filter(property => property.area === 'city')
   return (
     <StyledPropertyList>
-      {
-        data.map((property:PropertyProps) => { return (
-          <Container className="property-element" key={property.id}>
-            <FileIcon onClick={() => push(`/properties/edit/${property.id}`)} icon={icons[property.property_type] || <GrStatusUnknown />} label={property.name}/>
+      {beach.length > 0 && (
+
+        <Container>
+          <Text textType='h4'>
+            Playa
+          </Text>
+          <Container direction="row" wrap='wrap'>
+            {
+              beach.map((property:PropertyProps) => { return (
+                <Container className="property-element" key={property.id}>
+                  <FileIcon onClick={() => push(`/properties/edit/${property.id}`)} icon={icons[property.property_type] || <GrStatusUnknown />} label={property.name}/>
+                </Container>
+              )})
+            }
           </Container>
-        )})
-      }
+        </Container>
+      )}
+
+      {city.length > 0 && (
+
+        <Container>
+          <Text textType='h4'>
+            Ciudad
+          </Text>
+          <Container direction="row" wrap='wrap'>
+            {
+              city.map((property:PropertyProps) => { return (
+                <Container className="property-element" key={property.id}>
+                  <FileIcon onClick={() => push(`/properties/edit/${property.id}`)} icon={icons[property.property_type] || <GrStatusUnknown />} label={property.name}/>
+                </Container>
+              )})
+            }
+          </Container>
+        </Container>
+      )}
     </StyledPropertyList>
   )
 }

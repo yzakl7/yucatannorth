@@ -19,7 +19,7 @@ export type CommonProps = {
   direction?: string
   multiline?: string
   name?: string
-  type?: FormElementType
+  type?: any
   value?: string | number
   fallbackOnEmpty?: string | number
   wrap?: boolean
@@ -320,14 +320,11 @@ export const Form = ({ data, onChange }: FormProps) => {
                 isValid: true
               }
             }
-            console.log({newFormState})
-
             return (
               setFormState(newFormState)
             )
           }}
           // onChange={(value) => {
-          //   console.log({value})
           //   const isValid = isRequired ? !!value : true
           //   const newFormState:typeof formState = {
           //     ...formState
@@ -378,7 +375,7 @@ export const Form = ({ data, onChange }: FormProps) => {
       numberInput: renderNumberInput(element)
     }
     const { type } = element 
-    return type && elements[type]
+    return type && (elements as any)[type]
   }
   return (
     <StyledForm direction="column" >

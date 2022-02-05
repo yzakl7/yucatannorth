@@ -7,6 +7,7 @@ import { PropertyProps } from './types'
 const StyledPropertyBrowser = styled.section`
   flex-wrap: wrap;
   flex-direction: row;
+  flex: 1;
   align-items: stretch;
   border: 1px red;
   gap: 32px;

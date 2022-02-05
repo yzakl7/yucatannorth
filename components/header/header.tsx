@@ -6,11 +6,9 @@ import { Text } from '../UI/style/text'
 
 const StyledHeader = styled.div`
   box-shadow: 1px 1px 2px 1px rgb(0 0 0 / 35%);
-  position: sticky;
   border-bottom: 1px solid #e8dbba;
   background: #c2af5f;
   color: antiquewhite;
-  top: 0;
   z-index: 4; 
   padding: 16px;
   justify-content: space-between;

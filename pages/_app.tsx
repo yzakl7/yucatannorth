@@ -63,7 +63,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <LangProvider>
-      {/* <AuthProvider> */}
+      <AuthProvider>
         <Head>
           <link href="http://fonts.cdnfonts.com/css/roboto" rel="stylesheet"></link>
         </Head>
@@ -74,12 +74,12 @@ function MyApp({ Component, pageProps }: AppProps) {
           content={modalContent}
           dismiss={dismissModal}
         />
-        {/* <ProtectRoute> */}
+        <ProtectRoute>
           <Page>
             <Component { ...newProps } />
           </Page>
-        {/* </ProtectRoute> */}
-      {/* </AuthProvider> */}
+        </ProtectRoute>
+      </AuthProvider>
     </LangProvider>
   )
 }

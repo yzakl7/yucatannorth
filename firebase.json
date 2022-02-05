@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "out",
+    "public": "public",
     "ignore": [
       "firebase.json",
       "**/.*",
@@ -8,11 +8,17 @@
     ],
     "rewrites": [{
       "source": "**",
-      "function": "nextServer"
+      "function": "yucatanNorthServer"
     }]
   },
   "functions": {
     "source": ".",
-    "runtime": "nodejs10"
+    "runtime": "nodejs14",
+    "ignore": [
+      ".firebase/**",
+      ".firebaserc",
+      "firebase.json",
+      "**/node_modules/**"
+    ]
   }
 }

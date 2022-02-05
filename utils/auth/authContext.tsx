@@ -52,21 +52,18 @@ export const AuthProvider = (props:AuthProvideProps) => {
       await setPersistence(auth, browserLocalPersistence)
       try {
         const user = await signInWithEmailAndPassword(auth, email, password)
-        console.log({user});
       } catch(error) {
-        console.log({error});
+        throw({error});
       }
     } catch(error) {
-      console.log({error});
+      throw({error});
     }
   }
 
   const signout = async () => {
     try {
       const response = await signOut(auth)
-      console.log({response});
     } catch(error) {
-      console.log({error});
     }
   }
 

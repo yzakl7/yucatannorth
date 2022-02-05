@@ -1,8 +1,8 @@
 import styled from '@emotion/styled'
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Container from '../UI/style/container'
 import { Tag } from '../UI/style/tag'
-import { PropertyProps } from './types'
+import { PropertyProps, SlidesType } from './types'
 import { FaVectorSquare } from 'react-icons/fa'
 import { RiHomeSmile2Line } from 'react-icons/ri'
 import { formatter } from '../../utils/formatter'
@@ -11,13 +11,20 @@ import { LangContext } from '../../utils/lang/langContext'
 import { PropertyTags } from './property-tags'
 import { Text } from '../UI/style/text'
 import SlideShow from '../UI/style/slide-show'
+import { getImageList } from '../api/firebaseAPI'
+import { getDownloadURL } from 'firebase/storage'
 
 const StyledPropertyPreview = styled.article`
   flex-direction: column;
   cursor: pointer;
   flex: 1;
   .property-container {
+    max-height: 335px;
     flex-direction: column;
+    &.top {
+      height: 100%;
+      flex: 1;
+    }
     &.bottom {
       padding: 16px;
       background: white;
@@ -50,41 +57,26 @@ export const PropertyPreview = ({ data }: PropertyPreviewProps) => {
     description,
     price_total,
     price_m2,
-    currency
+    currency,
+    images = []
   } = data
+
   const { push } = useRouter()
 
   const { userLanguage }:any = useContext(LangContext)
 
-  const slides = [
-    {
-      slideCaption: 'title3',
-      slideImage: {
-        asset: 'https://http2.mlstatic.com/D_NQ_NP_754640-MLM45689255247_042021-O.webp',
-        alt: 'alt'
-      }
-    },
-    {
-      slideCaption: 'title2',
-      slideImage: {
-        asset: 'https://http2.mlstatic.com/D_NQ_NP_799732-MLM45689255249_042021-O.webp',
-        alt: 'alt'
-      }
-    },
-    {
-      slideCaption: 'title1',
-      slideImage: {
-        asset: 'https://http2.mlstatic.com/D_NQ_NP_600635-MLM45689255246_042021-O.webp',
-        alt: 'alt'
-      }
+  const propertyImages: SlidesType[] = images.map(({name: imgName, imgUrl}: any) => ({
+    slideCaption: imgName,
+    slideImage: {
+      asset: imgUrl,
+      alt: imgName
     }
-]
-
+  }))
 
   return (
     <StyledPropertyPreview>
       <Container className="property-container top">
-        <SlideShow data={slides}/>
+        {propertyImages && propertyImages.length > 0 && <SlideShow data={propertyImages}/>}
       </Container>
       <Container className="property-container bottom">
         <Container direction="row" justify="space-between">

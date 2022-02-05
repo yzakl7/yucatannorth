@@ -3,13 +3,17 @@ import { doc, getDoc } from "firebase/firestore"
 import { db } from '../../_app'
 import Container from '../../../components/UI/style/container'
 import styled from '@emotion/styled'
-import { ReactNode, useContext, useEffect, useState } from 'react'
+import { Fragment, ReactNode, useContext, useEffect, useState } from 'react'
 import { LangContext } from '../../../utils/lang/langContext'
 import Form from '../../../components/UI/form/form'
 import { Text } from '../../../components/UI/style/text'
 import IconButton from '../../../components/UI/buttons/icon-button'
-import { deleteProperty, getPropertyData, updatePropertyData } from '../../../components/api/firebaseAPI'
+import { deleteImage, deleteProperty, getImageList, getPropertyData, updatePropertyData, uploadImage } from '../../../components/api/firebaseAPI'
 import { PropertyUpdateMessage } from '../../../components/properties/property-update-message'
+import { getDownloadURL, ListResult, StorageReference } from 'firebase/storage'
+import Tooltip from '../../../components/UI/style/tooltip'
+import { AiOutlineDelete } from 'react-icons/ai'
+import { SlidesType } from '../../../components/properties/types'
 
 export type TagType = {
   name: string
@@ -46,6 +50,25 @@ export type CommonProps = {
 }
 
 const StyledProperty = styled(Container)`
+  .thumbnail {
+    .image-preview {
+      position: absolute;
+      background: white;
+      align-items: flex-start;
+      display: none;
+      z-index: 5;
+      top: 100%;
+      .delete-button {
+        cursor: pointer;
+        &:hover {
+          border: 1px solid;
+        }
+      }
+    }
+    &:hover .image-preview {
+      display: flex;
+    }
+  }
 `
 
 const Property = (props:any) => {
@@ -54,10 +77,8 @@ const Property = (props:any) => {
   const router = useRouter()
   const [isLoading, setisLoading] = useState(true)
   const { dictionary, userLanguage } = useContext(LangContext) || ''
+  const [imagesLoading, setImagesLoading] = useState(false)
   const { pathname, push } = useRouter()
-
-  console.log({props});
-
   const {
     isFeatured,
     features,
@@ -69,12 +90,42 @@ const Property = (props:any) => {
     currency,
     property_type,
     price_total,
-    price_m2  ,
+    price_m2,
+    location,
+    images = [],
+    area
   } = data || ''
+
+  const propertyImages: SlidesType[] = images.map(({name, imgUrl}: Record<string, string>) => ({
+    name,
+    src: imgUrl,
+    alt: name
+  }))
 
   const propertyType = {
     house: "casa",
-    land: "terreno"
+    land: "terreno",
+    premiumLand: "lote premium",
+    apartment: "departamento",
+    townhouse: "townhouse",
+  }
+
+  const areaType = {
+    beach: "playa",
+    city: "ciudad",
+  }
+
+  const areaKeys = {
+    ciudad: "city",
+    playa: "beach",
+  }
+
+  const propertyTypeKeys = {
+    casa: "house",
+    terreno: "land",
+    "lote premium": "premiumLand",
+    departamento: "apartment",
+    townhouse: "townhouse",
   }
 
   const formData: CommonProps[] = [
@@ -93,11 +144,27 @@ const Property = (props:any) => {
         },
         {
           type: 'select',
-          name: 'poperty_type',
+          name: 'property_type',
           flex: 'unset',
           value: (propertyType as Record<string, string>)[property_type],
           placeholder: 'Tipo de cambio',
-          options: ['casa', 'terreno']
+          options: ['casa', 'terreno', 'lote premium', 'departamento', 'townhouse']
+        },
+        {
+          type: 'select',
+          name: 'location',
+          flex: 'unset',
+          value: location,
+          placeholder: 'Categoría',
+          options: ['norte-poniente', 'norte-oriente']
+        },
+          {
+          type: 'select',
+          name: 'area',
+          flex: 'unset',
+          value: area,
+          placeholder: 'area',
+          options: ['playa', 'ciudad']
         },
         {
           type: 'switch',
@@ -354,16 +421,7 @@ const Property = (props:any) => {
     },
   ]
 
-  useEffect(() => {
-    setisLoading(false)
-  }, []) 
-
-  if (router.isFallback || isLoading) {
-    return <div>Loading...</div>
-  }
-
   const onChange = (params: { values: Record<string, string>; hasErrors: boolean; }) => {
-    console.log({params});
     setState(params.values)
   }
 
@@ -380,7 +438,6 @@ const Property = (props:any) => {
     const getMapSrc = (html:string) => {
       let extractedMapSrc = html
       if (!html) {
-        console.log('falback a valor inicial');
         return address?.mapSrc || ''
       }
 
@@ -424,9 +481,10 @@ const Property = (props:any) => {
       name: state.name || name || '',
       price_m2: state.price_m2 || price_m2 || '',
       price_total: state.price_total || price_total || '',
-      property_type: state.property_type || property_type || ''
+      property_type: (propertyTypeKeys as Record<string, string>)[state.property_type] || property_type || '',
+      location: state.location || location || '',
+      area: (areaKeys as Record<string, string>)[state.area] || area || '',
     }
-
     try {
       await updatePropertyData({ id, data: updatedValues })
       callModal(renderModal('Los dato han sido guardados con exito'))
@@ -453,9 +511,66 @@ const Property = (props:any) => {
     )
   }
 
+
+
+  const uploadFile = (e:any) => {
+    const fileList = e.target.files
+    const fileArray = []
+    const doUpload = async (id:string, name:string, file:any) => {
+      const response = await uploadImage(id, name, file)
+      return response
+    }
+
+    for (let i = 0, numFiles = fileList.length; i < numFiles; i++) {
+      const file = fileList[i];
+      doUpload(id, file.name, file)
+    }
+
+  }
+  
+  const onDeleteImage = async (imageName:string) => {
+    try {
+      const res = await deleteImage(id, imageName)
+    } catch(err) {
+      throw(err)
+    }
+  }
+
+  useEffect(() => {
+    setisLoading(false)
+  }, [id]) 
+
+  if (router.isFallback || isLoading) {
+    return <div>Loading...</div>
+  }
+
   return ( 
     <StyledProperty>
       <Text textType="h3">Editar propiedad</Text>
+      <input type="file" onChange={uploadFile} multiple></input>
+      <Container direction='row'>
+        {
+          propertyImages.map(({src, name}:any) => {
+            return (
+              <Container key={src} className='thumbnail'>
+                <img alt="" width="50px" height="50px" src={src}></img>
+                <Container className='image-preview' justify='flex-end'>
+                  <Container onClick={() => onDeleteImage(name)} className='delete-button' align='center'>
+                    <IconButton>
+                      <AiOutlineDelete />
+                    </IconButton>
+                    Eliminar
+                  </Container>
+                  <img alt="" src={src}></img>
+                </Container>
+              </Container>
+            )
+          })
+        }
+        {
+          imagesLoading && 'Loading'
+        }
+      </Container>
       <Form data={formData} onChange={onChange} />
       <IconButton onClick={onSave}>Guardar</IconButton>
       <IconButton onClick={onDelete}>Eliminar propiedad</IconButton>
@@ -471,7 +586,6 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }:any) {
-
   try {
     const data = await getPropertyData(params)
     return {
@@ -482,10 +596,8 @@ export async function getStaticProps({ params }:any) {
       redirect: {
         destination: "/",
       },
-      
     }
   }
-  
 }
 
 export default Property

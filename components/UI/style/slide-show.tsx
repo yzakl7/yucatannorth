@@ -1,6 +1,7 @@
 import styled from '@emotion/styled'
 import { useEffect, useState } from 'react'
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import { SlidesType } from '../../properties/types';
 import Container from './container';
 import { Image } from './image';
 import { Text } from './text';
@@ -11,6 +12,8 @@ export interface SlideShowProps {
   title?: string
 }
 
+
+
 const StyledSlideShow = styled(Container)`
   flex: 1;
   gap: 0;
@@ -18,9 +21,12 @@ const StyledSlideShow = styled(Container)`
     color: white;
     text-shadow: 2px 0px 3px rgba(0, 0, 0, 0.75);
     font-size: 18px;
-    line-height: 18px;
+    line-height: 22px;
     font-weight: 600;
     text-align: right;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .slider-container {
     height: 300px;
@@ -59,7 +65,7 @@ const StyledSlideShow = styled(Container)`
         border: none;
         background: rgb(2,0,36);
         background: linear-gradient(90deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.20) 35%, rgba(0,0,0,0) 100%);
-        &:nth-child(2) {
+        &:nth-of-type(2) {
           background: linear-gradient(270deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.2) 35%, rgba(0,0,0,0) 100%);
         }
         width: 60px;
@@ -132,13 +138,13 @@ const StyledSlideShow = styled(Container)`
       line-height: 22px;
     }
     .slider-container {
-      height: 158px;
+      max-height: 100%;
       .buttons-container {
         button {
           width: 21px;
           svg {
             transform: scale(3);
-          }
+          } 
         }
       }
     }
@@ -148,27 +154,19 @@ const StyledSlideShow = styled(Container)`
   }
 `
 
-type SlidesType = {
-  slideCaption?: string
-  slideImage: {
-    asset: string
-    alt: string
-  }
-}
-
-let slides: SlidesType[]
 
 export const SlideShow = (props: SlideShowProps) => {
+  let slides: SlidesType[]
   slides = props.data
 
   const [selectedSlide, setSelectedSlide] = useState(0)
   const [selectedSlideData, setSelectedSlideData] = useState(slides[0])
-  const [nextSlideData, setNextSlideData] = useState(slides[0])
+  const [nextSlideData, setNextSlideData] = useState(0)
   const [selectedtSlideClass, setSelectedSlideClass] = useState("")
   const [nextSlideClass, setNextSlideClass] = useState("")
   const [direction, setDirection] = useState("")
 
-  const maxSlides = slides.length 
+  const maxSlides = slides.length
   const lastSlide = maxSlides - 1
 
   const nextSlide = (direction: string, overrideNextSlideIndex?:number) => {
@@ -178,7 +176,7 @@ export const SlideShow = (props: SlideShowProps) => {
     const translate = direction === 'row' ? "translate-left" : "translate-right"
     const nextSlideIndex = overrideNextSlideIndex !== undefined ? overrideNextSlideIndex : nextSlide
     setDirection(direction)
-    setNextSlideData(slides[nextSlideIndex])
+    setNextSlideData((slides as any)[nextSlideIndex])
     setSelectedSlideClass(translate)
     setNextSlideClass(translate)
     setTimeout(() => setSelectedSlide(nextSlideIndex), 500);
@@ -198,7 +196,7 @@ export const SlideShow = (props: SlideShowProps) => {
   }
 
   const prev = () => {
-    if (!selectedtSlideClass) { 
+    if (!selectedtSlideClass) {
       nextSlide('row-reverse')
     }
   }
@@ -210,39 +208,44 @@ export const SlideShow = (props: SlideShowProps) => {
         nextSlide(direction, i)
       }
     }
-    return slides.map(({slideCaption}, i) => {
-      return (
-        <div
-          onClick={() => bulletOnclick(i)}
-          className={`bullet ${ i === selectedSlide ? 'active' : ''}`}
-          key={`bulletindex${slideCaption}`}
-        />
-      )
-    })
+    if (slides.length < 1) {
+      return slides.map(({slideCaption}, i) => {
+        return (
+          <div
+            onClick={() => bulletOnclick(i)}
+            className={`bullet ${ i === selectedSlide ? 'active' : ''}`}
+            key={`bulletindex${slideCaption}`}
+          />
+        )
+      })
+    }
+    return <></>
   }
 
   return (
     <StyledSlideShow direction="column" className="slide-show-container">
       <Text textType="h3">{props.title}</Text>
       <Container className="slider-container">
+
         <Container className="image-frame" direction={direction || 'row'}>
           <Container className={`image-motion ${selectedtSlideClass}`}>
-            <Image src={selectedSlideData.slideImage.asset} alt={selectedSlideData.slideImage.alt} />          
+            <Image src={selectedSlideData.slideImage.asset} alt={selectedSlideData.slideImage.alt} />
           </Container>
             { nextSlideData && (
               <Container className={`image-motion ${nextSlideClass}`}>
-                <Image src={nextSlideData.slideImage.asset} alt={selectedSlideData.slideImage.alt} />
+                <Image src={(nextSlideData as any).slideImage.asset} alt={selectedSlideData.slideImage.alt} />
               </Container>
             ) }
         </Container>
-        <Container className="buttons-container" direction="row">
+
+        {slides.length > 1 && <Container className="buttons-container" direction="row">
           <button onClick={prev}>
             <IoIosArrowBack />
           </button>
           <button onClick={next}>
             <IoIosArrowForward />
           </button>
-        </Container>
+        </Container>}
         <Container className="bullets-container" direction="row">
           {renderBullets()}
         </Container>
@@ -257,7 +260,7 @@ export const SlideShow = (props: SlideShowProps) => {
         { nextSlideData && (
           <Container className={`slide-body next ${selectedtSlideClass ? 'transitioning' : ''}`} gap="0">
             <Text textType="h4">
-              -{nextSlideData.slideCaption}
+              -{(nextSlideData as any).slideCaption}
             </Text>
           </Container>
         ) }
