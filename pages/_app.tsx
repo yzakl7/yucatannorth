@@ -1,14 +1,13 @@
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
 import { AuthProvider } from '../utils/auth/authContext'
-import { ProtectRoute } from '../components/ProtectRoute'
-import { Header } from '../components/header/header'
 import { collection, doc, getDocs, getFirestore, setDoc } from 'firebase/firestore'
 import { ReactNode, useEffect, useState } from 'react'
-import { Page } from '../components/UI/style/page'
 import Head from 'next/head'
 import { LangProvider } from '../utils/lang/langContext'
-import Modal from '../components/UI/notifications/modal'
+import { Header } from '../components/layout'
+import { Modal, Page } from '../components/ui'
+import { ProtectRoute } from '../components/ProtectRoute'
 
 export const db = getFirestore();
 
@@ -68,7 +67,6 @@ function MyApp({ Component, pageProps }: AppProps) {
           <link href="http://fonts.cdnfonts.com/css/roboto" rel="stylesheet"></link>
         </Head>
 
-        <Header />
         <Modal
           isVisible={modalVisibility}
           content={modalContent}
@@ -76,6 +74,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         />
         <ProtectRoute>
           <Page>
+            <Header />
             <Component { ...newProps } />
           </Page>
         </ProtectRoute>
