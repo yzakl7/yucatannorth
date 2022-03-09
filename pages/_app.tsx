@@ -5,7 +5,7 @@ import { collection, doc, getDocs, getFirestore, setDoc } from 'firebase/firesto
 import { ReactNode, useEffect, useState } from 'react'
 import Head from 'next/head'
 import { LangProvider } from '../utils/lang/langContext'
-import { Header } from '../components/layout'
+import { Footer, Header } from '../components/layout'
 import { Modal, Page } from '../components/ui'
 import { ProtectRoute } from '../components/ProtectRoute'
 
@@ -23,6 +23,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     const querySnapshot = await getDocs(collection(db, "properties"));
     const newDocs: any[] = []
     querySnapshot.forEach((doc) => newDocs.push({...doc.data(), id: doc.id})); 
+    console.log({newDocs});
     setProperties(newDocs);
   }
 
@@ -76,6 +77,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           <Page>
             <Header />
             <Component { ...newProps } />
+            <Footer />
           </Page>
         </ProtectRoute>
       </AuthProvider>

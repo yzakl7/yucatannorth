@@ -1,27 +1,40 @@
+import styled from "@emotion/styled";
 import { useEffect, useState } from "react"
+import { PropertyCard } from "../components/layout";
 import { Container } from "../components/ui";
 
 type AdminProps = {
   properties: []
 }
 
-const Home = ({properties}: AdminProps) => {
+const StyledHome = styled(Container)`
+  padding: 32px;
+  .property-cards-container {
+    gap: 32px;
+  }
+`
+
+const Home = ({ properties }: AdminProps) => {
   const [filteredList, setFilteredList] = useState<[]>([]);
   
-  const searchProperty = (propertyArray: Record<string, string>[]) => {
-    console.log({propertyArray});
-    setFilteredList((propertyArray as []))
+  const renderPropertyCards = () => {
+    return (
+      <Container className="property-cards-container">
+        {
+          filteredList.map((data:Record<string, string>) => <PropertyCard key={data.id} data={data} />)
+        }
+      </Container>
+    )
   }
 
   useEffect(() => {
     setFilteredList(properties)
   }, [properties]);
   
-
   return (
-    <Container>
-      index
-    </Container>
+    <StyledHome >
+      {renderPropertyCards()}
+    </StyledHome>
   )
 }
 

@@ -6,7 +6,6 @@ import { Container, Image, Text } from '../ui'
 import coverImage from '../../public/playa.jpg'
 
 const StyledHeader = styled(Container)`
-  flex:1;
   gap: 0;
   position: sticky;
   z-index: 10;
@@ -17,6 +16,9 @@ const StyledHeader = styled(Container)`
     order: 2;
     gap: 64px;
     flex: 1;
+    ul {
+      flex-wrap: wrap;
+    }
     nav, ul, li {
       display: flex;
     }
@@ -58,11 +60,18 @@ const StyledHeader = styled(Container)`
         color: ${getColor('white')};
         font-size: 102px;
         text-shadow: 2px 4px 2px rgba(0, 0, 0, .25);
+        @media (max-width: 720px) {
+          font-size: 72px;
+          letter-spacing: unset;
+        }
       }
       *:nth-of-type(2) h3 {
         font-size: 72px;
         letter-spacing: 40px;
         padding-left: 40px;
+        @media (max-width: 720px) {
+          font-size: 34px;
+        }
       }
     }
     .yucatan-north-slogan {
@@ -76,6 +85,10 @@ const StyledHeader = styled(Container)`
         background: rgba(0,0,0,.15);
         padding: 4px;
         text-shadow: 0px 2px 8px rgba(0, 0, 0, .7);
+        @media (max-width: 720px) {
+          font-size: 16px;
+          letter-spacing: unset;
+        }
       }
     }
   }
@@ -88,6 +101,7 @@ const StyledHeader = styled(Container)`
     .main-nav-bar {
       background: ${getColor('primary')};
       ul {
+        flex-wrap: wrap;
         li {
           flex: 1;
           justify-content: center;

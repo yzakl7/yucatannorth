@@ -3,6 +3,7 @@ import { PageProps } from '../typings'
 import { Container } from '.'
 
 const StyledPage = styled(Container)`
+  flex: 1;
 `
 
 export const Page = ( {children}: PageProps ) => {

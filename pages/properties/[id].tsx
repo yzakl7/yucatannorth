@@ -7,7 +7,7 @@ import { Card } from '../../components/UI/style/card';
 import { Text } from '../../components/UI/style/text';
 import { ReactNode, useContext, useEffect, useState } from 'react';
 import { LangContext } from '../../utils/lang/langContext';
-import SlideShow from '../../components/UI/style/slide-show';
+import SlideShow from '../../components/ui/slide-show';
 import { PropertyTags } from '../../components/properties/property-tags';
 import { formatter } from '../../utils/formatter';
 import { Tag } from '../../components/UI/style/tag';
