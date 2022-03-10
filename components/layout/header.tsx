@@ -10,7 +10,6 @@ const StyledHeader = styled(Container)`
   position: sticky;
   z-index: 10;
   top:-185px;
-  
   .cover-container {
     max-height: 185px;
     order: 2;
@@ -139,7 +138,7 @@ const StyledHeader = styled(Container)`
 `
 
 export const Header = () => {
-  const {pathname} = useRouter()
+  const {pathname, push} = useRouter()
   const isHome = pathname === '/'
 
   const renderCover = () => {
@@ -148,19 +147,19 @@ export const Header = () => {
         <Image src={coverImage} alt="playa" />
         <nav>
           <ul>
-            <li>
+            <li onClick={() => push('/')}>
               <a href="#"> PROPIEDADES </a>
             </li>
-            <li>
+            <li onClick={() => push('/investment')}>
               <a href="#"> INVERSIONES </a>
             </li>
-            <li>
+            <li onClick={() => push('/about')} >
               <a href="#"> NOSOTROS </a>
             </li>
-            <li>
+            <li onClick={() => push('/contact-us')} >
               <a href="#"> CONTACTO </a>
             </li>
-            <li>
+            <li onClick={() => push('/saved')} >
               <a href="#"> ELEGIDOS </a>
             </li>
           </ul>
@@ -188,20 +187,20 @@ export const Header = () => {
       <Container className='menu-container'>
         <nav className='main-nav-bar'>
           <ul>
-            <li className={`${pathname === '/' ? 'active' : ''}`}>
+            <li onClick={() => push('/')} className={`${pathname === '/' ? 'active' : ''}`}>
               <a href="#"> PROPIEDADES </a>
             </li>
-            <li className={`${pathname === '/investments' ? 'active' : ''}`}>
+            <li onClick={() => push('/investment')} className={`${pathname === '/investment' ? 'active' : ''}`}>
               <a href="#"> INVERSIONES </a>
             </li>
-            <li className={`${pathname === '/about' ? 'active' : ''}`}>
+            <li onClick={() => push('/about')} className={`${pathname === '/about' ? 'active' : ''}`}>
               <a href="#"> NOSOTROS </a>
             </li>
-            <li className={`${pathname === '/contact' ? 'active' : ''}`}>
+            <li onClick={() => push('/contact-us')} className={`${pathname === '/contact-us' ? 'active' : ''}`}>
               <a href="#"> CONTACTO </a>
             </li>
-            <li className={`${pathname === '/selected' ? 'active' : ''}`}>
-              <a href="#"> ELEGIDOS </a>
+            <li onClick={() => push('/saved')} className={`${pathname === '/saved' ? 'active' : ''}`}>
+              <a href="#"> FAVORITOS </a>
             </li>
           </ul>
         </nav>

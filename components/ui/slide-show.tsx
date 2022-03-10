@@ -160,7 +160,7 @@ export const SlideShow = (props: SlideShowProps) => {
   slides = props.data
 
   const [selectedSlide, setSelectedSlide] = useState(0)
-  const [selectedSlideData, setSelectedSlideData] = useState(slides[0])
+  const [selectedSlideData, setSelectedSlideData] = useState<any>(slides[0])
   const [nextSlideData, setNextSlideData] = useState(0)
   const [selectedtSlideClass, setSelectedSlideClass] = useState("")
   const [nextSlideClass, setNextSlideClass] = useState("")

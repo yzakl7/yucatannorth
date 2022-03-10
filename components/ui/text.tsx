@@ -19,7 +19,7 @@ export const Text = ({ children, textType }: TextProps) => {
     span: <span>{children}</span>,
   }
   return (
-    <StyledText>
+    <StyledText className="text-container">
       { textElements[textType] }
     </StyledText>
   )

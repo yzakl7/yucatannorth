@@ -71,7 +71,7 @@ export const Button = ({
     <StyledButton disabled={isDisabled || activityIndicator} onClick={action} className={`${buttonStyle} ${borders ? '' : 'borderless'}`}>
       {!activityIndicator 
         ? 
-          isText ? <Text textType=''>{children}</Text> : children
+          isText ? <Text textType='p'>{children}</Text> : children
         : <ActivityIndicator />
       }
     </StyledButton>

@@ -42,7 +42,16 @@ const StyledPropertyCard = styled(Container)`
   }
 `
 
-export const PropertyCard = (props: {data: Record<string, string>}) => {
+type PropertyCardType = {
+  data: {
+    images: Record<string, string>[]
+    name: string
+    price_total: number
+    description: { es: string }
+    currency: string
+  }
+}
+export const PropertyCard = (props: PropertyCardType) => {
   const { data } = props
   const {
     name,
@@ -52,7 +61,7 @@ export const PropertyCard = (props: {data: Record<string, string>}) => {
   } = data
   console.log({data})
 
-  const propertyImages: [] = props.data.images?.map(({name: imgName, imgUrl}: any) => ({
+  const propertyImages:any = props.data.images?.map(({name: imgName, imgUrl}: any) => ({
     slideCaption: imgName,
     slideImage: {
       asset: imgUrl,

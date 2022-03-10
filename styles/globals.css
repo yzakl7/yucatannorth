@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
 html,
 body,
 div,
@@ -102,11 +106,6 @@ nav,
 section {
   display: flex;
   flex-direction: column;
-}
-
-html {
-  background: #f2f2f2;
-
 }
 
 body {

@@ -20,9 +20,7 @@ const Home = ({ properties }: AdminProps) => {
   const renderPropertyCards = () => {
     return (
       <Container className="property-cards-container">
-        {
-          filteredList.map((data:Record<string, string>) => <PropertyCard key={data.id} data={data} />)
-        }
+        { filteredList.map((data:any) => <PropertyCard key={data.id} data={data} />) }
       </Container>
     )
   }
@@ -32,7 +30,7 @@ const Home = ({ properties }: AdminProps) => {
   }, [properties]);
   
   return (
-    <StyledHome >
+    <StyledHome>
       {renderPropertyCards()}
     </StyledHome>
   )
