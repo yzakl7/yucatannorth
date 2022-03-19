@@ -6,28 +6,30 @@ import { Container, Image, Text } from '../ui'
 import SlideShow from '../ui/slide-show'
 
 const StyledPropertyCard = styled(Container)`
-  max-height: 450px;
-  min-height: 250px;
-  overflow: hidden;
+  flex-wrap: wrap;
   flex-direction: row;
   .properties-pictures {
     border: 1px solid ${getColor('primary')};
     border-radius: 25px;
     overflow: hidden;
+    max-height: 450px;
+    min-width: 250px;
   }
   .properties-details-container {
     padding: 16px;
     gap: 32px;
     h2 {
       text-align: center;
-      font-size: 32px;
+      font-size: 36px;
+      line-height: 36px;
       color: ${getColor('primary')}
     }
     h3 {
-      font-size: 28px;
+      line-height: 32px;
+      font-size: 24px;
       text-overflow: ellipsis;
       font-weight: 400;
-      line-height: 42px;
+      letter-spacing: 4px;
       -webkit-line-clamp: 5;
       flex: 1;
       overflow: hidden;
@@ -53,6 +55,9 @@ type PropertyCardType = {
 }
 export const PropertyCard = (props: PropertyCardType) => {
   const { data } = props
+  if (!data) {
+    return <>Loading</>
+  }
   const {
     name,
     price_total,
@@ -71,10 +76,10 @@ export const PropertyCard = (props: PropertyCardType) => {
 
   return (
     <StyledPropertyCard>
-      <Container className='properties-pictures' maxWidth='60%' >
+      <Container className='properties-pictures' flex='1.2' >
         {props.data?.images && <SlideShow data={propertyImages} />}
       </Container>
-      <Container className='properties-details-container' maxWidth='40%' >
+      <Container className='properties-details-container' flex='1'>
         <Container>
           <Text textType='h2'>
             {name}
@@ -87,7 +92,7 @@ export const PropertyCard = (props: PropertyCardType) => {
         </Container>
         <Container>
           <Text textType='h2'>
-            {price_total && `$${Number(price_total).toFixed(2)} ${currency}`}
+            {price_total && `${Intl.NumberFormat('es-MX',{style:'currency',currency: currency.toUpperCase()}).format(price_total)} ${currency}`}
           </Text>
         </Container>
       </Container>

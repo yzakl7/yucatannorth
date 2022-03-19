@@ -115,7 +115,6 @@ const StyledSlideShow = styled(Container)`
       min-width: 100%;
       &.current{
         &.transitioning {
-          transition: all ease-in-out .3s;
           opacity: 0;
         }
       }
@@ -123,7 +122,6 @@ const StyledSlideShow = styled(Container)`
         opacity: 0;
         transform: translateX(-100%);
         &.transitioning {
-          transition: all ease-in-out .3s;
           opacity: 1;
         }
       }
@@ -250,20 +248,6 @@ export const SlideShow = (props: SlideShowProps) => {
           {renderBullets()}
         </Container>
 
-      </Container>
-      <Container className="slide-body-container" direction="row">
-        <Container className={`slide-body current ${selectedtSlideClass ? 'transitioning' : ''}`} gap="0">
-          <Text textType="h4">
-            -{selectedSlideData.slideCaption}
-          </Text>
-        </Container>
-        { nextSlideData && (
-          <Container className={`slide-body next ${selectedtSlideClass ? 'transitioning' : ''}`} gap="0">
-            <Text textType="h4">
-              -{(nextSlideData as any).slideCaption}
-            </Text>
-          </Container>
-        ) }
       </Container>
     </StyledSlideShow>
   )

@@ -41,14 +41,15 @@ const StyledFooter = styled(Container)`
 `
 
 export const Footer = () => {
+  const {push} = useRouter()
   return (
     <StyledFooter>
       <Container className='social-media-container'>
-        <IconButton>
+        <IconButton onClick={() => push('https://wa.link/h9k9rq')}>
           <BsWhatsapp />
         </IconButton>
         <IconButton>
-          <BsFacebook />
+          <BsFacebook onClick={() => push('https://www.facebook.com/yucatannorth')}/>
         </IconButton>
       </Container>
       <Container className='links-bottom-container'>

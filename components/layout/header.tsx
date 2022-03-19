@@ -3,17 +3,15 @@ import { useRouter } from 'next/router'
 import React from 'react'
 import { getColor } from '../../utils/theme'
 import { Container, Image, Text } from '../ui'
-import coverImage from '../../public/playa.jpg'
 
 const StyledHeader = styled(Container)`
   gap: 0;
   position: sticky;
   z-index: 10;
-  top:-185px;
+  top:-150px;
   .cover-container {
-    max-height: 185px;
+    min-height: 150px;
     order: 2;
-    gap: 64px;
     flex: 1;
     ul {
       flex-wrap: wrap;
@@ -40,10 +38,19 @@ const StyledHeader = styled(Container)`
       justify-content: center;
       flex: 1;
     }
+    .background-video {
+      position: absolute;
+      top -100px;
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+    }
     .image-container {
       position: absolute;
-      height: 100%;
+      max-width: 540px;
+      max-height: 540px;
       top:0;
+      padding: 16px;
       img {
         object-fit: cover;
         height: 100%;
@@ -72,18 +79,23 @@ const StyledHeader = styled(Container)`
           font-size: 34px;
         }
       }
+      .image-container {
+        img {
+          object-fit: contain;
+          height: 100%;
+        }
+      }
     }
     .yucatan-north-slogan {
+      display: none;
       flex: 1;
       text-align: center;
       h1 {
-        display: none;
         color: ${getColor('white')};
         font-size: 22px;
         letter-spacing: 12px;
-        background: rgba(0,0,0,.15);
         padding: 4px;
-        text-shadow: 0px 2px 8px rgba(0, 0, 0, .7);
+        text-shadow: -2px 3px 2px rgb(0 0 0);
         @media (max-width: 720px) {
           font-size: 16px;
           letter-spacing: unset;
@@ -101,8 +113,10 @@ const StyledHeader = styled(Container)`
       background: ${getColor('primary')};
       ul {
         flex-wrap: wrap;
+          justify-content: center;
         li {
           flex: 1;
+          max-width: 250px;
           justify-content: center;
           padding: 16px 32px;
           a {
@@ -126,17 +140,22 @@ const StyledHeader = styled(Container)`
     .cover-container {
       order: 0;
       min-height: 100vh;
-      h1 {
-        display: block;
+      .background-video {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
       }
       .yucatan-north-slogan {
-        padding-bottom: 100px;
-
+        display: block;
       }
     }
   }
 `
 
+const logo = "https://firebasestorage.googleapis.com/v0/b/yucatan-north-web.appspot.com/o/web%20assets%2Flogo.png?alt=media&token=9b53218e-20ec-4599-816e-08db21838a18"
+const logoHorizontal = "https://firebasestorage.googleapis.com/v0/b/yucatan-north-web.appspot.com/o/web%20assets%2Flogo_horizontal.png?alt=media&token=44f9817a-a143-4570-a708-ae785db6c781"
+const videoBackground = 'https://firebasestorage.googleapis.com/v0/b/yucatan-north-web.appspot.com/o/web%20assets%2Fvideobackground.webm?alt=media&token=cd4d3492-8014-4ca7-ab55-e0df733e4492'
 export const Header = () => {
   const {pathname, push} = useRouter()
   const isHome = pathname === '/'
@@ -144,7 +163,9 @@ export const Header = () => {
   const renderCover = () => {
     return (
       <Container className='cover-container'>
-        <Image src={coverImage} alt="playa" />
+        <video className='background-video' autoPlay muted loop id="myVideo">
+          <source src={videoBackground} type="video/mp4" />
+        </video>
         <nav>
           <ul>
             <li onClick={() => push('/')}>
@@ -165,12 +186,10 @@ export const Header = () => {
           </ul>
         </nav>
         <Container className='yucatan-north-logo'>
-          <Text textType='h3'>
-            YUCATAN
-          </Text>
-          <Text textType='h3'>
-            NORTH
-          </Text>
+          <Image
+            alt="yucatan north logo"
+            src={isHome ? logo : logoHorizontal}
+          />
         </Container>
         <Container className='yucatan-north-slogan'>
           <Text textType='h1'>

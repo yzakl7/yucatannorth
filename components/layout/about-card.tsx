@@ -22,17 +22,18 @@ const StyledAboutCard = styled(Container)`
     h4 {
       background: ${getColor('primary')};
       color: ${getColor('white')};
-      font-size: 24px;
+      font-size: 32px;
       padding: 32px;
     }
     h3 {
-      font-size: 24px;
+      font-size: 36px;
       padding: 16px 32px;
       color: ${getColor('primary')};
     }
     p {
       color: ${getColor('dark')};
-      font-size: 18px;
+      font-size: 24px;
+      line-height: 32px;
     }
   }
   img {

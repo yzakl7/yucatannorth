@@ -3,6 +3,10 @@ import React, { useState } from 'react'
 import { InvestmentCard, Map, PropertyCard } from '../components/layout'
 import { Container } from '../components/ui'
 
+type SavedProps = {
+  properties: any
+}
+
 const StyledSaved = styled(Container)`
     gap: 64px;
   padding: 32px;
@@ -22,7 +26,7 @@ const cardContent = {
 const cardArray = [cardContent, cardContent]
 
 
-const Saved = ({properties}) => {
+const Saved = ({properties}: SavedProps) => {
   
   const renderInvestmentCards = () => {
     return (
@@ -35,13 +39,13 @@ const Saved = ({properties}) => {
   const renderPropertyCards = () => {
     return (
       <Container className="property-cards-container">
-        { [properties[0]].map((data:any) => <PropertyCard key={data.id} data={data} />) }
+        { [properties[0]].map((data:any) => <PropertyCard key={`${Math.random()}`} data={data} />) }
       </Container>
     )
   }
   return (
     <StyledSaved>
-      {renderPropertyCards()}
+      {[properties[0]] && renderPropertyCards()}
       {renderInvestmentCards()}
       <Map />
     </StyledSaved>

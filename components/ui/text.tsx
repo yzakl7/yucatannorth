@@ -5,6 +5,7 @@ import { Container } from '.'
 const StyledText = styled(Container)`
   * {
     margin: 0;
+    font-family: 'ABeeZee', sans-serif;
   }
 `
 
