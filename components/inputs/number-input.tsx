@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import styled from "@emotion/styled"
+import styled from 'styled-components'
 import { Container, Text } from '../ui'
 import { NumberInputProps, StyledProps } from '../typings'
 

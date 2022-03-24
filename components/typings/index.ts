@@ -59,6 +59,7 @@ export interface TextInputProps {
   placeholder?: string,
   fallbackOnEmpty?:string | number,
   value?: string,
+  label?: string,
   onChange?: (param: {value:string, isValid:boolean}) => void,
   bordered?: boolean,
   isDisabled?: boolean,
@@ -89,6 +90,7 @@ export interface SelectProps {
   onChange?: (x:string) => void,
   range?: number[],
   months?: boolean,
+  disabled?: boolean,
   options?: {
     name:string,
     value:string
@@ -256,6 +258,7 @@ export type CommonProps = {
   type?: FormElementType
   value?: string | number
   multiline?: string
+  direction?: string
   fallbackOnEmpty?: string | number
   wrap?: boolean
   children?: ReactNode
@@ -264,6 +267,7 @@ export type CommonProps = {
   options?: string[] | { name: string, value: string }[]
   range?: number[]
   minWidth?: string
+  title?: string
   isRequired?: boolean
   isPassword?: boolean
   isDisabled?: boolean

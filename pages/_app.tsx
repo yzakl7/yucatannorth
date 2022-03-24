@@ -20,21 +20,15 @@ function MyApp({ Component, pageProps }: AppProps) {
   const [properties, setProperties] = useState<any>([])
 
   const getStnapshot = async () => {
-    const querySnapshot = await getDocs(collection(db, "properties"));
     const newDocs: any[] = []
-    querySnapshot.forEach((doc) => newDocs.push({...doc.data(), id: doc.id})); 
-    console.log({newDocs});
-    setProperties(newDocs);
-  }
-
-  const addProperty = async (formValues: any) => {
-    await setDoc(doc(db, "properties"), {
-      formValues
-    });
-  }
-
-  const deleteProperty = () => {
-
+    try {
+      const querySnapshot = await getDocs(collection(db, "properties"));
+      querySnapshot.forEach((doc) => newDocs.push({...doc.data(), id: doc.id})); 
+      setProperties(newDocs);
+      return true
+    } catch (err) {
+      return false
+    }
   }
 
   const callModal = (content: ReactNode) => {
@@ -53,7 +47,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   }
 
   newProps.properties = properties
-  newProps.addProperty = addProperty
+  newProps.getStnapshot = getStnapshot
   newProps.callModal = callModal
   newProps.dismissModal = dismissModal
 

@@ -1,22 +1,29 @@
 
 import { Fragment, useEffect, useState } from 'react'
-import styled from "@emotion/styled"
+import styled from 'styled-components'
 import { Container, Text, Tooltip } from '.'
+import { getColor } from '../../utils/theme'
 import { CheckBox, Select, TextInput } from '../inputs'
 import { CommonProps, ErrorsType, FormProps, FormStateProps, OnChangeType } from '../typings'
 
 const StyledForm = styled(Container)`
-  gap: 16px;
+  gap: 16px!important;
+  justify-content: flex-start;
   .input-row {
     position: relative;
-    align-items: flex-start;
+    align-items: stretch;
     gap: 16px;
     .row-element {
+    flex-direction: row;
       position: unset;
       align-items: center;
     }
   }
+  .select-container {
+    gap: 0;
+  }
   p {
+    color: ${getColor('dark')};
     margin: 0;
   }
 `
@@ -58,11 +65,12 @@ export const Form = ({ data, onChange }: FormProps) => {
   }, [])
 
   const renderInputGroup = (element: CommonProps) => {
-    const { wrap, array, flex, label } = element
+    const { wrap, array, flex, title, label, direction = 'row'} = element
     return (
       <Container direction="column" flex={flex} key={`${label}container`}>
         {label && <Text textType='p'>{label}</Text>}
-        <Container className={`input-row`} wrap={wrap ? 'wrap' : undefined}>
+        {title && <Text textType='h3'>{title}</Text>}
+        <Container direction={direction} className={`input-row`} wrap={wrap ? 'wrap' : undefined}>
           {array?.map((element: CommonProps) => renderElement(element))}
         </Container>
       </Container>
@@ -74,6 +82,7 @@ export const Form = ({ data, onChange }: FormProps) => {
       placeholder,
       isRequired,
       flex = '1',
+      label,
       isPassword,
       isDisabled,
       validation,
@@ -117,6 +126,7 @@ export const Form = ({ data, onChange }: FormProps) => {
             return setFormState(newFormState)
           }}
           placeholder={placeholder}
+          label={label}
           validation={validation}
         />
       </Container>
@@ -128,6 +138,8 @@ export const Form = ({ data, onChange }: FormProps) => {
       placeholder,
       flex = '1',
       options,
+      label,
+      isDisabled,
       range,
       months,
       tooltip,
@@ -140,35 +152,41 @@ export const Form = ({ data, onChange }: FormProps) => {
       (name && formState[name] && formState[name].value) || elementValue
     }`
     return (
-      <Container
-        key={`${name}-${type}`}
-        className="row-element"
-        flex={flex}
-        minWidth={minWidth}
-      >
-        <Select
-          value={value || elementValue}
-          placeholder={placeholder}
-          options={options}
-          range={range}
-          months={months}
-          onChange={(value) => {
-            const isValid = isRequired ? !!value : true
-            const newFormState: typeof formState = {
-              ...formState,
-            }
-
-            if (name) {
-              newFormState[name] = {
-                value: `${value}`,
-                isValid,
+      <Container flex={flex} minWidth={minWidth} direction='column' className='select-container'>
+        {label && <Text textType='p'>{label}</Text>}
+        <Container
+          key={`${name}-${type}`}
+          className="row-element"
+        >
+          <Select
+            value={value || elementValue}
+            placeholder={placeholder}
+            options={options}
+            range={range}
+            disabled={isDisabled}
+            months={months}
+            onChange={(value) => {
+              const isValid = isRequired ? !!value : true
+              const newFormState: typeof formState = {
+                ...formState,
               }
-            }
 
-            return setFormState(newFormState)
-          }}
-        />
-        {tooltip && <Tooltip text={tooltip} />}
+              if (name) {
+                newFormState[name] = {
+                  value: `${value}`,
+                  isValid,
+                }
+              }
+
+              return setFormState(newFormState)
+            }}
+          />
+          {tooltip && (
+            <Container>
+              <Tooltip text={tooltip} />
+            </Container>
+          )}
+        </Container>
       </Container>
     )
   }
@@ -205,9 +223,9 @@ export const Form = ({ data, onChange }: FormProps) => {
     )
   }
   const renderTitle = (element: CommonProps) => {
-    const { label, tooltip, name, type } = element
+    const { label, tooltip, name, type, flex } = element
     return (
-      <Container key={`${name}-${type}`} className="input-row">
+      <Container key={`${name}-${type}`} flex={flex} className="input-row">
         <Container className="row-element" align="flex-end" flex={'1'}>
           <Text textType="h3">
             {label}
@@ -222,6 +240,7 @@ export const Form = ({ data, onChange }: FormProps) => {
     const elements = {
       inputGroup: renderInputGroup(element),
       textInput: renderTextInput(element),
+      numberInput: renderTextInput(element),
       select: renderSelect(element),
       checkBox: renderCheckBox(element, false),
       title: renderTitle(element),
@@ -231,7 +250,7 @@ export const Form = ({ data, onChange }: FormProps) => {
     return type && elements[type]
   }
   return (
-    <StyledForm direction="column">
+    <StyledForm className='form-container' direction="column" gap="unset">
       {data.map((element) => {
         return (
           <Fragment key={`${element.type}-${element.name}`}>

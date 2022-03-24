@@ -4,7 +4,6 @@ import styled from 'styled-components'
 import { IconButton } from '.'
 import { Container, Text } from '../ui'
 import { StyledProps, TextInputProps } from '../typings'
-import { getColor } from '../../utils/theme'
 
 
 const StyledTextInput = styled(Container)`
@@ -14,12 +13,11 @@ const StyledTextInput = styled(Container)`
   label {
     display: flex;
     width: 100%;
-    flex-direction: column;
+    align-items: center;
     button {
       background: none;
       margin-left: -32px
     }
-    color: #626262;
     input {
       z-index: 1;
       box-sizing: border-box;
@@ -28,8 +26,7 @@ const StyledTextInput = styled(Container)`
       height: 100%;
       min-height: 40px;
       padding: 0 9px;
-      border-radius: 3px;
-      border: 1px solid ${getColor('border')};
+      border: 1px solid;
       &.password {
         padding-right: 32px;
       }
@@ -77,7 +74,7 @@ const StyledSharedTextAreaInput = styled.textarea`
   padding: 9px;
   box-sizing: border-box;
   width: 100%;
-  border: 1px solid ${getColor('border')};
+  border: 1px solid;
   &:not(.bordered ) {
     border: none;
   }
@@ -88,8 +85,6 @@ export const TextInput = ({
   value,
   bordered = false,
   multiline,
-  label,
-  password,
   fallbackOnEmpty,
   isRequired,
   validation,
@@ -98,7 +93,6 @@ export const TextInput = ({
 }: TextInputProps) => {
   const [message, setmessage] = useState('')
   const [messageType, setmessageType] = useState('')
-  const [showPassword, setShowPassword] = useState(false)
   const [messageHeight, setMessageHeight] = useState(0)
   const [shouldShowMessage, setShouldShowMessage] = useState(false)
 
@@ -185,6 +179,7 @@ export const TextInput = ({
     const newValue = val.replace (/^\s/g, '')
     propsOnChange({value:`${newValue || ''}`, isValid: true})
   }
+
   useEffect(() => {
     const height = messageRef.current?.clientHeight || 0
     setMessageHeight(height || 0)
@@ -192,50 +187,31 @@ export const TextInput = ({
 
   if (multiline) {
     return (
-      <Container flex='1'>
-        <Text textType='p'>
-          {label}
-        </Text>
-        <StyledSharedTextAreaInput
-          placeholder={placeholder}
-          className={`${bordered ? 'bordered' : ''}`}
-          value={value}
-          onChange={({target: {value}}) => onChange(value)}
-          rows={parseInt(multiline, 10)}
-          style={{resize: 'none'}}
-        />
-      </Container>
+      <StyledSharedTextAreaInput
+        placeholder={placeholder}
+        className={`${bordered ? 'bordered' : ''}`}
+        value={value}
+        onChange={({target: {value}}) => onChange(value)}
+        rows={parseInt(multiline, 10)}
+        style={{resize: 'none'}}
+      />
     )
   }
   
-  const shouldHideText = password && !showPassword
   return (
-    <StyledTextInput>
-      <label>
-        <Text textType='p'>
-          {label}
+    <StyledTextInput messageHeight={`${messageOverride?.text || shouldShowMessage ? messageHeight : 0}`}>
+      <label className='date-field'>
+        <Text textType='h4'>
+          {value}
         </Text>
-        <Container minWidth='100%' justify='center'>
-          <input
-            onBlur={onBlur}
-            placeholder={placeholder}
-            className={`${bordered ? 'bordered' : ''} ${password ? 'password' : ''}`}
-            value={value || ''}
-            onChange={({target: {value}}) => onChange(value)}
-            type={shouldHideText ? 'password' : 'text'}
-          />
-          {password && (
-            <div style={{zIndex: 1}} >
-              <IconButton onClick={() => setShowPassword(!showPassword)}>
-                {showPassword 
-                  ? <RiEyeLine />
-                  : <RiEyeCloseLine />
-                }
-              </IconButton>
-            </div>
-          )}
-        </Container>
+        <input
+          onBlur={onBlur}
+          type="date"
+          value={value || ''}
+          onChange={({target: {value: newDate}}) => onChange(newDate)}
+        />
       </label>
+    
       <Container className="spacer" height={`${ messageOverride?.text || shouldShowMessage ? messageHeight : 0}px`} />
       
       <Container className="message-container" flex='1' direction="column">

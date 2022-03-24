@@ -1,8 +1,7 @@
 
-import styled from "@emotion/styled"
+import styled, { css } from 'styled-components'
 import { Image } from '../ui'
 import { IconButtonProps } from '../typings'
-import { css } from "@emotion/react"
 
 const StyledIconButton = styled.button`
   border: none;

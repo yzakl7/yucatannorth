@@ -1,7 +1,7 @@
-import { getColor } from '../../utils/theme'
+import styled from 'styled-components'
 import { ActivityIndicator, Text } from '../ui'
 import { ButtonProps } from '../typings'
-import styled from '@emotion/styled'
+import { getColor } from '../../utils/theme'
 
 const StyledButton = styled.button`
   padding: 9px 36px;
@@ -71,7 +71,7 @@ export const Button = ({
     <StyledButton disabled={isDisabled || activityIndicator} onClick={action} className={`${buttonStyle} ${borders ? '' : 'borderless'}`}>
       {!activityIndicator 
         ? 
-          isText ? <Text textType='p'>{children}</Text> : children
+          isText ? <Text textType=''>{children}</Text> : children
         : <ActivityIndicator />
       }
     </StyledButton>

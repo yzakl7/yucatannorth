@@ -1,4 +1,4 @@
-import styled from "@emotion/styled"
+import styled from "styled-components"
 import { CheckBoxProps } from "../typings"
 
 const StyledCheckBox = styled.label`
@@ -54,7 +54,7 @@ export const CheckBox = (props: CheckBoxProps ) => {
   const { children, style, onChange, value } = props
   const isText = typeof children === 'string'
   return (
-    <StyledCheckBox>
+    <StyledCheckBox className="checkbox-container">
       <input type="checkbox" checked={value} onChange={({target: {checked}}) => onChange && onChange(checked)} className={style || 'checkbox'} />
       { style && <div className="indicator" /> }
       { isText ? <p className="checkbox-label">{ children }</p> : { children } }

@@ -67,8 +67,12 @@ export const getPropertyData = async (params:Record<string, string | Record<stri
 
 export const updatePropertyData = async (params: UpdatePropertyDataProps) => {
   const docRef = doc(db, "properties", params.id);
-  const querySnapshot = await setDoc(docRef, {...params.data});
-  console.log(querySnapshot);
+  try {
+    await setDoc(docRef, {...params.data});
+    return true
+  } catch(err) {
+    throw err
+  }
 }
 
 export const createNewProperty = async (params: Record<string, string>) => {
