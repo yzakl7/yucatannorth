@@ -156,6 +156,7 @@ const StyledHeader = styled(Container)`
 const logo = "https://firebasestorage.googleapis.com/v0/b/yucatan-north-web.appspot.com/o/web%20assets%2Flogo.png?alt=media&token=9b53218e-20ec-4599-816e-08db21838a18"
 const logoHorizontal = "https://firebasestorage.googleapis.com/v0/b/yucatan-north-web.appspot.com/o/web%20assets%2Flogo_horizontal.png?alt=media&token=44f9817a-a143-4570-a708-ae785db6c781"
 const videoBackground = 'https://firebasestorage.googleapis.com/v0/b/yucatan-north-web.appspot.com/o/web%20assets%2Fvideobackground.webm?alt=media&token=cd4d3492-8014-4ca7-ab55-e0df733e4492'
+const videoBackgroundIphone = 'https://firebasestorage.googleapis.com/v0/b/yucatan-north-web.appspot.com/o/web%20assets%2Fiphone.mp4?alt=media&token=91013a09-c8db-4f54-9a1b-96b2e1d56a23'
 export const Header = () => {
   const {pathname, push} = useRouter()
   const isHome = pathname === '/'
@@ -164,7 +165,8 @@ export const Header = () => {
     return (
       <Container className='cover-container'>
         <video className='background-video' autoPlay muted loop id="myVideo">
-          <source src={videoBackground} type="video/mp4" />
+          <source src={videoBackground} type="video/webm" />
+          <source src={videoBackgroundIphone} type="video/mp4" />
         </video>
         <nav>
           <ul>
@@ -193,7 +195,7 @@ export const Header = () => {
         </Container>
         <Container className='yucatan-north-slogan'>
           <Text textType='h1'>
-            ESPECIALISTAS EN INVERSIONES INMOVILIARIAS
+            ESPECIALISTAS EN INVERSIONES INMOBILIARIAS
           </Text>
         </Container>
       </Container>

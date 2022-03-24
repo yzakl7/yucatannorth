@@ -13,11 +13,18 @@ const StyledPropertyCard = styled(Container)`
     border-radius: 25px;
     overflow: hidden;
     max-height: 450px;
-    min-width: 250px;
+    min-width: 375px;
+    @media (max-width: 420px) {
+      min-width: 200px;
+    }
   }
   .properties-details-container {
+    min-width: 475px;
     padding: 16px;
     gap: 32px;
+    @media (max-width: 650px) {
+      min-width: 200px;
+    }
     h2 {
       text-align: center;
       font-size: 36px;
@@ -37,6 +44,19 @@ const StyledPropertyCard = styled(Container)`
       -webkit-box-orient: vertical;
       color: ${getColor('dark')};
       text-align: center;
+      @media (max-width: 932px){
+        line-height: 22px;
+        font-size: 15px;
+        text-overflow: ellipsis;
+        font-weight: 400;
+        letter-spacing: 1px;
+        -webkit-line-clamp: 25;
+        flex: 1 1 0%;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        text-align: center;
+      }
     }
     h4 {
       text-align: right;
@@ -76,10 +96,10 @@ export const PropertyCard = (props: PropertyCardType) => {
 
   return (
     <StyledPropertyCard>
-      <Container className='properties-pictures' flex='1.2' >
+      <Container className='properties-pictures' flex='1' >
         {props.data?.images && <SlideShow data={propertyImages} />}
       </Container>
-      <Container className='properties-details-container' flex='1'>
+      <Container className='properties-details-container' flex='1.2'>
         <Container>
           <Text textType='h2'>
             {name}
