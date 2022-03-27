@@ -1,6 +1,7 @@
 import styled from '@emotion/styled'
 import { useEffect, useState } from 'react'
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import { getColor } from '../../utils/theme';
 import Container from './container';
 import { Image } from './image';
 import { Text } from './text';
@@ -18,7 +19,7 @@ const StyledSlideShow = styled(Container)`
   height: 100%;
   gap: 0;
   h4 {
-    color: white;
+    color: ${getColor('white')};
     text-shadow: 2px 0px 3px rgba(0, 0, 0, 0.75);
     font-size: 18px;
     line-height: 22px;
@@ -63,7 +64,7 @@ const StyledSlideShow = styled(Container)`
       button {
         display: flex;
         border: none;
-        background: rgb(2,0,36);
+        background: ${getColor('primary')};
         background: linear-gradient(90deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.20) 35%, rgba(0,0,0,0) 100%);
         &:nth-of-type(2) {
           background: linear-gradient(270deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.2) 35%, rgba(0,0,0,0) 100%);
@@ -73,7 +74,7 @@ const StyledSlideShow = styled(Container)`
         align-items: center;
         cursor: pointer;
         svg {
-          color: white;
+          color: ${getColor('white')};
           font-weight: bolder;
           transform: scale(4);
         }
@@ -93,7 +94,7 @@ const StyledSlideShow = styled(Container)`
 
         border-radius: 50%;
         width: 12px;
-        background: white;
+        background: ${getColor('white')};
         transition: all ease-in-out .3s;
         opacity: 0.38;
         &.active {
@@ -107,7 +108,7 @@ const StyledSlideShow = styled(Container)`
     bottom: 0;
     width: 100%;
     z-index: 1;
-    background: rgb(2,0,36);
+    background: ${getColor('primary')};
     background: linear-gradient(0deg, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.40) 35%, rgba(0,0,0,0) 100%);
     padding: 15px 44px 15px 44px;
     gap: 0;
@@ -159,7 +160,7 @@ export const SlideShow = (props: SlideShowProps) => {
 
   const [selectedSlide, setSelectedSlide] = useState(0)
   const [selectedSlideData, setSelectedSlideData] = useState<any>(slides[0])
-  const [nextSlideData, setNextSlideData] = useState(0)
+  const [nextSlideData, setNextSlideData] = useState()
   const [selectedtSlideClass, setSelectedSlideClass] = useState("")
   const [nextSlideClass, setNextSlideClass] = useState("")
   const [direction, setDirection] = useState("")

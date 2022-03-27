@@ -6,10 +6,12 @@ import { Container, Image, Text } from '../ui'
 const StyledAboutCard = styled(Container)`
   overflow: hidden;
   width: calc(50% - 32px);
+  min-width: 300px;
+  flex: 1;
   border-radius: 20px;
   gap: 0;
-  @media (max-width: 720px) {
-    width: 100%;
+  @media (max-width: 500px) {
+    min-width: 250px;
   }
   h3, h4, p {
     text-align: center;

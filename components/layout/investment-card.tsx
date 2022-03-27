@@ -24,7 +24,7 @@ const StyledInvestmentCard = styled(Container)`
   h3, p {
     color: ${getColor('white')};
     -webkit-text-stroke-width: 1px;
-    -webkit-text-stroke-color: black;
+    -webkit-text-stroke-color: ${getColor('black')};
     text-shadow: 1px 1px 3px ${getColor('black')};
     text-align: center;
   }

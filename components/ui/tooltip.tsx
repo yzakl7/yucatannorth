@@ -4,6 +4,7 @@ import styled from "@emotion/styled";
 import { Container, Text } from '.';
 import { UseWindowDimensions } from '../hooks';
 import { TooltipProps } from '../typings';
+import { getColor } from '../../utils/theme';
 
 const StyledTooltip = styled(Container)`
   position: initial;
@@ -11,7 +12,7 @@ const StyledTooltip = styled(Container)`
     box-sizing: border-box;
     position: absolute;
     z-index: 2;
-    background: #eaeaea;
+    background: ${getColor('secondary')};
     padding: 25px 16px;
     border-radius: 3px;
     opacity: 0;
@@ -31,7 +32,7 @@ const StyledTooltip = styled(Container)`
     justify-content: center;
     position: relative;
     &::after{
-      background:  #ebebeb;
+      background:  ${getColor('secondary')};
       content: '';
       transform: rotate(45deg);
       height: 8px;

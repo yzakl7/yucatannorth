@@ -1,8 +1,9 @@
 import styled from '@emotion/styled'
 import { useRouter } from 'next/router'
-import React from 'react'
+import React, { useState } from 'react'
 import { getColor } from '../../utils/theme'
 import { Container, Image, Text } from '../ui'
+import { IoMenu, IoClose } from 'react-icons/io5'
 
 const StyledHeader = styled(Container)`
   gap: 0;
@@ -22,7 +23,7 @@ const StyledHeader = styled(Container)`
     nav ul li a {
       font-size: 18px;
       color: ${getColor('white')};
-      background: rgba(0, 0, 0, 0);
+      background: transparent;
       text-decoration: none;
       text-shadow: 1px 1px 1px ${getColor('black')};
       padding: 8px;
@@ -122,6 +123,7 @@ const StyledHeader = styled(Container)`
           a {
             color: ${getColor('white')};
             font-weight: 600;
+            font-size: 14px;
             letter-spacing: 6px;
             text-decoration: none;
           }
@@ -131,11 +133,51 @@ const StyledHeader = styled(Container)`
         }
       }
     }
+    @media (max-width: 1024px) {
+      width: 100%;
+      z-index: 5;
+      position: fixed;
+      top: 0;
+      .main-nav-bar {
+        transition: ease-in-out .3s all;
+        * {
+          transition: ease-in-out .3s all;
+        }
+        .mobile-burger-menu {
+          z-index: 6;
+          align-items: center;
+        }
+        height: 42px;
+        ul {
+          padding: 16px;
+          flex-direction: column;
+          transform: translateY(-100%);
+          opacity: 0;
+          li {
+            max-width: unset;
+            padding: 8px 8px;
+          }
+        }
+        &.open {
+          ul {
+            transform: translateY(0);
+            opacity: 1;
+          }
+          height: 222px;
+        }
+        svg {
+          color: ${getColor('white')};
+          font-size: 40px;
+        }
+      }
+    }
   }
   &.home {
     top: -100%;
     nav {
-      display: flex;
+      @media (min-width: 1025px) {
+        display: flex;
+      }
     }
     .cover-container {
       order: 0;
@@ -151,6 +193,11 @@ const StyledHeader = styled(Container)`
       }
     }
   }
+  @media (min-width: 1025px) {
+    .hide-on-desktop {
+      display: none!important;
+    }
+  }
 `
 
 const logo = "https://firebasestorage.googleapis.com/v0/b/yucatan-north-web.appspot.com/o/web%20assets%2Flogo.png?alt=media&token=9b53218e-20ec-4599-816e-08db21838a18"
@@ -160,6 +207,7 @@ const videoBackgroundIphone = 'https://firebasestorage.googleapis.com/v0/b/yucat
 export const Header = () => {
   const {pathname, push} = useRouter()
   const isHome = pathname === '/'
+  const [mobileMenuVisible, setMobileMenuVisible] = useState(false)
 
   const renderCover = () => {
     return (
@@ -206,7 +254,18 @@ export const Header = () => {
     <StyledHeader className={isHome ? 'home' : ''}>
       {renderCover()}
       <Container className='menu-container'>
-        <nav className='main-nav-bar'>
+        <nav className={`main-nav-bar ${mobileMenuVisible ? 'open' : 'closed'}`}>
+          { mobileMenuVisible 
+            ? (
+              <Container className='hide-on-desktop mobile-burger-menu' onClick={() => setMobileMenuVisible(false)}>
+                <IoClose />
+              </Container>
+            ) : (
+              <Container className='hide-on-desktop mobile-burger-menu' onClick={() => setMobileMenuVisible(true)}>
+                <IoMenu />
+              </Container>
+            )
+          }
           <ul>
             <li onClick={() => push('/')} className={`${pathname === '/' ? 'active' : ''}`}>
               <a href="#"> PROPIEDADES </a>

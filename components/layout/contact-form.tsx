@@ -51,8 +51,8 @@ const StyledContactForm = styled.form`
     button.custom {
       border: 1px solid;
       height: 40px;
-      color: white;
-      background: green;
+      color: ${getColor('white')};
+      background: ${getColor('success')};
       border-radius: 5px;
       p {
         color: ${getColor('white')};
@@ -102,7 +102,9 @@ export const ContactForm = () => {
       </Container>
       <Container className='form-row' justify='center'>
         <Button buttonStyle='custom'>
-          Enviar
+          <Text textType='p'>
+            Enviar
+          </Text>
         </Button>
       </Container>
     </StyledContactForm>

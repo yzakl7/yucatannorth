@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import { Container, Text } from '../ui'
 import { NumberInputProps, StyledProps } from '../typings'
+import { getColor } from '../../utils/theme'
 
 
 const StyledNumberInput = styled(Container)`
@@ -63,9 +64,9 @@ const StyledNumberInput = styled(Container)`
         opacity: 0;
       }
       &.error {
-        border-color: red;
+        border-color: ${getColor('danger')};
         p {
-          color: red;
+          color: ${getColor('danger')};
         }
       }
     }
@@ -177,12 +178,7 @@ export const NumberInput = (data: NumberInputProps) => {
   }, [message, messageOverride])
 
   return (
-    <StyledNumberInput
-      messageHeight={`${
-        messageOverride?.text
-        || shouldShowMessage ? messageHeight : 0
-      }`}
-    >
+    <StyledNumberInput>
       <label>
         <Container className="label-container">
           <Text textType="p">

@@ -1,4 +1,5 @@
 import styled from "styled-components"
+import { getColor } from "../../utils/theme"
 import { CheckBoxProps } from "../typings"
 
 const StyledCheckBox = styled.label`
@@ -19,7 +20,7 @@ const StyledCheckBox = styled.label`
       &::before {
         transition: all ease-in-out .3s;
         content: "";
-        background: gray;
+        background: ${getColor('secondary')};
         border-radius: 12px;
         height: 24px;
         width: 40px;
@@ -28,7 +29,7 @@ const StyledCheckBox = styled.label`
       &::after {
         transition: all ease-in-out .3s;
         content: "";
-        background: white;
+        background: ${getColor('white')};
         border-radius: 50%;
         height: 18px;
         width: 18px;
@@ -40,7 +41,8 @@ const StyledCheckBox = styled.label`
     &:checked {
       & + .indicator {
         &::before {
-          background: #007bff;
+          background: ${getColor('secondary')}
+          
         }
         &::after {
           transform: translateX(16px)

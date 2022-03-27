@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { IconButton } from '.'
 import { Container, Text } from '../ui'
 import { StyledProps, TextInputProps } from '../typings'
+import { getColor } from '../../utils/theme'
 
 
 const StyledTextInput = styled(Container)`
@@ -60,9 +61,9 @@ const StyledTextInput = styled(Container)`
         opacity: 0;
       }
       &.error {
-        border-color: red;
+        border-color: ${getColor('danger')};
         p {
-          color: red;
+        color: ${getColor('danger')};
         }
       }
     }
@@ -199,7 +200,7 @@ export const TextInput = ({
   }
   
   return (
-    <StyledTextInput messageHeight={`${messageOverride?.text || shouldShowMessage ? messageHeight : 0}`}>
+    <StyledTextInput>
       <label className='date-field'>
         <Text textType='h4'>
           {value}

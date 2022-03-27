@@ -19,7 +19,6 @@ const StyledTextInput = styled(Container)`
       background: none;
       margin-left: -32px
     }
-    color: #626262;
     input {
       z-index: 1;
       box-sizing: border-box;
@@ -63,9 +62,9 @@ const StyledTextInput = styled(Container)`
         opacity: 0;
       }
       &.error {
-        border-color: red;
+          border-color: ${getColor('danger')};
         p {
-          color: red;
+          color: ${getColor('danger')};
         }
       }
     }

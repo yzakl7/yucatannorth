@@ -5,7 +5,8 @@ export const getColor = (color: string) => {
     border: '#CCCCCC',
     black: '#000000',
     white: '#ffffff',
-    red: 'red'
+    danger: 'red',
+    success: 'green'
     
   }
   return (colors as Record<string, any>)[color]

@@ -12,15 +12,20 @@ const StyledPropertyCard = styled(Container)`
     border: 1px solid ${getColor('primary')};
     border-radius: 25px;
     overflow: hidden;
-    max-height: 450px;
+    height: 350px;
     min-width: 375px;
+    @media (max-width: 720px) {
+      height: 250px;
+      min-width: 275px;
+    }
     @media (max-width: 420px) {
-      min-width: 200px;
+      height: 250px;
     }
   }
   .properties-details-container {
     min-width: 475px;
     padding: 16px;
+    justify-content: center;
     gap: 32px;
     @media (max-width: 650px) {
       min-width: 200px;
@@ -69,7 +74,7 @@ type PropertyCardType = {
     images: Record<string, string>[]
     name: string
     price_total: number
-    description: { es: string }
+    shortDescription: { es: string }
     currency: string
   }
 }
@@ -81,7 +86,7 @@ export const PropertyCard = (props: PropertyCardType) => {
   const {
     name,
     price_total,
-    description,
+    shortDescription,
     currency
   } = data
   console.log({data})
@@ -94,6 +99,7 @@ export const PropertyCard = (props: PropertyCardType) => {
     }
   }))
 
+
   return (
     <StyledPropertyCard>
       <Container className='properties-pictures' flex='1' >
@@ -105,9 +111,9 @@ export const PropertyCard = (props: PropertyCardType) => {
             {name}
           </Text>
         </Container>
-        <Container flex="1">
+        <Container>
           <Text textType='h3'>
-            {description?.es}
+            {shortDescription?.es}
           </Text>
         </Container>
         <Container>

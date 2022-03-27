@@ -27,6 +27,7 @@ const Home = ({ properties }: AdminProps) => {
 
   useEffect(() => {
     setFilteredList(properties)
+    console.log({properties});
   }, [properties]);
   
   return (
