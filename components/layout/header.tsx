@@ -144,6 +144,7 @@ const StyledHeader = styled(Container)`
           transition: ease-in-out .3s all;
         }
         .mobile-burger-menu {
+          background: ${getColor('primary')};
           z-index: 6;
           align-items: center;
         }
