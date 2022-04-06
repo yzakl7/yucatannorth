@@ -7,108 +7,53 @@ import { IoMenu, IoClose } from 'react-icons/io5'
 
 const StyledHeader = styled(Container)`
   gap: 0;
-  position: sticky;
-  z-index: 10;
-  top:-150px;
   .cover-container {
-    min-height: 150px;
-    order: 2;
-    flex: 1;
-    ul {
-      flex-wrap: wrap;
-    }
-    nav, ul, li {
-      display: flex;
-    }
-    nav ul li a {
-      font-size: 18px;
-      color: ${getColor('white')};
-      background: transparent;
-      text-decoration: none;
-      text-shadow: 1px 1px 1px ${getColor('black')};
-      padding: 8px;
-      border-radius: 4px;
-    }
-    nav {
-      display: none;
-      padding: 32px;
-      z-index: 2;
-      background: linear-gradient(0deg, rgba(255,255,255,0) 0%, #00000047 50%, rgba(255,255,255,0) 100%);
-    }
-    li {
-      justify-content: center;
-      flex: 1;
-    }
-    .background-video {
-      position: absolute;
-      top -100px;
-      height: 100%;
+    height: calc(100vh - 50px);
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+    .cover-background-container {
       width: 100%;
-      object-fit: cover;
-    }
-    .image-container {
+      height: 100%;
       position: absolute;
-      max-width: 540px;
-      max-height: 540px;
-      top:0;
-      padding: 16px;
       img {
         object-fit: cover;
         height: 100%;
-        
       }
     }
-    .yucatan-north-logo {
-      justify-content: flex-end;
-      flex: 1;
-      align-items: center;
-      text-align: center; 
-      h3 {
-        color: ${getColor('white')};
-        font-size: 102px;
-        text-shadow: 2px 4px 2px rgba(0, 0, 0, .25);
-        @media (max-width: 720px) {
-          font-size: 72px;
-          letter-spacing: unset;
-        }
-      }
-      *:nth-of-type(2) h3 {
-        font-size: 72px;
-        letter-spacing: 40px;
-        padding-left: 40px;
-        @media (max-width: 720px) {
-          font-size: 34px;
-        }
-      }
-      .image-container {
-        img {
-          object-fit: contain;
-          height: 100%;
-        }
+    .cover-logo-container {
+      background: ${getColor('clearTransparency')};
+      padding: 24px;
+      height: 45vh;
+      width: 100%;
+      img {
+        max-height: 100%;
+        object-fit: contain;
       }
     }
-    .yucatan-north-slogan {
-      display: none;
-      flex: 1;
-      text-align: center;
+    .cover-tagline-container {
+      background: ${getColor('primary')};
+      padding: 4px 8px;
+      border-radius: 10px;
       h1 {
+        font-weight: 700;
+        font-size: 36px;
+        line-height: 54px;
         color: ${getColor('white')};
-        font-size: 22px;
-        letter-spacing: 12px;
-        padding: 4px;
-        text-shadow: -2px 3px 2px rgb(0 0 0);
-        @media (max-width: 720px) {
-          font-size: 16px;
-          letter-spacing: unset;
-        }
       }
     }
   }
   .main-nav-bar, .main-nav-bar ul, .main-nav-bar ul li {
     display: flex;
+    a {
+      font-weight: 700;
+      font-size: 24px;
+    }
   }
   .menu-container {
-    position: sticky;
+    position: fixed;
+    z-index: 5;
+    width: 100%;
     top: 0;
     .main-nav-bar {
       background: ${getColor('primary')};
@@ -123,7 +68,9 @@ const StyledHeader = styled(Container)`
           a {
             color: ${getColor('white')};
             font-weight: 600;
-            font-size: 14px;
+            font-weight: 700;
+            font-size: 24px;
+            line-height: 36px;
             letter-spacing: 6px;
             text-decoration: none;
             transition: all ease-in-out .3s;
@@ -158,6 +105,7 @@ const StyledHeader = styled(Container)`
           li {
             max-width: unset;
             padding: 8px 8px;
+         
           }
         }
         &.open {
@@ -165,7 +113,7 @@ const StyledHeader = styled(Container)`
             transform: translateY(0);
             opacity: 1;
           }
-          height: 222px;
+          height: 285px;
         }
         svg {
           color: ${getColor('white')};
@@ -174,27 +122,7 @@ const StyledHeader = styled(Container)`
       }
     }
   }
-  &.home {
-    top: -100%;
-    nav {
-      @media (min-width: 1025px) {
-        display: flex;
-      }
-    }
-    .cover-container {
-      order: 0;
-      min-height: 100vh;
-      .background-video {
-        position: absolute;
-        height: 100%;
-        width: 100%;
-        object-fit: cover;
-      }
-      .yucatan-north-slogan {
-        display: block;
-      }
-    }
-  }
+  
   @media (min-width: 1025px) {
     .hide-on-desktop {
       display: none!important;
@@ -202,50 +130,28 @@ const StyledHeader = styled(Container)`
   }
 `
 
-const logo = "https://firebasestorage.googleapis.com/v0/b/yucatan-north-web.appspot.com/o/web%20assets%2Flogo.png?alt=media&token=9b53218e-20ec-4599-816e-08db21838a18"
-const logoHorizontal = "https://firebasestorage.googleapis.com/v0/b/yucatan-north-web.appspot.com/o/web%20assets%2Flogo_horizontal.png?alt=media&token=44f9817a-a143-4570-a708-ae785db6c781"
-const videoBackground = 'https://firebasestorage.googleapis.com/v0/b/yucatan-north-web.appspot.com/o/web%20assets%2Fvideobackground.webm?alt=media&token=cd4d3492-8014-4ca7-ab55-e0df733e4492'
-const videoBackgroundIphone = 'https://firebasestorage.googleapis.com/v0/b/yucatan-north-web.appspot.com/o/web%20assets%2Fiphone.mp4?alt=media&token=91013a09-c8db-4f54-9a1b-96b2e1d56a23'
+const logo = "https://firebasestorage.googleapis.com/v0/b/refacciones-solis.appspot.com/o/assets%2Frefacciones-solis-logo.png?alt=media&token=2368b436-f8fc-4b60-a0d2-4bb854471b8e"
+const background = 'https://firebasestorage.googleapis.com/v0/b/refacciones-solis.appspot.com/o/assets%2Fcover-refacciones-solis.png?alt=media&token=b0d0b900-3a31-40d3-8fe8-ef400ff959c9'
+
 export const Header = () => {
   const {pathname, push} = useRouter()
-  const isHome = pathname === '/'
   const [mobileMenuVisible, setMobileMenuVisible] = useState(false)
 
   const renderCover = () => {
     return (
       <Container className='cover-container'>
-        <video className='background-video' autoPlay muted loop id="myVideo">
-          <source src={videoBackground} type="video/webm" />
-          <source src={videoBackgroundIphone} type="video/mp4" />
-        </video>
-        <nav>
-          <ul>
-            <li onClick={() => push('/')}>
-              <a href="#"> PROPIEDADES </a>
-            </li>
-            <li onClick={() => push('/investment')}>
-              <a href="#"> INVERSIONES </a>
-            </li>
-            <li onClick={() => push('/about')} >
-              <a href="#"> NOSOTROS </a>
-            </li>
-            <li onClick={() => push('/contact-us')} >
-              <a href="#"> CONTACTO </a>
-            </li>
-            {/* <li onClick={() => push('/saved')} >
-              <a href="#"> ELEGIDOS </a>
-            </li> */}
-          </ul>
-        </nav>
-        <Container className='yucatan-north-logo'>
+        <Container className='cover-background-container'>
+          <Image alt={"¡Refacciones Solís!"} src={background} />
+        </Container>
+        <Container className='cover-logo-container'>
           <Image
-            alt="yucatan north logo"
-            src={isHome ? logo : logoHorizontal}
+            alt="refacciones solis logo"
+            src={logo}
           />
         </Container>
-        <Container className='yucatan-north-slogan'>
+        <Container className='cover-tagline-container'>
           <Text textType='h1'>
-            ESPECIALISTAS EN INVERSIONES INMOBILIARIAS
+            “Refacciones Solís, profesionales en ajustes de motor”
           </Text>
         </Container>
       </Container>
@@ -253,8 +159,7 @@ export const Header = () => {
   }
 
   return (
-    <StyledHeader className={isHome ? 'home' : ''}>
-      {renderCover()}
+    <StyledHeader>
       <Container className='menu-container'>
         <nav className={`main-nav-bar ${mobileMenuVisible ? 'open' : 'closed'}`}>
           { mobileMenuVisible 
@@ -270,23 +175,21 @@ export const Header = () => {
           }
           <ul>
             <li onClick={() => push('/')} className={`${pathname === '/' ? 'active' : ''}`}>
-              <a href="#"> PROPIEDADES </a>
+              <a href="#"> INICIO </a>
             </li>
-            <li onClick={() => push('/investment')} className={`${pathname === '/investment' ? 'active' : ''}`}>
-              <a href="#"> INVERSIONES </a>
-            </li>
-            <li onClick={() => push('/about')} className={`${pathname === '/about' ? 'active' : ''}`}>
+            <li onClick={() => push('/about-us')} className={`${pathname === '/about-us' ? 'active' : ''}`}>
               <a href="#"> NOSOTROS </a>
+            </li>
+            <li onClick={() => push('/finder')} className={`${pathname === '/finder' ? 'active' : ''}`}>
+              <a href="#"> BUSCADOR </a>
             </li>
             <li onClick={() => push('/contact-us')} className={`${pathname === '/contact-us' ? 'active' : ''}`}>
               <a href="#"> CONTACTO </a>
             </li>
-            {/* <li onClick={() => push('/saved')} className={`${pathname === '/saved' ? 'active' : ''}`}>
-              <a href="#"> FAVORITOS </a>
-            </li> */}
           </ul>
         </nav>
       </Container>
+      {renderCover()}
     </StyledHeader>
   )
 }

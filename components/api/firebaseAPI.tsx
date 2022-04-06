@@ -42,7 +42,6 @@ export const uploadImage = async (id:string, name:string, file:any) => {
   try {
     const response = await uploadBytes(getImageRef(id, name), file )
     const imgUrl = await getDownloadURL(response.ref)
-
     const property = await getPropertyData({id})
     const images = property?.images ? [ ...property?.images] : []
     images.push({

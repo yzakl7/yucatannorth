@@ -1,13 +1,20 @@
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
-import { AuthProvider } from '../utils/auth/authContext'
 import { collection, doc, getDocs, getFirestore, setDoc } from 'firebase/firestore'
 import { ReactNode, useEffect, useState } from 'react'
 import Head from 'next/head'
-import { LangProvider } from '../utils/lang/langContext'
 import { Footer, Header } from '../components/layout'
 import { Modal, Page } from '../components/ui'
 import { ProtectRoute } from '../components/ProtectRoute'
+import * as firebase from 'firebase/app'
+import firebaseConfig from '../firebase/firebaseConfig'
+
+let firebaseApp
+if (firebase.getApps().length === 0) {
+  firebaseApp = firebase.initializeApp(firebaseConfig)
+} else {
+  firebaseApp = firebase.getApp()
+}
 
 export const db = getFirestore();
 
@@ -51,31 +58,31 @@ function MyApp({ Component, pageProps }: AppProps) {
   newProps.callModal = callModal
   newProps.dismissModal = dismissModal
 
+  
+
   useEffect(() => {
     getStnapshot()
   }, [])
 
   return (
-    <LangProvider>
-      <AuthProvider>
-        <Head>
-          <link href="http://fonts.cdnfonts.com/css/roboto" rel="stylesheet"></link>
-        </Head>
+    <>
+      <Head>
+        <link href="http://fonts.cdnfonts.com/css/roboto" rel="stylesheet"></link>
+      </Head>
 
-        <Modal
-          isVisible={modalVisibility}
-          content={modalContent}
-          dismiss={dismissModal}
-        />
-        <ProtectRoute>
-          <Page>
-            <Header />
-            <Component { ...newProps } />
-            <Footer />
-          </Page>
-        </ProtectRoute>
-      </AuthProvider>
-    </LangProvider>
+      <Modal
+        isVisible={modalVisibility}
+        content={modalContent}
+        dismiss={dismissModal}
+      />
+      <ProtectRoute>
+        <Page>
+          <Header />
+          <Component { ...newProps } />
+          <Footer />
+        </Page>
+      </ProtectRoute>
+    </>
   )
 }
 

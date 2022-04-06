@@ -5,13 +5,19 @@ import { getColor } from '../../utils/theme'
 import { Container, Image, Text } from '../ui'
 import coverImage from '../../public/playa.jpg'
 import { Button, IconButton } from '../inputs'
-import { BsWhatsapp, BsFacebook } from 'react-icons/bs'
+import { BsWhatsapp, BsFacebook, BsYoutube   } from 'react-icons/bs'
 
 const StyledFooter = styled(Container)`
   flex-direction: column;
     gap: 16px;
-  * {
-    color: ${getColor('primary')}
+  p {
+    color: ${getColor('white')};
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 36px;
+  }
+  svg {
+    color: ${getColor('primary')};
   }
 
   button {
@@ -27,15 +33,22 @@ const StyledFooter = styled(Container)`
       width: 45px;
     } 
   }
-  .links-bottom-container {
-    flex-wrap: wrap;
-    flex-direction: row;
-    padding: 16px 0;
-
-    justify-content: space-between;
-    * {
-      font-size: 16px;
-      flex: 1;
+  .bottom-container {
+    background: ${getColor('primary')};
+      padding: 16px 0;
+    .links-bottom-container {
+      flex-wrap: wrap;
+      flex-direction: row;
+  
+      justify-content: space-between;
+      * {
+        flex: 1;
+      }
+    }
+    .direction-container {
+      p {
+        text-align: center;
+      }
     }
   }
 `
@@ -45,17 +58,25 @@ export const Footer = () => {
   return (
     <StyledFooter>
       <Container className='social-media-container'>
-        <IconButton onClick={() => push('https://wa.link/h9k9rq')}>
+        <IconButton onClick={() => push('https://wa.link/')}>
           <BsWhatsapp />
         </IconButton>
         <IconButton>
-          <BsFacebook onClick={() => push('https://www.facebook.com/yucatannorth')}/>
+          <BsYoutube onClick={() => push('https://www.youtube.com/')}/>
+        </IconButton>
+        <IconButton>
+          <BsFacebook onClick={() => push('https://www.facebook.com/')}/>
         </IconButton>
       </Container>
-      <Container className='links-bottom-container'>
-        <Button action={() => push('/contact-us')} buttonStyle='link'><Text textType='p'>fdobfajardo@gmail.com</Text></Button>
-        <Button buttonStyle='link'><Text textType='p'>Copyright 2022 Yucatán North</Text></Button>
-        <Button buttonStyle='link'><Text textType='p'>Políticas de privacidad</Text></Button>
+      <Container className='bottom-container'>
+        <Container  className='links-bottom-container'>
+          <Button action={() => push('/contact-us')} buttonStyle='link'><Text textType='p'>refaccionessolis@gmail.com</Text></Button>
+          <Button buttonStyle='link'><Text textType='p'>Copyright 2022 Yucatán North</Text></Button>
+          <Button buttonStyle='link'><Text textType='p'>Políticas de privacidad</Text></Button>
+        </Container>
+        <Container className='direction-container'>
+          <Text textType='p'>Calle 65 No. 284 por 30 y 32 Centro CP 97000 Mérida, Yuc.</Text>
+        </Container>
       </Container>
     </StyledFooter>
   )
