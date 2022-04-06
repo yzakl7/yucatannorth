@@ -44,7 +44,6 @@ export const uploadImage = async (id:string, name:string, file:any) => {
     const imgUrl = await getDownloadURL(response.ref)
 
     const property = await getPropertyData({id})
-    console.log({property});
     const images = property?.images ? [ ...property?.images] : []
     images.push({
       name, imgUrl
@@ -61,7 +60,6 @@ export const getPropertyData = async (params:Record<string, string | Record<stri
   const docRef = doc(db, "properties", `${params.id}`);
   const querySnapshot = await getDoc(docRef);
   const data = querySnapshot.data()
-  console.log({property: data});
   return data
 }
 

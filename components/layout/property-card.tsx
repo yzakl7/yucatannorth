@@ -1,9 +1,10 @@
 import styled from '@emotion/styled'
-import { totalmem } from 'os'
 import React, { Fragment } from 'react'
 import { getColor } from '../../utils/theme'
 import { Container, Image, Text } from '../ui'
 import SlideShow from '../ui/slide-show'
+import { v4 as uuid} from 'uuid';
+import { useRouter } from 'next/router'
 
 const StyledPropertyCard = styled(Container)`
   flex-wrap: wrap;
@@ -73,12 +74,15 @@ type PropertyCardType = {
   data: {
     images: Record<string, string>[]
     name: string
+    id: string
     price_total: number
     shortDescription: { es: string }
     currency: string
   }
 }
+
 export const PropertyCard = (props: PropertyCardType) => {
+  const { push } = useRouter()
   const { data } = props
   if (!data) {
     return <>Loading</>
@@ -87,9 +91,9 @@ export const PropertyCard = (props: PropertyCardType) => {
     name,
     price_total,
     shortDescription,
-    currency
+    currency,
+    id
   } = data
-  console.log({data})
 
   const propertyImages:any = props.data.images?.map(({name: imgName, imgUrl}: any) => ({
     slideCaption: imgName,
@@ -98,10 +102,16 @@ export const PropertyCard = (props: PropertyCardType) => {
       alt: imgName
     }
   }))
-
+  
+  const onPropertySelect = () => {
+    push({
+      pathname: `/properties/${name.replaceAll(' ', '_')}`,
+      query: { id, name }
+    },`/properties/${name.replaceAll(' ', '_')}`)
+  }
 
   return (
-    <StyledPropertyCard>
+    <StyledPropertyCard onClick={() => onPropertySelect()}>
       <Container className='properties-pictures' flex='1' >
         {props.data?.images && <SlideShow data={propertyImages} />}
       </Container>

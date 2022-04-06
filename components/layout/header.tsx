@@ -126,6 +126,7 @@ const StyledHeader = styled(Container)`
             font-size: 14px;
             letter-spacing: 6px;
             text-decoration: none;
+            transition: all ease-in-out .3s;
           }
           &.active a {
             transform: scale(1.25);
@@ -231,9 +232,9 @@ export const Header = () => {
             <li onClick={() => push('/contact-us')} >
               <a href="#"> CONTACTO </a>
             </li>
-            <li onClick={() => push('/saved')} >
+            {/* <li onClick={() => push('/saved')} >
               <a href="#"> ELEGIDOS </a>
-            </li>
+            </li> */}
           </ul>
         </nav>
         <Container className='yucatan-north-logo'>
@@ -280,9 +281,9 @@ export const Header = () => {
             <li onClick={() => push('/contact-us')} className={`${pathname === '/contact-us' ? 'active' : ''}`}>
               <a href="#"> CONTACTO </a>
             </li>
-            <li onClick={() => push('/saved')} className={`${pathname === '/saved' ? 'active' : ''}`}>
+            {/* <li onClick={() => push('/saved')} className={`${pathname === '/saved' ? 'active' : ''}`}>
               <a href="#"> FAVORITOS </a>
-            </li>
+            </li> */}
           </ul>
         </nav>
       </Container>

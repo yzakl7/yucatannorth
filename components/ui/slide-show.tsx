@@ -6,13 +6,10 @@ import Container from './container';
 import { Image } from './image';
 import { Text } from './text';
 
-
 export interface SlideShowProps {
   data: Record<string, string>[]
   title?: string
 }
-
-
 
 const StyledSlideShow = styled(Container)`
   flex: 1;
@@ -207,8 +204,9 @@ export const SlideShow = (props: SlideShowProps) => {
         nextSlide(direction, i)
       }
     }
-    if (slides.length < 1) {
-      return slides.map(({slideCaption}, i) => {
+    if (slides.length > 1) {
+      return slides.map((slide, i) => {
+        const { slideCaption } = slide
         return (
           <div
             onClick={() => bulletOnclick(i)}

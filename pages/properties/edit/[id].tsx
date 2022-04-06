@@ -48,7 +48,6 @@ const StyledProperty = styled(Container)`
 `
 
 const Property = (props:any) => {
-  console.log({props});
   const { properties, getStnapshot, dismissModal } = props
   const [state, setState] = useState<Record<string, string>>({})
   const {query: { id }} = useRouter() || ''
@@ -522,8 +521,6 @@ const Property = (props:any) => {
 
   useEffect(() => {
     data
-  
-    console.log('act',{data});
   }, [data])
 
   if (isLoading) {

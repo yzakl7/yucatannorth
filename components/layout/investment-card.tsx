@@ -1,4 +1,5 @@
 import styled from '@emotion/styled'
+import { useRouter } from 'next/router'
 import React from 'react'
 import { getColor } from '../../utils/theme'
 import { Container, Image, Text } from '../ui'
@@ -40,12 +41,21 @@ const StyledInvestmentCard = styled(Container)`
   }
 `
 
-export const InvestmentCard = ({title, tagline, image}: Record<string, string>) => {
+
+export const InvestmentCard = (card: Record<string, any>) => {
+  const { push } = useRouter()
+  const {shortDescription, images, name, id} = card
+  const onInvestmentSelect = () => {
+    push({
+      pathname: `/properties/${name.replaceAll(' ', '_')}`,
+      query: { id, name }
+    },`/properties/${name.replaceAll(' ', '_')}`)
+  }
   return (
-    <StyledInvestmentCard>
-      <Text textType='h3'>{title}</Text>
-      <Text textType='p'>{tagline}</Text>
-      <Image src={image} alt={title} />
+    <StyledInvestmentCard  onClick={() => onInvestmentSelect()}>
+      <Text textType='h3'>{name}</Text>
+      <Text textType='p'>{shortDescription.es}</Text>
+      <Image src={images[0].imgUrl} alt={name} />
     </StyledInvestmentCard>
   )
 }

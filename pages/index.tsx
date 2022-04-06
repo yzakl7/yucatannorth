@@ -16,18 +16,18 @@ const StyledHome = styled(Container)`
 
 const Home = ({ properties }: AdminProps) => {
   const [filteredList, setFilteredList] = useState<[]>([]);
-  
+
   const renderPropertyCards = () => {
     return (
-      <Container className="property-cards-container">
+      <Container className="property-cards-container" >
         { filteredList.map((data:any) => <PropertyCard key={data.id} data={data} />) }
       </Container>
     )
   }
 
   useEffect(() => {
-    setFilteredList(properties)
-    console.log({properties});
+    const filteredProperties:any = properties.filter(({type}) =>  type !== 'inversión')
+    setFilteredList(filteredProperties)
   }, [properties]);
   
   return (

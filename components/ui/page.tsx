@@ -11,7 +11,7 @@ const StyledPage = styled(Container)`
 
 export const Page = ( {children}: PageProps ) => {
   return (
-    <StyledPage className='page'>
+    <StyledPage className='page' gap="0">
       {children}
     </StyledPage>
   )

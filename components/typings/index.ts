@@ -3,7 +3,7 @@ import { ReactNode, RefObject } from "react";
 export type ButtonProps = {
   children: ReactNode
   buttonStyle?: string
-  action?: () => void
+  action?: (e?:any) => void
   isDisabled?: boolean
   borders?: boolean
   activityIndicator?: boolean

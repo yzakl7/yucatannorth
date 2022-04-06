@@ -56,6 +56,10 @@ const StyledButton = styled.button`
   &.borderless {
     border: none;
   }
+  &.disabled {
+    background: gray;
+    cursor: default;
+  }
 `
 
 export const Button = ({
@@ -68,7 +72,7 @@ export const Button = ({
 }: ButtonProps) => {
   const isText = typeof children === "string"
   return (
-    <StyledButton disabled={isDisabled || activityIndicator} onClick={action} className={`${buttonStyle} ${borders ? '' : 'borderless'}`}>
+    <StyledButton disabled={isDisabled || activityIndicator} onClick={action} className={`${buttonStyle} ${borders ? '' : 'borderless'}${isDisabled ? 'disabled': ''}`}>
       {!activityIndicator 
         ? 
           isText ? <Text textType=''>{children}</Text> : children
