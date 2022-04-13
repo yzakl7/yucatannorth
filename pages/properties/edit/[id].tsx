@@ -501,8 +501,9 @@ const Property = (props:any) => {
 
   useEffect(() => {
     const property = properties.find(({id:propertyId}:any) => propertyId === id )
-    setState(property)
-    console.log({property});
+    if (property) {
+      setState(property)
+    }
   }, [properties])
 
   useEffect(() => {
