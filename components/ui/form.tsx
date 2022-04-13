@@ -71,7 +71,7 @@ export const Form = ({ data, onChange }: FormProps) => {
         {label && <Text textType='p'>{label}</Text>}
         {title && <Text textType='h3'>{title}</Text>}
         <Container direction={direction} className={`input-row`} wrap={wrap ? 'wrap' : undefined}>
-          {array?.map((element: CommonProps) => renderElement(element))}
+          {array?.map((element: CommonProps) => <Fragment key={Math.random()}>{renderElement(element)}</Fragment>)}
         </Container>
       </Container>
     )
@@ -253,7 +253,7 @@ export const Form = ({ data, onChange }: FormProps) => {
     <StyledForm className='form-container' direction="column" gap="unset">
       {data.map((element) => {
         return (
-          <Fragment key={`${element.type}-${element.name}`}>
+          <Fragment key={Math.random()}>
             {renderElement(element)}
           </Fragment>
         )

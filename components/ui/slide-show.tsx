@@ -211,7 +211,7 @@ export const SlideShow = (props: SlideShowProps) => {
           <div
             onClick={() => bulletOnclick(i)}
             className={`bullet ${ i === selectedSlide ? 'active' : ''}`}
-            key={`bulletindex${slideCaption}`}
+            key={Math.random()}
           />
         )
       })
@@ -226,11 +226,11 @@ export const SlideShow = (props: SlideShowProps) => {
 
         <Container className="image-frame" direction={direction || 'row'}>
           <Container className={`image-motion ${selectedtSlideClass}`}>
-            <Image src={selectedSlideData.slideImage.asset} alt={selectedSlideData.slideImage.alt} />
+            <Image src={selectedSlideData?.slideImage.asset} alt={selectedSlideData?.slideImage.alt} />
           </Container>
             { nextSlideData && (
               <Container className={`image-motion ${nextSlideClass}`}>
-                <Image src={(nextSlideData as any).slideImage.asset} alt={selectedSlideData.slideImage.alt} />
+                <Image src={(nextSlideData as any).slideImage.asset} alt={selectedSlideData?.slideImage.alt} />
               </Container>
             ) }
         </Container>

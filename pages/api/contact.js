@@ -3,17 +3,17 @@ export const sendEmail = async (req, res) => {
 
   const transporter = nodemailer.createTransport({
     port: 465,
-    host: "smtp.gmail.com",
+    host: process.env.NEXT_PUBLIC_SMTP_HOST,
     auth: {
-      user: 'yucatannorth.adm@gmail.com',
-      pass: 'PB%Vb@6@o3bn',
+      user: process.env.NEXT_PUBLIC_SMTP_USER,
+      pass: process.env.NEXT_PUBLIC_SMTP_PASSWORD,
     },
     secure: true,
   })
 
   const mailData = {
-    from: 'contacto@yucatannorth.com',
-    to: 'fdobfajardo@gmail.com',
+    from: process.env.NEXT_PUBLIC_SMTP_FROM,
+    to: process.env.NEXT_PUBLIC_SMTP_TO,
     subject: `Message From ${req.body.name}`,
     text: req.body.message + " | Sent from: " + req.body.email,
     html: `<div>${req.body.message}</div><p>Sent from:

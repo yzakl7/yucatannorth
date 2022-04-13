@@ -1,12 +1,16 @@
 import { useRouter } from 'next/router';
 import React from 'react'
 import styled from 'styled-components';
+import { Button } from '../../components/inputs';
 import { Map } from '../../components/layout';
 import { Container, Text } from '../../components/ui';
 import SlideShow from '../../components/ui/slide-show';
 import { getColor } from '../../utils/theme';
 
 const StyledPropertyDetails = styled(Container)`
+  * {
+    font-family: 'ABeeZee',sans-serif;
+  }
   .property-slideshow-container {
     padding: 16px;
     max-height: 750px;
@@ -21,7 +25,7 @@ const StyledPropertyDetails = styled(Container)`
       line-height: 42px
     }
     p {
-      font-size: 24px;
+      font-size: 20px;
       text-align: center;
       line-height: 28px;
     }
@@ -36,13 +40,13 @@ const StyledPropertyDetails = styled(Container)`
         border-color: ${getColor('border')};
         border-radius: 5px;
         p {
-          font-size: 11px;
-          letter-spacing: 2px;
+          font-size: 15px;
+          letter-spacing: 1px;
           font-weight: 600;
           color: ${getColor('white')};
           background: ${getColor('primary')};
-          line-height: 11px;
-          padding: 4px;
+          line-height: 15px;
+          padding: 10px;
         }
       }
     }
@@ -55,10 +59,20 @@ const StyledPropertyDetails = styled(Container)`
       }
     }
   }
+  button.custom {
+    border: 1px solid;
+    height: 40px;
+    color: ${getColor('white')};
+    background: ${getColor('success')};
+    border-radius: 5px;
+    &.disabled {
+      background: ${getColor('border')};
+    }
+  }
 `
 
 export const PropertyDetails = (props:any) => {
-  const { query } = useRouter()
+  const { query, push } = useRouter()
   const propertyDetails = props.properties.find(({id}:Record<string, string>) => {
     return id === query.id
   })
@@ -70,6 +84,10 @@ export const PropertyDetails = (props:any) => {
       alt: imgName
     }
   }))
+
+  const downloadPDF = () => {
+    push(propertyDetails.pdf.fileURL)
+  }
 
   const tagKeys:any = {
     "bathrooms": "Baños",
@@ -94,7 +112,7 @@ export const PropertyDetails = (props:any) => {
       return (
         <Container className='tags-container'>
           {tags.map(({value, tagName}:any) => (
-            <Container className='tag-container' key={tagName}>
+            <Container className='tag-container' key={Math.random()}>
               <Text textType='p'>
                 {tagName}
               </Text>
@@ -117,6 +135,15 @@ export const PropertyDetails = (props:any) => {
       <Container className='body-container'>
         {propertyDetails?.name && <Text textType='h2'>{propertyDetails?.name}</Text>}
         {propertyDetails?.description.es && <Text textType='p'>{propertyDetails?.description.es}</Text>}
+        {propertyDetails?.pdf && (
+          <Container align='center'>
+            <Button action={downloadPDF} buttonStyle='custom'>
+              <Text textType='p'>
+                Descargar PDF
+              </Text>
+            </Button>
+          </Container>
+        )}
         {renderTags()}
         {propertyDetails?.address?.mapSrc && <Map src={propertyDetails?.address?.mapSrc}/>}
         <Container className='address-container'>

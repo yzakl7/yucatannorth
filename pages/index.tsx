@@ -20,7 +20,7 @@ const Home = ({ properties }: AdminProps) => {
   const renderPropertyCards = () => {
     return (
       <Container className="property-cards-container" >
-        { filteredList.map((data:any) => <PropertyCard key={data.id} data={data} />) }
+        { filteredList.map((data:any) => <PropertyCard key={Math.random()} data={data} />) }
       </Container>
     )
   }

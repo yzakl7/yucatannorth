@@ -9,13 +9,26 @@ type UpdatePropertyDataProps = {
 
 const storage = getStorage()
 
-export const getImageRef = (id:string, name:string) => {
-  const imageRef = ref(storage, `${id}/${name}`)
-  return imageRef
+export const getFileRef = (id:string, name:string) => {
+  const fileRef = ref(storage, `${id}/${name}`)
+  return fileRef
+}
+
+export const deletePDF = async (id:string, name:string) => {
+  const ref = getFileRef(id, name)
+  try {
+    const res = await deleteObject(ref)
+    const property = await getPropertyData({id})
+    const updatedPorpertyData: any = { ...property, pdf: false }
+    updatePropertyData({id, data: updatedPorpertyData})
+    return res
+  } catch(error) {
+    throw(error)
+  }
 }
 
 export const deleteImage = async (id:string, name:string) => {
-  const ref = getImageRef(id, name)
+  const ref = getFileRef(id, name)
   try {
     const res = await deleteObject(ref)
     const property = await getPropertyData({id})
@@ -40,9 +53,8 @@ export const getImageList = async (id:string) => {
 
 export const uploadImage = async (id:string, name:string, file:any) => {
   try {
-    const response = await uploadBytes(getImageRef(id, name), file )
+    const response = await uploadBytes(getFileRef(id, name), file )
     const imgUrl = await getDownloadURL(response.ref)
-
     const property = await getPropertyData({id})
     const images = property?.images ? [ ...property?.images] : []
     images.push({
@@ -50,6 +62,21 @@ export const uploadImage = async (id:string, name:string, file:any) => {
     })
     const updatedPorpertyData: Record<string, string | Record<string, string>[]> = { ...property, images }
     updatePropertyData({id, data: updatedPorpertyData})
+    return response
+  } catch(err) {
+    throw(err)
+  }
+}
+
+export const uploadPDF = async (id:string, name:string, file:any) => {
+  try {
+    const response = await uploadBytes(getFileRef(id, name), file )
+    const fileURL = await getDownloadURL(response.ref)
+    const property = await getPropertyData({id})
+    const pdf = { name, fileURL }
+    const updatedPorpertyData:any = { ...property, pdf }
+    updatePropertyData({id, data: updatedPorpertyData})
+    console.log({id, data: updatedPorpertyData});
     return response
   } catch(err) {
     throw(err)
@@ -66,7 +93,8 @@ export const getPropertyData = async (params:Record<string, string | Record<stri
 export const updatePropertyData = async (params: UpdatePropertyDataProps) => {
   const docRef = doc(db, "properties", params.id);
   try {
-    await setDoc(docRef, {...params.data});
+    const ret = await setDoc(docRef, {...params.data});
+    console.log({ret});
     return true
   } catch(err) {
     throw err

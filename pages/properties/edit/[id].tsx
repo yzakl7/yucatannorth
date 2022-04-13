@@ -2,10 +2,10 @@ import { useRouter } from 'next/router'
 import styled from '@emotion/styled'
 import { ReactNode, useContext, useEffect, useState } from 'react'
 import { LangContext } from '../../../utils/lang/langContext'
-import { deleteImage, deleteProperty, getPropertyData, updatePropertyData, uploadImage } from '../../../components/api/firebaseAPI'
+import { deleteImage, deletePDF, deleteProperty, getPropertyData, updatePropertyData, uploadImage, uploadPDF } from '../../../components/api/firebaseAPI'
 import { AiOutlineDelete } from 'react-icons/ai'
 import { Container, Form, Text } from '../../../components/ui'
-import { IconButton } from '../../../components/inputs'
+import { Button, IconButton } from '../../../components/inputs'
 import { getColor } from '../../../utils/theme'
 
 export type TagType = {
@@ -49,31 +49,14 @@ const StyledProperty = styled(Container)`
 
 const Property = (props:any) => {
   const { properties, getStnapshot, dismissModal } = props
-  const [state, setState] = useState<Record<string, string>>({})
+  const [state, setState] = useState<any>({})
   const {query: { id }} = useRouter() || ''
-  const data = properties.find(({id: findId}:Record<string, string>) => findId === id ) || ''
   const [isLoading, setisLoading] = useState(true)
+  const [PDFFetching, setPDFFetching] = useState(false)
   const [imageFetching, setImageFetching] = useState(false)
-  const { pathname, push } = useRouter()
-  const {
-    isFeatured,
-    features,
-    description,
-    shortDescription,
-    address,
-    name,
-    measures,
-    currency,
-    property_type,
-    price,
-    group,
-    images,
-    area,
-    type,
-    category
-  } = data
+  const { push } = useRouter()
 
-  const propertyImages = images?.map(({name, imgUrl}: Record<string, string>) => ({
+  const propertyImages = state.images?.map(({name, imgUrl}: Record<string, string>) => ({
     name,
     src: imgUrl,
     alt: name
@@ -97,7 +80,7 @@ const Property = (props:any) => {
       type: 'textInput',
       name: 'name',
       flex: "1",
-      value: name,
+      value: state.name,
       placeholder: 'Nombre',
       label: 'Nombre',
     },
@@ -110,7 +93,7 @@ const Property = (props:any) => {
           type: 'select',
           name: 'category',
           flex: "1",
-          value: category,
+          value: state.category,
           placeholder: 'Tipo de cambio',
           label: 'Categoría',
           options: [
@@ -125,7 +108,7 @@ const Property = (props:any) => {
           type: 'select',
           name: 'group',
           flex: '1',
-          value: group,
+          value: state.group,
           placeholder: 'Grupo',
           label: 'Grupo',
           options: [
@@ -137,7 +120,7 @@ const Property = (props:any) => {
           type: 'select',
           name: 'area',
           flex: '1',
-          value: area,
+          value: state.area,
           placeholder: 'Área',
           label: 'Área',
           options: [
@@ -149,7 +132,7 @@ const Property = (props:any) => {
           type: 'select',
           name: 'type',
           flex: '1',
-          value: type,
+          value: state.type,
           placeholder: 'Tipo',
           label: 'Tipo',
           options: [
@@ -172,7 +155,7 @@ const Property = (props:any) => {
         {
           type: 'textInput',
           name: 'line_1',
-          value: address?.line_1,
+          value: state.address?.line_1,
           minWidth: '350px',
           flex: "2",
           placeholder: 'Dirección',
@@ -181,7 +164,7 @@ const Property = (props:any) => {
         {
           type: 'textInput',
           name: 'suburb',
-          value: address?.suburb,
+          value: state.address?.suburb,
           minWidth: '350px',
           flex: "1",
           placeholder: 'Colonia',
@@ -192,7 +175,7 @@ const Property = (props:any) => {
     {
       type: 'textInput',
       name: 'mapSrc',
-      value: address?.mapSrc,
+      value: state.address?.mapSrc,
       minWidth: '350px',
       flex: "2",
       placeholder: 'URL de mapa',
@@ -213,7 +196,7 @@ const Property = (props:any) => {
           type: 'textInput',
           minWidth: '350px',
           name: 'short_description_es',
-          value: shortDescription?.es,
+          value: state.shortDescription?.es,
           multiline: '5',
         },
         {
@@ -221,7 +204,7 @@ const Property = (props:any) => {
           label: 'Descripción corta en ingles',
           minWidth: '350px',
           type: 'textInput',
-          value: shortDescription?.en,
+          value: state.shortDescription?.en,
           name: 'short_description_en',
           multiline: '5',
         }
@@ -238,7 +221,7 @@ const Property = (props:any) => {
           type: 'textInput',
           minWidth: '350px',
           name: 'description_es',
-          value: description?.es,
+          value: state.description?.es,
           multiline: '10',
         },
         {
@@ -246,7 +229,7 @@ const Property = (props:any) => {
           label: 'Descripción en ingles',
           minWidth: '350px',
           type: 'textInput',
-          value: description?.en,
+          value: state.description?.en,
           name: 'description_en',
           multiline: '10',
         }
@@ -275,27 +258,27 @@ const Property = (props:any) => {
                 {
                   type: 'numberInput',
                   name: 'rooms',
-                  value: features?.rooms,
+                  value: state.features?.rooms,
                   placeholder: 'Cuartos',
                   label: 'Cuartos',
                 },
                 {
                   type: 'numberInput',
                   name: 'floors',
-                  value: features?.floors,
+                  value: state.features?.floors,
                   placeholder: 'Pisos',
                   label: 'Pisos',
                 },
                 {
                   type: 'numberInput',
                   name: 'bathrooms',
-                  value: features?.bathrooms,
+                  value: state.features?.bathrooms,
                   placeholder: 'Baños',
                   label: 'Baños',
                 },
                 {
                   type: 'numberInput',
-                  value: features?.car_slots,
+                  value: state.features?.car_slots,
                   name: 'car_slots',
                   placeholder: 'Cajones de estacinamiento',
                   label: 'Cajones de estacinamiento',
@@ -310,7 +293,7 @@ const Property = (props:any) => {
               array: [
                 {
                   type: 'numberInput',
-                  value: measures?.land_area,
+                  value: state.measures?.land_area,
                   name: 'land_area',
                   flex: "1",
                   placeholder: 'Terreno',
@@ -318,7 +301,7 @@ const Property = (props:any) => {
                 },
                 {
                   type: 'numberInput',
-                  value: measures?.built_area,
+                  value: state.measures?.built_area,
                   name: 'built_area',
                   flex: "1",
                   placeholder: 'Construcción',
@@ -326,7 +309,7 @@ const Property = (props:any) => {
                 },
                 {
                   type: 'numberInput',
-                  value: measures?.front,
+                  value: state.measures?.front,
                   name: 'front',
                   flex: "1",
                   placeholder: 'Frente',
@@ -335,14 +318,14 @@ const Property = (props:any) => {
                 {
                   type: 'numberInput',
                   name: 'bottom',
-                  value: measures?.bottom,
+                  value: state.measures?.bottom,
                   flex: "1",
                   placeholder: 'Fondo',
                   label: 'Fondo',
                 },
                 {
                   type: 'numberInput',
-                  value: measures?.left,
+                  value: state.measures?.left,
                   name: 'left',
                   flex: "1",
                   placeholder: 'Izquierda',
@@ -350,7 +333,7 @@ const Property = (props:any) => {
                 },
                 {
                   type: 'numberInput',
-                  value: measures?.right,
+                  value: state.measures?.right,
                   name: 'right',
                   flex: "1",
                   placeholder: 'Derecha',
@@ -372,7 +355,7 @@ const Property = (props:any) => {
               type: 'select',
               name: 'currency',
               flex: '1',
-              value: currency,
+              value: state.currency,
               placeholder: 'Tipo de cambio',
               label: 'Tipo de cambio',
               options: [
@@ -383,7 +366,7 @@ const Property = (props:any) => {
             {
               type: 'numberInput',
               minWidth: '180px',
-              value: price,
+              value: state.price,
               name: 'price',
               flex: "1",
               placeholder: 'Precio',           
@@ -396,14 +379,14 @@ const Property = (props:any) => {
   ]
 
   const onChange = (params: { values: Record<string, string>; hasErrors: boolean; }) => {
-    setState(params.values)
+    setState({...state, ...params.values})
   }
 
   const onSave = async () => {
     const getMapSrc = (html:string) => {
       let extractedMapSrc = html
       if (!html) {
-        return address?.mapSrc || ''
+        return state.address?.mapSrc || ''
       }
 
       html.split(' ').forEach((el:string) => {
@@ -417,47 +400,10 @@ const Property = (props:any) => {
       return extractedMapSrc
     }
 
-    const updatedValues = {
-      address: {
-        mapSrc: getMapSrc(state.mapSrc),
-        line_1: state.line_1 || address?.line_1 || '',
-        suburb: state.suburb || address?.suburb || ''
-      },
-      currency: state.currency || currency || 'mxn',
-      description: {
-        en: state.description_en || description?.en || '',
-        es: state.description_es || description?.es || ''
-      },
-      shortDescription: {
-        en: state.short_description_en || shortDescription?.en || '',
-        es: state.short_description_es || shortDescription?.es || ''
-      },
-      features: {
-        floors: state.floors || features?.floors || '',
-        rooms: state.rooms || features?.rooms || '',
-        bathrooms: state.bathrooms || features?.bathrooms || '',
-        car_slots: state.car_slots || features?.car_slots || '',
-      },
-      isFeatured: state.isFeatured || isFeatured || '',
-      measures: {
-        bottom: state.bottom || measures?.bottom || '',
-        front: state.front || measures?.front || '',
-        land_area: state.land_area || measures?.land_area || '',
-        built_area: state.built_area || measures?.built_area || '',
-        left: state.left || measures?.left || '',
-        right: state.right || measures?.right || '',
-      },
-      name: state.name || name || 'Propiedad sin nombre',
-      price: state.price || price || '',
-      property_type: state.property_type || property_type || '',
-      type: state.type || type || 'inversión',
-      area: state.area || area || 'playa',
-      group: state.group || group || 'norte-poniente',
-      category: state.category || category || 'casa',
-    }
+   
 
     try {
-      await updatePropertyData({ id:`${id}`, data: updatedValues })
+      await updatePropertyData({ id:`${id}`, data: state })
       await getStnapshot()
       push('/admin')
 
@@ -477,6 +423,29 @@ const Property = (props:any) => {
     }
   }
 
+  const uploadPDFFile = (e:any) => {
+    setPDFFetching(true)
+    const fileList = e.target.files
+    const doUpload = async (id:string, name:string, file:any) => {
+      try {
+        const response = await uploadPDF(id, name, file)
+        await getStnapshot()
+        return response
+      } catch (err) {
+        throw err
+      } finally {
+        setPDFFetching(false)
+      }
+
+    }
+
+    for (let i = 0, numFiles = fileList.length; i < numFiles; i++) {
+      const file = fileList[i];
+      doUpload(`${id}`, file.name, file)
+    }
+
+  }
+
   const uploadFile = (e:any) => {
     setImageFetching(true)
     const fileList = e.target.files
@@ -486,7 +455,6 @@ const Property = (props:any) => {
         const response = await uploadImage(id, name, file)
         await getStnapshot()
         return response
-        
       } catch (err) {
         throw err
       } finally {
@@ -499,7 +467,19 @@ const Property = (props:any) => {
       const file = fileList[i];
       doUpload(`${id}`, file.name, file)
     }
+  }
 
+  const onDeletePDF = async (imageName:string) => {
+    setImageFetching(true)
+    try {
+      const res = await deletePDF(`${id}`, imageName)
+      await getStnapshot()
+      return res
+    } catch(err) {
+      throw(err)
+    } finally {
+      setImageFetching(false)
+    }
   }
   
   const onDeleteImage = async (imageName:string) => {
@@ -520,8 +500,15 @@ const Property = (props:any) => {
   }, [id]) 
 
   useEffect(() => {
-    data
-  }, [data])
+    const property = properties.find(({id:propertyId}:any) => propertyId === id )
+    setState(property)
+    console.log({property});
+  }, [properties])
+
+  useEffect(() => {
+    console.log({state});
+  }, [state])
+  
 
   if (isLoading) {
     return <div>Loading...</div>
@@ -533,7 +520,7 @@ const Property = (props:any) => {
     <StyledProperty>
       <Text textType="h3">Editar propiedad</Text>
       <Container>
-        <input type="file" onChange={uploadFile} multiple></input>
+        <input type="file" accept="image/png, image/gif, image/jpeg"  onChange={uploadFile} multiple></input>
         <Container direction='row'>
           {
             propertyImages?.map(({src, name}:any) => {
@@ -559,6 +546,22 @@ const Property = (props:any) => {
         </Container>
       </Container>
       <Form data={formData} onChange={onChange} />
+        {state.type === "inversión" && (
+          <>
+            { state.pdf && (<Container direction={'row'} align='center'>
+              <Text textType='p'>{state.pdf.name}</Text>
+              <Button action={() => onDeletePDF(state.pdf.name)}>
+                <Text textType='p'>Eliminar</Text>
+              </Button>
+            </Container>) }
+            <Container direction='row'>
+              <Text textType='p'>{state.pdf.name ? 'Cambiar PDF' : 'Agregar PDF'}</Text>
+              <input type="file" accept="application/pdf" onChange={uploadPDFFile}></input>
+              {PDFFetching ? 'subiendo pdf' : ''}
+            </Container>
+          </>
+        )}
+
       <Container direction="row">
         <IconButton onClick={onDelete}>Eliminar propiedad</IconButton>
         <IconButton onClick={onSave}>Guardar</IconButton>

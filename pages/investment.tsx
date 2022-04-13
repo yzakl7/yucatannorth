@@ -22,7 +22,7 @@ const Investment = ({properties}: AdminProps) => {
   const renderCards = () => {
     return (
       <Container className='investment-cards-container'>
-        {filteredList.map((data:any) => <InvestmentCard key={`${data.id}`} {...data}/>)}
+        {filteredList.map((data:any) => <InvestmentCard key={Math.random()} {...data}/>)}
       </Container>
     )
   }

@@ -64,7 +64,7 @@ const Admin = ({properties}: AdminProps) => {
         price
       } = property
       return (
-        <Container minWidth='100%' gap="0" onClick={() => onPropertySelect(property)} className='table-row' key={id} direction='row'>
+        <Container minWidth='100%' gap="0" onClick={() => onPropertySelect(property)} className='table-row' key={Math.random()} direction='row'>
           <Container flex="2">
             <Text textType='p'>{name}</Text>
           </Container>

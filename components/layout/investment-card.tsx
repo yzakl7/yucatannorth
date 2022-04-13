@@ -55,7 +55,7 @@ export const InvestmentCard = (card: Record<string, any>) => {
     <StyledInvestmentCard  onClick={() => onInvestmentSelect()}>
       <Text textType='h3'>{name}</Text>
       <Text textType='p'>{shortDescription.es}</Text>
-      <Image src={images[0].imgUrl} alt={name} />
+      {images && <Image src={images[0].imgUrl} alt={name} />}
     </StyledInvestmentCard>
   )
 }

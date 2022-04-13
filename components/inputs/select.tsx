@@ -33,7 +33,7 @@ export const Select = ({
       }}>
         {
           months.map((month, i) => (
-            <option hidden={i === 0} value={i} key={month}>{month}</option>
+            <option hidden={i === 0} value={i} key={Math.random()}>{month}</option>
           ))
         } 
       </StyledSelect>
@@ -76,7 +76,7 @@ export const Select = ({
     <StyledSelect style={{background: disabled ? getColor('border') : 'unset'}} disabled={disabled} value={value} onChange={(e) => onChange(`${e.target.value}`)}>
       {
         (options as Record<string, string>[])?.map(({value, name}) => (
-          <option value={value} key={value}>{name}</option>
+          <option value={value} key={Math.random()}>{name}</option>
         ))
       }
     </StyledSelect>
