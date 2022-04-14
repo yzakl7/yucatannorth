@@ -106,8 +106,13 @@ export const PropertyDetails = (props:any) => {
     if (propertyDetails) {
       const {measures, features} = propertyDetails;
       const tags:any = []
-      Object.keys(measures).forEach((measure) => measures[measure] && tags.push({value: measures[measure], tagName: tagKeys[measure]}))
-      Object.keys(features).forEach((feature) => features[feature] && tags.push({value: features[feature], tagName: tagKeys[feature]}))
+
+      if (measures) {
+        Object.keys(measures).forEach((measure) => measures[measure] && tags.push({value: measures[measure], tagName: tagKeys[measure]}))
+      }
+      if (features) {
+        Object.keys(features).forEach((feature) => features[feature] && tags.push({value: features[feature], tagName: tagKeys[feature]}))
+      }
       
       return (
         <Container className='tags-container'>
@@ -134,7 +139,7 @@ export const PropertyDetails = (props:any) => {
       </Container>
       <Container className='body-container'>
         {propertyDetails?.name && <Text textType='h2'>{propertyDetails?.name}</Text>}
-        {propertyDetails?.description.es && <Text textType='p'>{propertyDetails?.description.es}</Text>}
+        {propertyDetails?.description?.es && <Text textType='p'>{propertyDetails?.description.es}</Text>}
         {propertyDetails?.pdf && (
           <Container align='center'>
             <Button action={downloadPDF} buttonStyle='custom'>

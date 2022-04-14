@@ -111,11 +111,11 @@ export const PropertyCard = (props: PropertyCardType) => {
   }
 
   return (
-    <StyledPropertyCard onClick={() => onPropertySelect()}>
+    <StyledPropertyCard >
       <Container className='properties-pictures' flex='1' >
         {props.data?.images && <SlideShow data={propertyImages} />}
       </Container>
-      <Container className='properties-details-container' flex='1.2'>
+      <Container onClick={() => onPropertySelect()} className='properties-details-container' flex='1.2'>
         <Container>
           <Text textType='h2'>
             {name}

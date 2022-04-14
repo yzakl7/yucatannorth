@@ -556,7 +556,7 @@ const Property = (props:any) => {
               </Button>
             </Container>) }
             <Container direction='row'>
-              <Text textType='p'>{state.pdf.name ? 'Cambiar PDF' : 'Agregar PDF'}</Text>
+              <Text textType='p'>{state.pdf?.name ? 'Cambiar PDF' : 'Agregar PDF'}</Text>
               <input type="file" accept="application/pdf" onChange={uploadPDFFile}></input>
               {PDFFetching ? 'subiendo pdf' : ''}
             </Container>

@@ -253,7 +253,7 @@ export const Form = ({ data, onChange }: FormProps) => {
     <StyledForm className='form-container' direction="column" gap="unset">
       {data.map((element) => {
         return (
-          <Fragment key={Math.random()}>
+          <Fragment key={element.name}>
             {renderElement(element)}
           </Fragment>
         )

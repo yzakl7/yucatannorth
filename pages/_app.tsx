@@ -58,10 +58,6 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <LangProvider>
       <AuthProvider>
-        <Head>
-          <link href="http://fonts.cdnfonts.com/css/roboto" rel="stylesheet"></link>
-        </Head>
-
         <Modal
           isVisible={modalVisibility}
           content={modalContent}
