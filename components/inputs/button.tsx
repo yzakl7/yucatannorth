@@ -34,6 +34,15 @@ const StyledButton = styled.button`
       background: ${getColor('primaryDark')};
     }
   }
+  &.dangerReverse {
+    p {
+      color: ${getColor('danger')};
+    }
+    background: transparent;
+    &:hover {
+      background: ${getColor('border')};
+    }
+  }
   &.primaryReverse {
     border: 1px solid ${getColor('primary')};
     p {
