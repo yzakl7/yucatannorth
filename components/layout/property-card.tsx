@@ -5,6 +5,7 @@ import { Container, Image, Text } from '../ui'
 import SlideShow from '../ui/slide-show'
 import { v4 as uuid} from 'uuid';
 import { useRouter } from 'next/router'
+import Favorite from '../ui/favorite'
 
 const StyledPropertyCard = styled(Container)`
   flex-wrap: wrap;
@@ -113,6 +114,7 @@ export const PropertyCard = (props: PropertyCardType) => {
   return (
     <StyledPropertyCard >
       <Container className='properties-pictures' flex='1' >
+        <Favorite id={props.data?.id} />
         {props.data?.images && <SlideShow data={propertyImages} />}
       </Container>
       <Container onClick={() => onPropertySelect()} className='properties-details-container' flex='1.2'>

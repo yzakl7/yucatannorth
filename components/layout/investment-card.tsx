@@ -1,8 +1,9 @@
 import styled from '@emotion/styled'
 import { useRouter } from 'next/router'
-import React from 'react'
+import React, { Fragment } from 'react'
 import { getColor } from '../../utils/theme'
 import { Container, Image, Text } from '../ui'
+import Favorite from '../ui/favorite'
 
 const StyledInvestmentCard = styled(Container)`
   overflow: hidden;
@@ -17,10 +18,11 @@ const StyledInvestmentCard = styled(Container)`
     height: 250px;
     width: 100%;
   }
-  .image-container {
+  .image-wrapper {
+    height: 100%;
+    width: 100%;
     position: absolute;
     top: 0;
-    z-index: -1;
   }
   h3, p {
     color: ${getColor('white')};
@@ -28,6 +30,7 @@ const StyledInvestmentCard = styled(Container)`
     -webkit-text-stroke-color: ${getColor('black')};
     text-shadow: 1px 1px 3px ${getColor('black')};
     text-align: center;
+    z-index: 2;
   }
   h3 {
     font-size: 28px;
@@ -52,10 +55,17 @@ export const InvestmentCard = (card: Record<string, any>) => {
     },`/properties/${name.replaceAll(' ', '_')}`)
   }
   return (
-    <StyledInvestmentCard  onClick={() => onInvestmentSelect()}>
+    <StyledInvestmentCard >
+      <Favorite id={id}/>
       <Text textType='h3'>{name}</Text>
       <Text textType='p'>{shortDescription?.es}</Text>
-      {images && <Image src={images[0].imgUrl} alt={name} />}
+      {images && (
+        <Container className='image-wrapper' onClick={() => onInvestmentSelect()}>
+          <Image src={images[0].imgUrl} alt={name} />
+        </Container>
+      )
+      
+      }
     </StyledInvestmentCard>
   )
 }

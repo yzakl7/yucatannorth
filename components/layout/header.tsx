@@ -232,9 +232,9 @@ export const Header = () => {
             <li onClick={() => push('/contact-us')} >
               <a href="#"> CONTACTO </a>
             </li>
-            {/* <li onClick={() => push('/saved')} >
-              <a href="#"> ELEGIDOS </a>
-            </li> */}
+            <li onClick={() => push('/favorites')} >
+              <a href="#"> FAVORITOS </a>
+            </li>
           </ul>
         </nav>
         <Container className='yucatan-north-logo'>
@@ -281,9 +281,9 @@ export const Header = () => {
             <li onClick={() => push('/contact-us')} className={`${pathname === '/contact-us' ? 'active' : ''}`}>
               <a href="#"> CONTACTO </a>
             </li>
-            {/* <li onClick={() => push('/saved')} className={`${pathname === '/saved' ? 'active' : ''}`}>
+            <li onClick={() => push('/favorites')} className={`${pathname === '/favorites' ? 'active' : ''}`}>
               <a href="#"> FAVORITOS </a>
-            </li> */}
+            </li>
           </ul>
         </nav>
       </Container>
