@@ -209,6 +209,7 @@ const videoBackgroundIphone = 'https://firebasestorage.googleapis.com/v0/b/yucat
 export const Header = () => {
   const {pathname, push} = useRouter()
   const isHome = pathname === '/'
+  const isLanding = pathname === '/yucatan-north'
   const [mobileMenuVisible, setMobileMenuVisible] = useState(false)
 
   const renderCover = () => {
@@ -255,7 +256,7 @@ export const Header = () => {
   return (
     <StyledHeader className={isHome ? 'home' : ''}>
       {renderCover()}
-      <Container className='menu-container'>
+      {!isLanding && <Container className='menu-container'>
         <nav className={`main-nav-bar ${mobileMenuVisible ? 'open' : 'closed'}`}>
           { mobileMenuVisible 
             ? (
@@ -286,7 +287,7 @@ export const Header = () => {
             </li>
           </ul>
         </nav>
-      </Container>
+      </Container>}
     </StyledHeader>
   )
 }

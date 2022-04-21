@@ -41,11 +41,38 @@ export const deleteImage = async (id:string, name:string) => {
   }
 }
 
+export const deleteLandingCoverImage = async (id:string, name:string) => {
+  const ref = getFileRef(id, name)
+  try {
+    const res = await deleteObject(ref)
+    return res
+  } catch(error) {
+    throw(error)
+  }
+}
+
 export const getImageList = async (id:string) => {
   try {
     const listRef = ref(storage, `${id}`)
     const imageList = await listAll(listRef)
     return imageList
+  } catch(err) {
+    throw(err)
+  }
+}
+
+export const getLandingCoverImage = async () => {
+  try {
+    const listRef = ref(storage, `landing-page`)
+
+    const { items } = await listAll(listRef)
+
+    if (items.length > 0 ) {
+      const image = await getDownloadURL(items[0])
+      return image
+    }
+    return ''
+
   } catch(err) {
     throw(err)
   }
@@ -63,6 +90,16 @@ export const uploadImage = async (id:string, name:string, file:any) => {
     const updatedPorpertyData: Record<string, string | Record<string, string>[]> = { ...property, images }
     updatePropertyData({id, data: updatedPorpertyData})
     return response
+  } catch(err) {
+    throw(err)
+  }
+}
+
+export const uploadLandingCoverImage = async (id:string, name:string, file:any) => {
+  try {
+    const response = await uploadBytes(getFileRef(id, name), file )
+    const imgUrl = await getDownloadURL(response.ref)
+    return imgUrl
   } catch(err) {
     throw(err)
   }

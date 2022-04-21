@@ -106,9 +106,9 @@ export const PropertyCard = (props: PropertyCardType) => {
   
   const onPropertySelect = () => {
     push({
-      pathname: `/properties/${name.replaceAll(' ', '_')}`,
+      pathname: `/properties/${name?.replaceAll(' ', '_')}`,
       query: { id, name }
-    },`/properties/${name.replaceAll(' ', '_')}`)
+    },`/properties/${name?.replaceAll(' ', '_')}`)
   }
 
   return (
