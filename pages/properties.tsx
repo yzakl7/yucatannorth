@@ -1,28 +1,28 @@
 import styled from '@emotion/styled'
 import React, { useEffect, useState } from 'react'
-import { InvestmentCard } from '../components/layout'
+import { PropertyCard } from "../components/layout";
 import { Container } from '../components/ui'
 
 type AdminProps = {
   properties: []
 }
 
-const StyledInvestment = styled(Container)`
+const StyledProperty = styled(Container)`
   flex: 1;
   padding: 32px;
-  .investment-cards-container {
+  .property-cards-container {
     flex-direction: row;
     flex-wrap: wrap;
     gap: 32px;
   }
 `
 
-const Investment = ({properties}: AdminProps) => {
+const Property = ({properties}: AdminProps) => {
   const [filteredList, setFilteredList] = useState<[]>([]);
   const renderCards = () => {
     return (
-      <Container className='investment-cards-container'>
-        {filteredList.map((data:any) => <InvestmentCard key={Math.random()} {...data}/>)}
+      <Container className='property-cards-container'>
+        {filteredList.map((data:any) => <PropertyCard key={data.id} data={data}/>)}
       </Container>
     )
   }
@@ -33,10 +33,10 @@ const Investment = ({properties}: AdminProps) => {
   }, [properties]);
   
   return (
-    <StyledInvestment>
+    <StyledProperty>
       {renderCards()}
-    </StyledInvestment>
+    </StyledProperty>
   )
 }
 
-export default Investment
+export default Property

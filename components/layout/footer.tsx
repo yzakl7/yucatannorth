@@ -9,7 +9,7 @@ import { BsWhatsapp, BsFacebook } from 'react-icons/bs'
 
 const StyledFooter = styled(Container)`
   flex-direction: column;
-    gap: 16px;
+  gap: 0;
   * {
     color: ${getColor('primary')}
   }
@@ -56,6 +56,9 @@ export const Footer = () => {
         <Button action={() => push('/contact-us')} buttonStyle='link'><Text textType='p'>fdobfajardo@gmail.com</Text></Button>
         <Button buttonStyle='link'><Text textType='p'>Copyright 2022 Yucatán North</Text></Button>
         <Button buttonStyle='link'><Text textType='p'>Políticas de privacidad</Text></Button>
+      </Container>
+      <Container align="center">
+        <Button action={() => push('/admin')} buttonStyle='link'><Text textType='p'>Admin</Text></Button>
       </Container>
     </StyledFooter>
   )

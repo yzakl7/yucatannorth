@@ -26,6 +26,7 @@ const StyledButton = styled.button`
     }
   }
   &.primary {
+    border: 1px solid ${getColor('white')};
     p {
       color: ${getColor('white')};
     }
@@ -40,7 +41,7 @@ const StyledButton = styled.button`
     }
     background: transparent;
     &:hover {
-      background: ${getColor('border')};
+      background: ${getColor('danger')}1A;
     }
   }
   &.primaryReverse {

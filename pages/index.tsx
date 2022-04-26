@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import { useEffect, useState } from "react"
-import { PropertyCard } from "../components/layout";
+import { InvestmentCard } from "../components/layout";
 import { Container } from "../components/ui";
 
 type AdminProps = {
@@ -9,7 +9,7 @@ type AdminProps = {
 
 const StyledHome = styled(Container)`
   padding: 32px;
-  .property-cards-container {
+  .investment-cards-container {
     gap: 32px;
   }
 `
@@ -17,10 +17,10 @@ const StyledHome = styled(Container)`
 const Home = ({ properties }: AdminProps) => {
   const [filteredList, setFilteredList] = useState<[]>([]);
 
-  const renderPropertyCards = () => {
+  const renderInvestmentCards = () => {
     return (
-      <Container className="property-cards-container" >
-        { filteredList.map((data:any) => <PropertyCard key={Math.random()} data={data} />) }
+      <Container className="investment-cards-container" >
+        { filteredList.map((data:any) => <InvestmentCard key={data.id} {...data} />) }
       </Container>
     )
   }
@@ -32,7 +32,7 @@ const Home = ({ properties }: AdminProps) => {
   
   return (
     <StyledHome>
-      {renderPropertyCards()}
+      {renderInvestmentCards()}
     </StyledHome>
   )
 }

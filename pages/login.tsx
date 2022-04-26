@@ -34,10 +34,7 @@ const Login = () => {
     try {
       const resp = await signin('admin@yucatannorth.com', password)
       push('/admin')
-      console.log({login: resp});
     } catch(err) {
-      console.log({login: err});
-
     }
   }
 

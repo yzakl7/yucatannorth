@@ -71,7 +71,7 @@ export const Form = ({ data, onChange }: FormProps) => {
         {label && <Text textType='p'>{label}</Text>}
         {title && <Text textType='h3'>{title}</Text>}
         <Container direction={direction} className={`input-row`} wrap={wrap ? 'wrap' : undefined}>
-          {array?.map((element: CommonProps) => <Fragment key={Math.random()}>{renderElement(element)}</Fragment>)}
+          {array?.map((element: CommonProps) => <Fragment key={element.name}>{renderElement(element)}</Fragment>)}
         </Container>
       </Container>
     )

@@ -27,7 +27,6 @@ export const sendEmail = async (req, res) => {
   }
 
   transporter.sendMail(mailData, (err, info) => {
-    console.log({info, err});
     if (err) {
       res.status(500).json({ name: 'John Doe' })
     } else {

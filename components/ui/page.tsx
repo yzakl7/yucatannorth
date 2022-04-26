@@ -4,9 +4,7 @@ import { Container } from '.'
 
 const StyledPage = styled(Container)`
   flex: 1;
-  @media (max-width: 1024px) {
-    padding-top: 42px;
-  }
+  overflow: auto;
 `
 
 export const Page = ( {children}: PageProps ) => {

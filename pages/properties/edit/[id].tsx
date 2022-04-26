@@ -155,7 +155,7 @@ const Property = (props:any) => {
         {
           type: 'textInput',
           name: 'line_1',
-          value: state.address?.line_1,
+          value: state.line_1,
           minWidth: '350px',
           flex: "2",
           placeholder: 'Dirección',
@@ -164,7 +164,7 @@ const Property = (props:any) => {
         {
           type: 'textInput',
           name: 'suburb',
-          value: state.address?.suburb,
+          value: state.suburb,
           minWidth: '350px',
           flex: "1",
           placeholder: 'Colonia',
@@ -175,7 +175,7 @@ const Property = (props:any) => {
     {
       type: 'textInput',
       name: 'mapSrc',
-      value: state.address?.mapSrc,
+      value: state.mapSrc,
       minWidth: '350px',
       flex: "2",
       placeholder: 'URL de mapa',
@@ -196,7 +196,7 @@ const Property = (props:any) => {
           type: 'textInput',
           minWidth: '350px',
           name: 'short_description_es',
-          value: state.shortDescription?.es,
+          value: state.short_description_es,
           multiline: '5',
         },
         {
@@ -204,7 +204,7 @@ const Property = (props:any) => {
           label: 'Descripción corta en ingles',
           minWidth: '350px',
           type: 'textInput',
-          value: state.shortDescription?.en,
+          value: state.short_description_en,
           name: 'short_description_en',
           multiline: '5',
         }
@@ -221,7 +221,7 @@ const Property = (props:any) => {
           type: 'textInput',
           minWidth: '350px',
           name: 'description_es',
-          value: state.description?.es,
+          value: state.description_es,
           multiline: '10',
         },
         {
@@ -229,7 +229,7 @@ const Property = (props:any) => {
           label: 'Descripción en ingles',
           minWidth: '350px',
           type: 'textInput',
-          value: state.description?.en,
+          value: state.description_en,
           name: 'description_en',
           multiline: '10',
         }
@@ -258,27 +258,27 @@ const Property = (props:any) => {
                 {
                   type: 'numberInput',
                   name: 'rooms',
-                  value: state.features?.rooms,
+                  value: state.rooms,
                   placeholder: 'Cuartos',
                   label: 'Cuartos',
                 },
                 {
                   type: 'numberInput',
                   name: 'floors',
-                  value: state.features?.floors,
+                  value: state.floors,
                   placeholder: 'Pisos',
                   label: 'Pisos',
                 },
                 {
                   type: 'numberInput',
                   name: 'bathrooms',
-                  value: state.features?.bathrooms,
+                  value: state.bathrooms,
                   placeholder: 'Baños',
                   label: 'Baños',
                 },
                 {
                   type: 'numberInput',
-                  value: state.features?.car_slots,
+                  value: state.car_slots,
                   name: 'car_slots',
                   placeholder: 'Cajones de estacinamiento',
                   label: 'Cajones de estacinamiento',
@@ -293,7 +293,7 @@ const Property = (props:any) => {
               array: [
                 {
                   type: 'numberInput',
-                  value: state.measures?.land_area,
+                  value: state.land_area,
                   name: 'land_area',
                   flex: "1",
                   placeholder: 'Terreno',
@@ -301,7 +301,7 @@ const Property = (props:any) => {
                 },
                 {
                   type: 'numberInput',
-                  value: state.measures?.built_area,
+                  value: state.built_area,
                   name: 'built_area',
                   flex: "1",
                   placeholder: 'Construcción',
@@ -309,7 +309,7 @@ const Property = (props:any) => {
                 },
                 {
                   type: 'numberInput',
-                  value: state.measures?.front,
+                  value: state.front,
                   name: 'front',
                   flex: "1",
                   placeholder: 'Frente',
@@ -318,14 +318,14 @@ const Property = (props:any) => {
                 {
                   type: 'numberInput',
                   name: 'bottom',
-                  value: state.measures?.bottom,
+                  value: state.bottom,
                   flex: "1",
                   placeholder: 'Fondo',
                   label: 'Fondo',
                 },
                 {
                   type: 'numberInput',
-                  value: state.measures?.left,
+                  value: state.left,
                   name: 'left',
                   flex: "1",
                   placeholder: 'Izquierda',
@@ -333,7 +333,7 @@ const Property = (props:any) => {
                 },
                 {
                   type: 'numberInput',
-                  value: state.measures?.right,
+                  value: state.right,
                   name: 'right',
                   flex: "1",
                   placeholder: 'Derecha',
@@ -403,7 +403,40 @@ const Property = (props:any) => {
    
 
     try {
-      await updatePropertyData({ id:`${id}`, data: state })
+
+
+
+      const upload = {... state}
+
+      upload.measures = {
+        bottom: state.bottom,
+        front: state.built_area,
+        land_area: state.front,
+        left: state.land_area,
+        right: state.left,
+        built_area: state.right,
+
+      }
+      upload.features = {
+        car_slots: state.car_slots,
+        floors: state.floors,
+        rooms: state.rooms,
+      }
+      upload.address = {
+        mapSrc: state.mapSrc,
+        suburb: state.suburb,
+        line_1: state.line_1,
+      }
+      upload.description = {
+        en: state.description_en,
+        es: state.description_es,
+      }
+      upload.shortDescription = {
+        en: state.short_description_en,
+        es: state.short_description_es,
+      }
+
+      await updatePropertyData({ id:`${id}`, data: upload })
       await getStnapshot()
       push('/admin')
 
@@ -502,12 +535,49 @@ const Property = (props:any) => {
   useEffect(() => {
     const property = properties.find(({id:propertyId}:any) => propertyId === id )
     if (property) {
-      setState(property)
+      const newProperty = {... property}
+      delete newProperty.description
+      delete newProperty.shortDescription
+      delete newProperty.features
+      delete newProperty.address
+      delete newProperty.measures
+
+      if (property.address) {
+        newProperty.line_1 = `${property.address.line_1}`
+        newProperty.suburb = `${property.address.suburb}`
+        newProperty.mapSrc = `${property.address.mapSrc}`
+      }
+
+      if (property.measures) {
+        newProperty.bottom = `${property.measures.bottom}`
+        newProperty.built_area = `${property.measures.built_area}`
+        newProperty.front = `${property.measures.front}`
+        newProperty.land_area = `${property.measures.land_area}`
+        newProperty.left = `${property.measures.left}`
+        newProperty.right = `${property.measures.right}`
+      }
+
+      if (property.features) {
+        newProperty.car_slots = `${property.features.car_slots}`
+        newProperty.bathrooms = `${property.features.bathrooms}`
+        newProperty.floors = `${property.features.floors}`
+        newProperty.rooms = `${property.features.rooms}`
+      }
+      
+      if (property.description) {
+        newProperty.description_en = `${property.description.en}`
+        newProperty.description_es = `${property.description.es}`
+      }
+
+      if (property.shortDescription) {
+        newProperty.short_description_en = `${property.shortDescription.en}`
+        newProperty.short_description_es = `${property.shortDescription.es}`
+      }
+      setState(newProperty)
     }
   }, [properties])
 
   useEffect(() => {
-    console.log({state});
   }, [state])
   
 

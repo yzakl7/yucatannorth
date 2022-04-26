@@ -1,7 +1,8 @@
 import React, { ReactDOM, ReactNode, useEffect, useState } from 'react'
-import { AiOutlineDelete, AiOutlineFileAdd } from 'react-icons/ai'
+import { AiOutlineDelete } from 'react-icons/ai'
+import { BiBuildingHouse } from 'react-icons/bi'
 import { v4 as uuid} from 'uuid';
-
+import { FaPlaneArrival } from 'react-icons/fa'
 import styled from '@emotion/styled'
 import { createNewProperty, deleteImage, deleteLandingCoverImage, getLandingCoverImage, uploadImage, uploadLandingCoverImage } from '../components/api/firebaseAPI'
 import { useRouter } from 'next/router'
@@ -11,7 +12,33 @@ import { getColor } from '../utils/theme'
 
 const StyledAdmin = styled(Container)`
   flex: 1;
+  flex-direction: row;
   padding: 32px;
+  overflow: hidden;
+  .admin-container {
+        overflow: auto;
+    height: 100%;
+  }
+  .side-bar {
+    gap: 16px;
+    button {
+      padding: 16px;
+      border-radius: 10px;
+      color: ${getColor('white')};
+      background: ${getColor('primary')};
+      height: 115px;
+      flex-direction: column;
+      gap: 8px;
+      svg {
+        font-size: 32px;
+      }
+    }
+  }
+  .table-header {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+  }
   .table-row {
     padding: 16px 0;
     border-bottom: 1px solid ${getColor('border')};
@@ -61,6 +88,8 @@ const Admin = ({properties, getStnapshot}: AdminProps) => {
   const { push } = useRouter()
   const [coverImageIsFetching, setCoverImageIsFetching] = useState(false)
   const [landingCoverImageState, setlandingCoverImageState] = useState<string>()
+  const [selectedTab, setSelectedTab] = useState('landingPage')
+
 
   const getCurrentLandingCoverImage = async () => {
     const landingImage = await getLandingCoverImage()
@@ -107,7 +136,7 @@ const Admin = ({properties, getStnapshot}: AdminProps) => {
 
   const renderTableHeader = () => {
     return  (
-      <Container minWidth='100%' direction='row'>
+      <Container minWidth='100%' direction='row' className='table-header'>
         <Container flex="2">
           <Text textType='span'>NOMBRE</Text>
         </Container>
@@ -166,23 +195,26 @@ const Admin = ({properties, getStnapshot}: AdminProps) => {
   const renderLandingActions = () => {
 
     return (
-      <Container className='landing-cover-image-upload'>
-        {coverImageIsFetching && 'Loading'}
-        <label>
-          <input type="file" accept="image/png, image/gif, image/jpeg" style={{visibility: 'hidden', position: 'absolute', height: 0, width: 0}} onChange={onLandingCoverImageUpload}></input>
-          <Container className='thumbnail'>
-            <img alt="" width="50px" height="50px" src={landingCoverImageState || placeholder}></img>
-            {
-              landingCoverImageState && (
-                <Container onClick={() => onLandingCoverImageDelete()} className='delete-button' align='center'>
-                  <IconButton>
-                    <AiOutlineDelete />
-                  </IconButton>
-                </Container>
-              )
-            }
-          </Container>
-        </label>
+      <Container>
+        <Text textType='p'>Cover</Text>
+        <Container className='landing-cover-image-upload'>
+          {coverImageIsFetching && 'Loading'}
+          <label>
+            <input type="file" accept="image/png, image/gif, image/jpeg" style={{visibility: 'hidden', position: 'absolute', height: 0, width: 0}} onChange={onLandingCoverImageUpload}></input>
+            <Container className='thumbnail'>
+              <img alt="" width="50px" height="50px" src={landingCoverImageState || placeholder}></img>
+              {
+                landingCoverImageState && (
+                  <Container onClick={() => onLandingCoverImageDelete()} className='delete-button' align='center'>
+                    <IconButton>
+                      <AiOutlineDelete />
+                    </IconButton>
+                  </Container>
+                )
+              }
+            </Container>
+          </label>
+        </Container>
       </Container>
     )
   }
@@ -190,15 +222,48 @@ const Admin = ({properties, getStnapshot}: AdminProps) => {
   useEffect(() => {
     getCurrentLandingCoverImage()
   }, [])
+
+  const tabs:Record<string, ReactNode> = {
+    landingPage: (
+      <>
+        <Text textType='h3'>Landing Page</Text>
+        {renderLandingActions()}
+      </>
+    ),
+    properties: (
+      <>
+        <Text textType='h3'>Administrador de propiedades</Text>
+        <Container minWidth='100%' align='flex-start' className='admin-container'>
+          <IconButton onClick={() => onPropertySelect(undefined)}>Nueva propiedad</IconButton>
+          <Container minWidth='100%' flex="1" gap="0" className='admin-container' >
+            {renderTableHeader()}
+            {renderTable()}
+          </Container>
+        </Container>
+      </>
+    )
+  }
   
 
   return (
     <StyledAdmin align="flex-start" gap="24px;">
-      <Text textType='h3'>Landing page</Text>
-      {renderLandingActions()}
-      <IconButton onClick={() => onPropertySelect(undefined)}>Nueva propiedad</IconButton>
-      {renderTableHeader()}
-      {renderTable()}
+      <Container className='side-bar'>
+        <IconButton onClick={() => setSelectedTab('landingPage')}>
+          <FaPlaneArrival />
+          <Text textType='p'>
+            Landing Page
+          </Text>
+        </IconButton>
+        <IconButton onClick={() => setSelectedTab('properties')}>
+          <BiBuildingHouse />
+          <Text textType='p'>
+            Propiedades
+          </Text>
+        </IconButton>
+      </Container>
+      <Container flex='1' align='flex-start' gap="24px" height='100%'>
+        {tabs[selectedTab]}
+      </Container>
     </StyledAdmin>
   )
 }

@@ -113,7 +113,6 @@ export const uploadPDF = async (id:string, name:string, file:any) => {
     const pdf = { name, fileURL }
     const updatedPorpertyData:any = { ...property, pdf }
     updatePropertyData({id, data: updatedPorpertyData})
-    console.log({id, data: updatedPorpertyData});
     return response
   } catch(err) {
     throw(err)
@@ -131,7 +130,6 @@ export const updatePropertyData = async (params: UpdatePropertyDataProps) => {
   const docRef = doc(db, "properties", params.id);
   try {
     const ret = await setDoc(docRef, {...params.data});
-    console.log({ret});
     return true
   } catch(err) {
     throw err

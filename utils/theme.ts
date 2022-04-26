@@ -5,7 +5,7 @@ export const getColor = (color: string) => {
     border: '#CCCCCC',
     black: '#000000',
     white: '#ffffff',
-    danger: 'red',
+    danger: '#980a0a',
     success: 'green'
     
   }

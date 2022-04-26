@@ -209,6 +209,7 @@ const videoBackgroundIphone = 'https://firebasestorage.googleapis.com/v0/b/yucat
 export const Header = () => {
   const {pathname, push} = useRouter()
   const isHome = pathname === '/'
+  const isAdmin = pathname === '/admin' || pathname === '/properties/edit/[id]'
   const isLanding = pathname === '/yucatan-north'
   const [mobileMenuVisible, setMobileMenuVisible] = useState(false)
 
@@ -222,10 +223,10 @@ export const Header = () => {
         <nav>
           <ul>
             <li onClick={() => push('/')}>
-              <a href="#"> PROPIEDADES </a>
-            </li>
-            <li onClick={() => push('/investment')}>
               <a href="#"> INVERSIONES </a>
+            </li>
+            <li onClick={() => push('/properties')}>
+              <a href="#"> PROPIEDADES </a>
             </li>
             <li onClick={() => push('/about')} >
               <a href="#"> NOSOTROS </a>
@@ -253,6 +254,10 @@ export const Header = () => {
     )
   }
 
+  if (isAdmin) {
+    return <></>
+  }
+
   return (
     <StyledHeader className={isHome ? 'home' : ''}>
       {renderCover()}
@@ -271,10 +276,10 @@ export const Header = () => {
           }
           <ul>
             <li onClick={() => push('/')} className={`${pathname === '/' ? 'active' : ''}`}>
-              <a href="#"> PROPIEDADES </a>
-            </li>
-            <li onClick={() => push('/investment')} className={`${pathname === '/investment' ? 'active' : ''}`}>
               <a href="#"> INVERSIONES </a>
+            </li>
+            <li onClick={() => push('/properties')} className={`${pathname === '/properties' ? 'active' : ''}`}>
+              <a href="#"> PROPIEDADES </a>
             </li>
             <li onClick={() => push('/about')} className={`${pathname === '/about' ? 'active' : ''}`}>
               <a href="#"> NOSOTROS </a>

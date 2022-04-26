@@ -83,6 +83,7 @@ type PropertyCardType = {
 }
 
 export const PropertyCard = (props: PropertyCardType) => {
+  ({props});
   const { push } = useRouter()
   const { data } = props
   if (!data) {
