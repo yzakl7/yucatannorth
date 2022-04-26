@@ -210,7 +210,7 @@ export const Header = () => {
   const {pathname, push} = useRouter()
   const isHome = pathname === '/'
   const isAdmin = pathname === '/admin' || pathname === '/properties/edit/[id]'
-  const isLanding = pathname === '/yucatan-north'
+  const isLanding = pathname === '/landing'
   const [mobileMenuVisible, setMobileMenuVisible] = useState(false)
 
   const renderCover = () => {

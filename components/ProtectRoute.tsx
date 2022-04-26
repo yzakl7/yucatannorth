@@ -33,7 +33,7 @@ export const ProtectRoute = ({ children }: ProtectedRouteProps) => {
   const isAuthenticated  = authStatus === "authenticated"
 
   const atAdmin = pathname === '/admin' ||  pathname === '/properties/edit/[id]' 
-  const atLanding = pathname === '/yucatan-north'
+  const atLanding = pathname === '/landing'
   const atWebsite = !atAdmin && !atLanding
   
     
@@ -55,7 +55,7 @@ export const ProtectRoute = ({ children }: ProtectedRouteProps) => {
       <Text textType="p">!Hola, Fernando!</Text>
       <Container direction="row">
         <Button borders action={() => push('/admin')} buttonStyle={atAdmin ? "primaryReverse" : "primary"}> <Text textType="p">Admin</Text></Button>
-        <Button action={() => push('/yucatan-north')} buttonStyle={atLanding ? "primaryReverse" : "primary"}> <Text textType="p">Landing</Text></Button>
+        <Button action={() => push('/landing')} buttonStyle={atLanding ? "primaryReverse" : "primary"}> <Text textType="p">Landing</Text></Button>
         <Button action={() => push('/')} buttonStyle={atWebsite ? "primaryReverse" : "primary"}> <Text textType="p">Web</Text></Button>
         <Button action={signout} buttonStyle="dangerReverse"> <Text textType="p">Cerrar sesión</Text></Button>
       </Container>

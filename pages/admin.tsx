@@ -4,7 +4,7 @@ import { BiBuildingHouse } from 'react-icons/bi'
 import { v4 as uuid} from 'uuid';
 import { FaPlaneArrival } from 'react-icons/fa'
 import styled from '@emotion/styled'
-import { createNewProperty, deleteImage, deleteLandingCoverImage, getLandingCoverImage, uploadImage, uploadLandingCoverImage } from '../components/api/firebaseAPI'
+import { deleteLandingPDF, uploadLandingPDF, deleteLandingCoverImage, getLandingPDF, getLandingCoverImage,  uploadLandingCoverImage } from '../components/api/firebaseAPI'
 import { useRouter } from 'next/router'
 import { Container, Form, Text } from '../components/ui'
 import { IconButton } from '../components/inputs'
@@ -87,13 +87,19 @@ const placeholder = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1YSo
 const Admin = ({properties, getStnapshot}: AdminProps) => {
   const { push } = useRouter()
   const [coverImageIsFetching, setCoverImageIsFetching] = useState(false)
+  const [PDFIsFetching, setPDFIsFetching] = useState(false)
+
   const [landingCoverImageState, setlandingCoverImageState] = useState<string>()
+  const [landingPDFState, setlandingPDFState] = useState<string>()
+
   const [selectedTab, setSelectedTab] = useState('landingPage')
 
 
   const getCurrentLandingCoverImage = async () => {
     const landingImage = await getLandingCoverImage()
+    const landingPDF = await getLandingPDF()
     setlandingCoverImageState(landingImage)
+    setlandingPDFState(landingPDF)
   }
 
   const onPropertySelect = (property?:{id: string}) => {
@@ -191,11 +197,45 @@ const Admin = ({properties, getStnapshot}: AdminProps) => {
     }
   }
 
+  const onLandingPDFDelete = async () => {
+    setPDFIsFetching(true)
+    try {
+      const res = await deleteLandingPDF("landing-page", 'landing.pdf')
+      await getStnapshot()
+      setlandingPDFState(undefined)
+      return res
+    } catch(err) {
+      throw(err)
+    } finally {
+      setPDFIsFetching(false)
+    }
+  }
+
+  const onLandingPDFUpload = (e:any) => {
+    const fileList = e.target.files
+    const doUpload = async (id:string, name:string, file:any) => {
+      setPDFIsFetching(true)
+      try {
+        const response = await uploadLandingPDF(id, name, file)
+        await getStnapshot()
+        setlandingPDFState(response)
+        return response
+      } catch (err) {
+        throw err
+      } finally {
+        setPDFIsFetching(false)
+      }
+    }
+    for (let i = 0, numFiles = fileList.length; i < numFiles; i++) {
+      const file = fileList[i];
+      doUpload("landing-page", 'landing.pdf', file)
+    }
+  }
+
 
   const renderLandingActions = () => {
-
     return (
-      <Container>
+      <Container align='flex-start'>
         <Text textType='p'>Cover</Text>
         <Container className='landing-cover-image-upload'>
           {coverImageIsFetching && 'Loading'}
@@ -206,6 +246,29 @@ const Admin = ({properties, getStnapshot}: AdminProps) => {
               {
                 landingCoverImageState && (
                   <Container onClick={() => onLandingCoverImageDelete()} className='delete-button' align='center'>
+                    <IconButton>
+                      <AiOutlineDelete />
+                    </IconButton>
+                  </Container>
+                )
+              }
+            </Container>
+          </label>
+        </Container>
+        <Text textType='p'>PDF</Text>
+        <Container className='landing-cover-image-upload'>
+          {PDFIsFetching && 'Loading'}
+          <label>
+            <input type="file" accept="application/pdf" style={{visibility: 'hidden', position: 'absolute', height: 0, width: 0}} onChange={onLandingPDFUpload}></input>
+            <Container className='thumbnail'>
+              {
+                landingPDFState 
+                ?<embed src={landingPDFState} height="150" type="application/pdf"></embed>
+                :<img alt="" width="50px" height="50px" src={placeholder}></img>
+              }
+              {
+                landingPDFState && (
+                  <Container onClick={() => onLandingPDFDelete()} className='delete-button' align='center'>
                     <IconButton>
                       <AiOutlineDelete />
                     </IconButton>

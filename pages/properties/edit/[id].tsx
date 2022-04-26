@@ -407,33 +407,59 @@ const Property = (props:any) => {
 
 
       const upload = {... state}
-
-      upload.measures = {
-        bottom: state.bottom,
-        front: state.built_area,
-        land_area: state.front,
-        left: state.land_area,
-        right: state.left,
-        built_area: state.right,
-
+      upload.measures = {}
+      upload.features = {}
+      upload.address = {}
+      upload.description = {}
+      upload.shortDescription = {}
+      
+      if (state.bottom) {
+        upload.measures.bottom = state.bottom;
       }
-      upload.features = {
-        car_slots: state.car_slots,
-        floors: state.floors,
-        rooms: state.rooms,
+      if (state.land_area) {
+        upload.measures.land_area = state.land_area;
       }
-      upload.address = {
-        mapSrc: state.mapSrc,
-        suburb: state.suburb,
-        line_1: state.line_1,
+      if (state.built_area) {
+        upload.measures.built_area = state.built_area;
       }
-      upload.description = {
-        en: state.description_en,
-        es: state.description_es,
+      if (state.right) {
+        upload.measures.right = state.right;
       }
-      upload.shortDescription = {
-        en: state.short_description_en,
-        es: state.short_description_es,
+      if (state.front) {
+        upload.measures.front = state.front;
+      }
+      if (state.left) {
+        upload.measures.left = state.left;
+      }
+      if (state.car_slots) {
+        upload.features.car_slots = state.car_slots;
+      }
+      if (state.floors) {
+        upload.features.floors = state.floors;
+      }
+      if (state.rooms) {
+        upload.features.rooms = state.rooms;
+      }
+      if (state.mapSrc) {
+        upload.address.mapSrc = state.mapSrc;
+      }
+      if (state.suburb) {
+        upload.address.suburb = state.suburb;
+      }
+      if (state.line_1) {
+        upload.address.line_1 = state.line_1;
+      }
+      if (state.description_en) {
+        upload.description.description_en = state.description_en;
+      }
+      if (state.description_es) {
+        upload.description.description_es = state.description_es;
+      }
+      if (state.short_description_en) {
+        upload.shortDescription.short_description_en = state.short_description_en;
+      }
+      if (state.short_description_es) {
+        upload.shortDescription.short_description_es = state.short_description_es;
       }
 
       await updatePropertyData({ id:`${id}`, data: upload })
