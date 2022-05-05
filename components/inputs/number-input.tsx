@@ -49,6 +49,9 @@ const StyledNumberInput = styled(Container)`
     .message {
       transition: ease-in-out .3s all;
       font-size: 14px;
+      @media (max-width: 720px) {
+        font-size: 11px;
+      }
       text-align: center;
       border-bottom: 1px solid transparent;
       overflow: none;

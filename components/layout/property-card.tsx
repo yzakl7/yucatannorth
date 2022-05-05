@@ -35,11 +35,19 @@ const StyledPropertyCard = styled(Container)`
       text-align: center;
       font-size: 36px;
       line-height: 36px;
+      @media (max-width: 720px) {
+        font-size: 24px;
+        line-height: 24px;
+      }
       color: ${getColor('primary')}
     }
     h3 {
       line-height: 32px;
       font-size: 24px;
+      @media (max-width: 720px) {
+        font-size: 18px;
+        line-height: 22px;
+      }
       text-overflow: ellipsis;
       font-weight: 400;
       letter-spacing: 4px;
@@ -53,6 +61,10 @@ const StyledPropertyCard = styled(Container)`
       @media (max-width: 932px){
         line-height: 22px;
         font-size: 15px;
+        @media (max-width: 720px) {
+          font-size: 12px;
+          line-height: 18px;
+        }
         text-overflow: ellipsis;
         font-weight: 400;
         letter-spacing: 1px;

@@ -22,7 +22,11 @@ const StyledTooltip = styled(Container)`
     visibility: hidden;
     p {
       font-size: 12px;
-      line-height: 16px;
+      line-height: 16px; 
+      @media (max-width: 720px) {
+        font-size: 9px;
+        line-height: 12px; 
+      }
       text-align: center;
     }
   }

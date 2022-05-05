@@ -15,6 +15,10 @@ const StyledFooter = styled(Container)`
     font-weight: 700;
     font-size: 24px;
     line-height: 36px;
+    @media (max-width: 720px) {
+      font-size: 18px;
+      line-height: 24px;
+    }
   }
   svg {
     color: ${getColor('primary')};
@@ -71,7 +75,7 @@ export const Footer = () => {
       <Container className='bottom-container'>
         <Container  className='links-bottom-container'>
           <Button action={() => push('/contact-us')} buttonStyle='link'><Text textType='p'>refaccionessolis@gmail.com</Text></Button>
-          <Button buttonStyle='link'><Text textType='p'>Copyright 2022 Yucatán North</Text></Button>
+          <Button buttonStyle='link'><Text textType='p'>Copyright © 2022</Text></Button>
           <Button buttonStyle='link'><Text textType='p'>Políticas de privacidad</Text></Button>
         </Container>
         <Container className='direction-container'>

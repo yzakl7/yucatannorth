@@ -25,10 +25,16 @@ const StyledAboutCard = styled(Container)`
       background: ${getColor('primary')};
       color: ${getColor('white')};
       font-size: 32px;
+      @media (max-width: 720px) {
+        font-size: 24px;
+      }
       padding: 32px;
     }
     h3 {
       font-size: 36px;
+      @media (max-width: 720px) {
+        font-size: 28px;
+      }
       padding: 16px 32px;
       color: ${getColor('primary')};
     }
@@ -36,6 +42,10 @@ const StyledAboutCard = styled(Container)`
       color: ${getColor('dark')};
       font-size: 24px;
       line-height: 32px;
+      @media (max-width: 720px) {
+        font-size: 18px;
+        line-height: 24px;
+      }
     }
   }
   img {

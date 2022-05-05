@@ -20,6 +20,10 @@ const StyledSlideShow = styled(Container)`
     text-shadow: 2px 0px 3px rgba(0, 0, 0, 0.75);
     font-size: 18px;
     line-height: 22px;
+    @media (max-width: 720px) {
+      font-size: 14px;
+      line-height: 18px;
+    }
     font-weight: 600;
     text-align: right;
     white-space: nowrap;

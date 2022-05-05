@@ -7,6 +7,7 @@ import { IoMenu, IoClose } from 'react-icons/io5'
 
 const StyledHeader = styled(Container)`
   gap: 0;
+  z-index: 15;
   .cover-container {
     height: calc(100vh - 50px);
     align-items: center;
@@ -34,11 +35,16 @@ const StyledHeader = styled(Container)`
     .cover-tagline-container {
       background: ${getColor('primary')};
       padding: 4px 8px;
+      text-align: center;
       border-radius: 10px;
       h1 {
         font-weight: 700;
         font-size: 36px;
         line-height: 54px;
+        @media (max-width: 720px) {
+          font-size: 24px;
+          line-height: 34px;
+        }
         color: ${getColor('white')};
       }
     }
@@ -48,6 +54,9 @@ const StyledHeader = styled(Container)`
     a {
       font-weight: 700;
       font-size: 24px;
+      @media (max-width: 720px) {
+        font-size: 18px;
+      }
     }
   }
   .menu-container {
@@ -71,6 +80,10 @@ const StyledHeader = styled(Container)`
             font-weight: 700;
             font-size: 24px;
             line-height: 36px;
+            @media (max-width: 720px) {
+              font-size: 18px;
+              line-height: 24px;
+            }
             letter-spacing: 6px;
             text-decoration: none;
             transition: all ease-in-out .3s;
@@ -114,6 +127,9 @@ const StyledHeader = styled(Container)`
             opacity: 1;
           }
           height: 285px;
+          @media (max-width: 720px) {
+            height: 235px;
+          }
         }
         svg {
           color: ${getColor('white')};

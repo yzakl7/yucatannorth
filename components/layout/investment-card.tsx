@@ -31,9 +31,15 @@ const StyledInvestmentCard = styled(Container)`
   }
   h3 {
     font-size: 28px;
+    @media (max-width: 720px) {
+      font-size: 20px;
+    }
   }
   p {
     font-size: 24px;
+      @media (max-width: 720px) {
+        font-size: 18px;
+      }
   }
   img {
     object-fit: cover;
