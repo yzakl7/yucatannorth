@@ -62,21 +62,21 @@ export const Footer = () => {
   return (
     <StyledFooter>
       <Container className='social-media-container'>
-        <IconButton onClick={() => push('https://wa.link/')}>
+        <IconButton onClick={() => push('https://wa.link/tgnevv')}>
           <BsWhatsapp />
         </IconButton>
         <IconButton>
-          <BsYoutube onClick={() => push('https://www.youtube.com/')}/>
+          <BsYoutube onClick={() => push('https://www.youtube.com/channel/UCC0Uqo5sRFSCPuHQd_7VJ1Q')}/>
         </IconButton>
         <IconButton>
-          <BsFacebook onClick={() => push('https://www.facebook.com/')}/>
+          <BsFacebook onClick={() => push('https://www.facebook.com/RefSolis2018')}/>
         </IconButton>
       </Container>
       <Container className='bottom-container'>
         <Container  className='links-bottom-container'>
           <Button action={() => push('/contact-us')} buttonStyle='link'><Text textType='p'>refaccionessolis@gmail.com</Text></Button>
           <Button buttonStyle='link'><Text textType='p'>Copyright © 2022</Text></Button>
-          <Button buttonStyle='link'><Text textType='p'>Políticas de privacidad</Text></Button>
+          <Button action={() => push('/privacy')} buttonStyle='link'><Text textType='p'>Políticas de privacidad</Text></Button>
         </Container>
         <Container className='direction-container'>
           <Text textType='p'>Calle 65 No. 284 por 30 y 32 Centro CP 97000 Mérida, Yuc.</Text>

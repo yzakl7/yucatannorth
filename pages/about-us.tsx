@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Container, Text } from '../components/ui'
+import { Container, Image, Text } from '../components/ui'
 import { getColor } from '../utils/theme'
 
 const StyledAboutUs = styled(Container)`
@@ -40,7 +40,19 @@ const StyledAboutUs = styled(Container)`
     }
   }
   .section {
+    align-items: center;
+    gap: 32px;
+    margin-top: -32px;
+    margin-bottom: -32px;
     flex-wrap: wrap;
+    &:nth-of-type(2n) {
+      @media (max-width: 720px) {
+        flex-direction: column-reverse;
+        margin-top: 4px;
+        margin-bottom: 4px;
+      }
+    }
+
     .side {
       min-width: 270px;
       p {
@@ -52,9 +64,15 @@ const StyledAboutUs = styled(Container)`
     }
   }
 `
+const history1 = `https://firebasestorage.googleapis.com/v0/b/refacciones-solis.appspot.com/o/assets%2Fhistoria_1.jpg?alt=media&token=1d5343ed-07a4-4e60-9e62-f31362930774`
+const history2 = `https://firebasestorage.googleapis.com/v0/b/refacciones-solis.appspot.com/o/assets%2Fhistoria_2.jpg?alt=media&token=2228610f-cf5f-4d73-a321-6ac2074c007d`
+const history3 = `https://firebasestorage.googleapis.com/v0/b/refacciones-solis.appspot.com/o/assets%2Fhistoria_3.jpg?alt=media&token=4fccc9bb-a7ef-4bac-b871-38ab9abb39c0`
+const history4 = `https://firebasestorage.googleapis.com/v0/b/refacciones-solis.appspot.com/o/assets%2Fhistoria_4.jpg?alt=media&token=7d0af520-f070-4334-bfb0-9c63308168cf`
+const history5 = `https://firebasestorage.googleapis.com/v0/b/refacciones-solis.appspot.com/o/assets%2Fhistoria_5.jpg?alt=media&token=1d0bd8aa-9d12-4bf7-a991-7321568d4dd6`
 
 const texts = [
   {
+    img: history1,
     id: 3424234234,
     text: `
       La empresa fue fundada en 2003 por Sebastián Solís. 
@@ -65,6 +83,7 @@ const texts = [
     `
   },
     {
+    img: history2,
     id: 345634563456,
     text: `
       Una de las características más importantes de la empresa es
@@ -77,6 +96,7 @@ const texts = [
     `
   },
     {
+    img: history3,
     id: 4567456768,
     text: `
       Para 2009, y gracias a los frutos del trabajo 
@@ -89,6 +109,7 @@ const texts = [
     `
   },
     {
+    img: history4,
     id: 3569939699,
     text: `
       Cabe destacar que la empresa tiene como su principal zona 
@@ -98,6 +119,7 @@ const texts = [
     `
   },
     {
+    img: history5,
     id: 797979397997,
     text: `
       En 2012 y 2015 se adquirió equipo de reparto para
@@ -118,18 +140,14 @@ export const AboutUs = () => {
         <Text textType="h4">Historia:</Text>
       </Container>
       {
-        texts.map(({id, text}: Record<string, string | number>, i:number) => (
+        texts.map(({id, text, img}: any, i:number) => (
           <Container direction='row' className='section' key={id}>
-            <Container flex='1' className='left side'>
-              <Text textType='p'>
-                {(i%2 === 0) ? text : ''}
-              </Text>
-              </Container>
-            <Container flex='1' className='right side'>
-              <Text textType='p'>
-                {(i%2 !== 0) ? text : ''}
-              </Text>
-              </Container>
+            <Container flex={(i%2 !== 0) ? '1' : '1.5'}  className='left side'>
+              {(i%2 === 0) ? <Text textType='p'>{text}</Text> : <Image src={img} alt=""/>}
+            </Container>
+            <Container flex={(i%2 === 0) ? '1' : '1.5'} className='right side'>
+              {(i%2 !== 0) ? <Text textType='p'>{text}</Text> : <Image src={img} alt=""/>}
+            </Container>
           </Container>
         ))
       }
