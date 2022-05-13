@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "public",
+    "public": "out",
     "origin": "*",
     "allowedHeaders": ["Content-Type", "Authorization", "Content-Length", "X-Requested-With", "Accept"],
     "methods": ["GET", "PUT", "POST", "DELETE", "OPTIONS"],

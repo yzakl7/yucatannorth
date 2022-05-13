@@ -61,7 +61,7 @@ const StyledContactForm = styled.form`
   }
 `
 
-export const ContactForm = () => {
+export const ContactForm = ({location}: {location?: string}) => {
   const clearState = {
     name: '',
     lastName: '',
@@ -78,7 +78,8 @@ export const ContactForm = () => {
     setEmailSentStatus('')
     e.preventDefault()
     let data = {
-      ...formState
+      ...formState,
+      location
     }
 
     try {

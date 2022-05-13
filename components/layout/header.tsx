@@ -62,6 +62,7 @@ const StyledHeader = styled(Container)`
       justify-content: flex-end;
       flex: 1;
       align-items: center;
+      margin-top: 35px;
       text-align: center; 
       h3 {
         color: ${getColor('white')};
@@ -181,6 +182,9 @@ const StyledHeader = styled(Container)`
         display: flex;
       }
     }
+    .yucatan-north-logo {
+      margin-top: 100px;
+    }
     .cover-container {
       order: 0;
       min-height: 100vh;
@@ -206,6 +210,8 @@ const logo = "https://firebasestorage.googleapis.com/v0/b/yucatan-north-web.apps
 const logoHorizontal = "https://firebasestorage.googleapis.com/v0/b/yucatan-north-web.appspot.com/o/web%20assets%2Flogo_horizontal.png?alt=media&token=44f9817a-a143-4570-a708-ae785db6c781"
 const videoBackground = 'https://firebasestorage.googleapis.com/v0/b/yucatan-north-web.appspot.com/o/web%20assets%2Fvideobackground.webm?alt=media&token=cd4d3492-8014-4ca7-ab55-e0df733e4492'
 const videoBackgroundIphone = 'https://firebasestorage.googleapis.com/v0/b/yucatan-north-web.appspot.com/o/web%20assets%2Fiphone.mp4?alt=media&token=91013a09-c8db-4f54-9a1b-96b2e1d56a23'
+
+
 export const Header = () => {
   const {pathname, push} = useRouter()
   const isHome = pathname === '/'

@@ -92,7 +92,7 @@ const Admin = ({properties, getStnapshot}: AdminProps) => {
   const [landingCoverImageState, setlandingCoverImageState] = useState<string>()
   const [landingPDFState, setlandingPDFState] = useState<string>()
 
-  const [selectedTab, setSelectedTab] = useState('landingPage')
+  const [selectedTab, setSelectedTab] = useState('properties')
 
 
   const getCurrentLandingCoverImage = async () => {

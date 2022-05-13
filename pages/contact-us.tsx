@@ -16,7 +16,7 @@ const StyledContactUs = styled(Container)`
 const about = () => {
   return (
     <StyledContactUs>
-      <ContactForm />
+      <ContactForm location='Contacto' />
       <Map />
     </StyledContactUs>
   )

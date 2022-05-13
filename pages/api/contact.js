@@ -1,38 +1,32 @@
+import sendgrid from "@sendgrid/mail";
 
+sendgrid.setApiKey(process.env.NEXT_PUBLIC_SENDGRID_API);
 
-
-
-
-
-export const sendEmail = async (req, res) => {
-  let nodemailer = require('nodemailer')
-
-  const transporter = nodemailer.createTransport({
-    port: 465,
-    host: process.env.NEXT_PUBLIC_SMTP_HOST,
-    auth: {
-      user: process.env.NEXT_PUBLIC_SMTP_USER,
-      pass: process.env.NEXT_PUBLIC_SMTP_PASSWORD,
-    },
-    secure: true,
-  })
-
-  const mailData = {
-    from: process.env.NEXT_PUBLIC_SMTP_FROM,
-    to: process.env.NEXT_PUBLIC_SMTP_TO,
-    subject: `Message From ${req.body.name}`,
-    text: req.body.message + " | Sent from: " + req.body.email,
-    html: `<div>${req.body.message}</div><p>Sent from:
-    ${req.body.email}</p>`
+async function sendEmail(req, res) {
+  
+  try {
+    console.log("REQ.BODY", req.body);
+    const { name, lastName, email, phone, message, location } = req.body
+    const response = await sendgrid.send({
+      to: `fdobfajardo@gmail.com`,
+      from: "yucatannorth.adm@gmail.com", // your website email address here
+      subject: `Nuevo mensaje de Yucatán North Web`,
+      html: `
+        <div>
+          <p>Nuevo mensaje de: ${name} ${lastName} <${email}> </p>
+          <p>${phone}</p>
+          <p>Enviado desde: ${location}</p>
+          <br />
+          <p>Mensaje: </p>
+          <p>${message}</p>
+        </div>
+      `,
+    });
+    console.log({response});
+    res.status(200).json(response)
+  } catch (error) {
+    return res.status(error.statusCode || 500).json({ error: error.message });
   }
-
-  transporter.sendMail(mailData, (err, info) => {
-    if (err) {
-      res.status(500).json({ name: 'John Doe' })
-    } else {
-      res.send(info)
-    }
-  })
 }
 
-export default sendEmail
+export default sendEmail;

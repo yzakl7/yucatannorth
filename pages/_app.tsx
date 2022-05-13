@@ -8,6 +8,7 @@ import { LangProvider } from '../utils/lang/langContext'
 import { Footer, Header } from '../components/layout'
 import { Modal, Page } from '../components/ui'
 import { ProtectRoute } from '../components/ProtectRoute'
+import { useRouter } from 'next/router'
 
 export const db = getFirestore();
 
@@ -18,6 +19,8 @@ function MyApp({ Component, pageProps }: AppProps) {
   const [modalVisibility, setModalVisibility] = useState(false)
 
   const [properties, setProperties] = useState<any>([])
+  const {pathname} = useRouter()
+  const isAdmin = pathname === '/admin' || pathname === '/properties/edit/[id]'
 
   const getStnapshot = async () => {
     const newDocs: any[] = []
@@ -67,7 +70,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           <Page>
             <Header />
             <Component { ...newProps } />
-            <Footer />
+            {!isAdmin && <Footer />}
           </Page>
         </ProtectRoute>
       </AuthProvider>

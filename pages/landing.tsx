@@ -62,7 +62,7 @@ const Landing = () => {
           </Text>
         </Button>
       </Container>
-      <ContactForm />
+      <ContactForm location='Landing Page'/>
       <Map />
     </StyledLandingPage>
   )

@@ -20,13 +20,13 @@ const Home = ({ properties }: AdminProps) => {
   const renderInvestmentCards = () => {
     return (
       <Container className="investment-cards-container" >
-        { filteredList.map((data:any) => <InvestmentCard key={data.id} {...data} />) }
+        { filteredList.map((data:any) => <InvestmentCard key={data.id} data={data} />) }
       </Container>
     )
   }
 
   useEffect(() => {
-    const filteredProperties:any = properties.filter(({type}) =>  type !== 'inversión')
+    const filteredProperties:any = properties.filter(({type}) =>  type !== 'propiedad')
     setFilteredList(filteredProperties)
   }, [properties]);
   

@@ -22,13 +22,13 @@ const Property = ({properties}: AdminProps) => {
   const renderCards = () => {
     return (
       <Container className='property-cards-container'>
-        {filteredList.map((data:any) => <PropertyCard key={data.id} data={data}/>)}
+        {filteredList.map((data:any) => <PropertyCard key={data.id} {...data}/>)}
       </Container>
     )
   }
 
   useEffect(() => {
-    const filteredProperties:any = properties.filter(({type}) =>  type === 'inversión')
+    const filteredProperties:any = properties.filter(({type}) =>  type === 'propiedad')
     setFilteredList(filteredProperties)
   }, [properties]);
   

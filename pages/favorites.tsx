@@ -42,8 +42,9 @@ const Favorites = ({properties}: FavoritesProps) => {
     }, [])
 
     if (reduceResult) {
-      const newInvestmentsArray = reduceResult.filter((filter:any) => filter?.type !== 'propiedad')
-      const newPropertiesArray = reduceResult.filter((filter:any) => filter?.type === 'propiedad')
+       console.log({reduceResult});
+      const newInvestmentsArray = reduceResult.filter((filter:any) => filter && filter?.type !== 'propiedad')
+      const newPropertiesArray = reduceResult.filter((filter:any) => { console.log({filter}); return filter && filter?.type === 'propiedad'})
       setInvestmentsArray(newInvestmentsArray)
       setPropertiesArray(newPropertiesArray)
     }
@@ -53,7 +54,7 @@ const Favorites = ({properties}: FavoritesProps) => {
   const renderInvestmentCards = () => {
     return (
       <Container className='investment-cards-container'>
-        {investmentsArray.map((cardProps) => <InvestmentCard key={`${Math.random()}`} {...cardProps}/>)}
+        {investmentsArray.map((cardProps) => <InvestmentCard key={`${Math.random()}`} data={cardProps}/>)}
       </Container>
     )
     
@@ -61,7 +62,7 @@ const Favorites = ({properties}: FavoritesProps) => {
   const renderPropertyCards = () => {
     return (
       <Container className="property-cards-container">
-        { propertiesArray.map((data:any) => <PropertyCard key={`${Math.random()}`} data={data} />) }
+        { propertiesArray.map((data:any) => <PropertyCard key={`${Math.random()}`} {...data} />) }
       </Container>
     )
   }
