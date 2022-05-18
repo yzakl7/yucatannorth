@@ -81,6 +81,9 @@ export const Footer = () => {
         <Container className='direction-container'>
           <Text textType='p'>Calle 65 No. 284 por 30 y 32 Centro CP 97000 Mérida, Yuc.</Text>
         </Container>
+        <Container align='center' onClick={() => push('/admin')} >
+          <Text textType='p'>Admin</Text>
+        </Container>
       </Container>
     </StyledFooter>
   )

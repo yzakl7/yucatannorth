@@ -140,7 +140,7 @@ export const AboutUs = () => {
         <Text textType="h4">Historia:</Text>
       </Container>
       {
-        texts.map(({id, text, img}: any, i:number) => (
+        texts?.map(({id, text, img}: any, i:number) => (
           <Container direction='row' className='section' key={id}>
             <Container flex={(i%2 !== 0) ? '1' : '1.5'}  className='left side'>
               {(i%2 === 0) ? <Text textType='p'>{text}</Text> : <Image src={img} alt=""/>}
