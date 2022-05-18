@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import { getColor } from '../../utils/theme'
 import { Container, Image, Text } from '../ui'
 import { IoMenu, IoClose } from 'react-icons/io5'
+import { authSelectors, hooks } from '../../state'
 
 const StyledHeader = styled(Container)`
   gap: 0;
@@ -64,6 +65,9 @@ const StyledHeader = styled(Container)`
     z-index: 5;
     width: 100%;
     top: 0;
+    &.authenticated {
+      top: 67px;
+    }
     .main-nav-bar {
       background: ${getColor('primary')};
       ul {
@@ -99,6 +103,9 @@ const StyledHeader = styled(Container)`
       z-index: 5;
       position: fixed;
       top: 0;
+      &.authenticated {
+        top: 67x;
+      }
       .main-nav-bar {
         transition: ease-in-out .3s all;
         * {
@@ -152,6 +159,9 @@ const background = 'https://firebasestorage.googleapis.com/v0/b/refacciones-soli
 export const Header = () => {
   const {pathname, push} = useRouter()
   const [mobileMenuVisible, setMobileMenuVisible] = useState(false)
+  const {useAppSelector} = hooks
+  const { isAuthenticatedSelector } = authSelectors
+  const isAuthenticated = useAppSelector(isAuthenticatedSelector)
 
   const renderCover = () => {
     return (
@@ -176,7 +186,7 @@ export const Header = () => {
 
   return (
     <StyledHeader>
-      <Container className='menu-container'>
+      <Container className={`${isAuthenticated ? 'menu-container authenticated' : 'menu-container'}`}>
         <nav className={`main-nav-bar ${mobileMenuVisible ? 'open' : 'closed'}`}>
           { mobileMenuVisible 
             ? (

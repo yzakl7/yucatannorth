@@ -1,4 +1,5 @@
 export * from './header'
+export * from './admin-header'
 export * from './footer'
 export * from './about-card'
 export * from './map'

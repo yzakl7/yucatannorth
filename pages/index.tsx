@@ -8,7 +8,6 @@ const StyledHome = styled(Container)`
   flex: 1;
   padding: 64px;
   @media (max-width: 720px) {
-    height: 350px;
     padding: 32px;
   }
   @media (max-width: 450px) {
