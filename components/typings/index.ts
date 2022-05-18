@@ -159,6 +159,7 @@ export interface ImageProps {
 export interface IconButtonProps {
   height?: string,
   width?: string,
+  tooltip?:string
   alt?: string,
   src?: { src: string } | string,
   background?: string,

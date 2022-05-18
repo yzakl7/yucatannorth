@@ -20,7 +20,7 @@ export const db = getFirestore();
 const auth = getAuth();
 
 const logOut = createAsyncThunk('auth/logOut', async (params: void) => {
-  // await Auth.signOut()
+  await auth.signOut()
   return {}
 })
 

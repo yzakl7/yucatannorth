@@ -1,7 +1,8 @@
 
 import styled, { css } from 'styled-components'
-import { Image } from '../ui'
+import { Container, Image } from '../ui'
 import { IconButtonProps } from '../typings'
+import { getColor } from '../../utils/theme'
 
 const StyledIconButton = styled.button`
   border: none;
@@ -19,6 +20,19 @@ const StyledIconButton = styled.button`
   &:hover {
     transform: translateY(1px);
   }
+  .tooltip {
+    position: absolute;
+    background: rgba(0 ,0 ,0 ,0.75);
+    top: calc(100% + 4px);
+    display: none;
+    padding: 4px;
+      color: ${getColor('white')};
+    }
+  &:hover {
+    .tooltip {
+      display: flex;
+    }
+  }
 `
 
 export const IconButton = ({
@@ -27,6 +41,7 @@ export const IconButton = ({
   roundBorder,
   background,
   children,
+  tooltip,
   alt = "",
   src,
   onClick,
@@ -42,6 +57,7 @@ export const IconButton = ({
     >
       {src && <Image src={src} alt={alt} />}
       {children}
+      {tooltip && <Container className="tooltip">{tooltip}</Container>}
     </StyledIconButton>
   )
 }

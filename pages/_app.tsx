@@ -1,6 +1,6 @@
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
-import { AdminHeader, Footer, Header } from '../components/layout'
+import { AdminHeader, AdminNav, Footer, Header } from '../components/layout'
 import { Container, Modal, Page } from '../components/ui'
 import { ProtectRoute } from '../components/ProtectRoute'
 import { useRouter } from 'next/router'
@@ -10,7 +10,8 @@ import { store } from '../state'
 const MyApp = ({ Component, pageProps }: AppProps) => {
   const { pathname } = useRouter()
   const isLogin = pathname === '/login'
-  const showAdminLayout = pathname === '/admin'
+  const showAdminLayout = pathname.toLowerCase().includes('admin')
+
   const showWebLayout = !isLogin && !showAdminLayout
 
   return (
@@ -19,8 +20,8 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
         <Page>
           <AdminHeader />
           {showWebLayout && <Header />}
-          <Container direction='row'>
-            {showAdminLayout && <> + </>}
+          <Container gap="0" flex='1' direction='row'>
+            {showAdminLayout && <AdminNav />}
             <Component { ...pageProps } />
           </Container>
           {showWebLayout && <Footer />}

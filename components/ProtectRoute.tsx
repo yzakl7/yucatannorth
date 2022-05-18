@@ -10,7 +10,7 @@ type ProtectedRouteProps = {
 export const ProtectRoute = ({ children }: ProtectedRouteProps) => {
   const auth = getAuth();
   const { pathname, push } = useRouter()
-  const protectedRoute = pathname === '/admin'
+  const protectedRoute = pathname.toLowerCase().includes('admin')
   const isLogin = pathname === '/login'
   const { useAppSelector, useAppDispatch } = hooks
   const { selectAuth, isAuthenticatedSelector } = authSelectors

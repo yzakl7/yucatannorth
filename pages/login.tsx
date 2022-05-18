@@ -43,12 +43,32 @@ export const Login = () => {
 
   return (
     <StyledLogin className='login-container'>
-      <StyledLogin  className='login-form-container'>
-        <Text textType='h4'>Login: </Text>
-        <input type="text" onChange={(e:React.FormEvent<HTMLInputElement>) => setUserName(e.currentTarget.value)} />
-        <input type="password" onChange={(e:React.FormEvent<HTMLInputElement>) => setPassword(e.currentTarget.value)} />
-        <Button action={() => signIn()}>LOGIN</Button>
-      </StyledLogin>
+      <Container className='login-form-container' gap="32px">
+        <Container>
+          <Text textType='h4'>Login: </Text>
+        </Container>
+        <Container gap="4px">
+          <Container gap='0'>
+            <Text textType='p'>
+              Usuario
+            </Text>
+            <input type="text" onChange={(e:React.FormEvent<HTMLInputElement>) => setUserName(e.currentTarget.value)} />
+          </Container>
+          <Container gap='0'>
+            <Text textType='p'>
+              Contraseña
+            </Text>
+            <input type="password" onChange={(e:React.FormEvent<HTMLInputElement>) => setPassword(e.currentTarget.value)} />
+          </Container>
+        </Container>
+        <Container>
+          <Button action={() => signIn()}>
+            <Text textType='p'>
+              INICIAR SESION
+            </Text>
+          </Button>
+        </Container>
+      </Container>
     </StyledLogin>
   )
 }
