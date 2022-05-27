@@ -217,7 +217,7 @@ export type BookingsModuleProps = {
 export interface SharedModalProps {
   isVisible: boolean,
   content: ReactNode,
-  dismiss: () => void
+  onClose: () => void
 }
 
 export type StyledModalContainerType = {

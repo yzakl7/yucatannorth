@@ -1,24 +1,16 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
-import { addDoc, collection, getDocs } from 'firebase/firestore';
-import { db } from '../auth/actions';
-
-const auth = getAuth()
+import axios from 'axios';
 
 const getUserList = createAsyncThunk(
   'userManager/getUserList',
   async (params: void, { rejectWithValue, dispatch }) => {
     try {
-      const users: any[] = []
-      const querySnapshot = await getDocs(collection(db, "users"));
-      querySnapshot.forEach((doc) => users.push({...doc.data(), id: doc.id})); 
-      return { users }
+      const { data: { users } } = await axios.get('/api/auth/getUserList');
+      return ({ users })
     } catch (err) {
-      console.log('Error listing users:', err);
       if (!(err as Record<string, string>).response) {
         throw err
       }
-
       return rejectWithValue(err)
     }
   },
@@ -26,16 +18,9 @@ const getUserList = createAsyncThunk(
 
 const createUser = createAsyncThunk(
   'userManager/createUser',
-  async ({email, password, role="sales"}: {email:string, password:string, role:string}, { rejectWithValue, dispatch }) => {
-    
+  async ({ email, password, role }: { email:string, password:string, role:string }, { rejectWithValue, dispatch }) => {
     try {
-      const { user } = await createUserWithEmailAndPassword(auth, email, password)
-      await addDoc(collection(db, "users"), {
-        email,
-        role,
-        id: user.uid,
-        active: true
-      });
+      const data = await axios.get('/api/auth/createUser', { params: { email, password, role } });
       dispatch(getUserList())
       return { }
     } catch (err) {
@@ -43,39 +28,48 @@ const createUser = createAsyncThunk(
       if (!(err as Record<string, string>).response) {
         throw err
       }
-
       return rejectWithValue(err)
     }
   },
 )
 
-const editUser = createAsyncThunk(
-  'userManager/createUser',
-  async ({email, password, role="sales"}: {email:string, password:string, role:string}, { rejectWithValue, dispatch }) => {
-    
+const updateUser = createAsyncThunk(
+  'userManager/updateUser',
+  async ({ email, role, uid, disabled }: { disabled?: boolean, email?:string, role?:string, uid:string }, { rejectWithValue, dispatch }) => {
     try {
-      const { user } = await createUserWithEmailAndPassword(auth, email, password)
-      await addDoc(collection(db, "users"), {
-        email,
-        role,
-        id: user.uid
-      });
+      const data = await axios.get('/api/auth/updateUser', { params: { email, role, uid, disabled } });
+      dispatch(getUserList())
       return { }
     } catch (err) {
-      console.log('Error adding user:', err);
       if (!(err as Record<string, string>).response) {
         throw err
       }
-
       return rejectWithValue(err)
     }
-  },
+  }
 )
 
+const deleteUser = createAsyncThunk(
+  'userManager/deleteUser',
+  async (uid: string, { rejectWithValue, dispatch }) => {
+    try {
+      const data = await axios.get('/api/auth/deleteUser', { params: { uid } });
+      dispatch(getUserList())
+      return { }
+    } catch (err) {
+      if (!(err as Record<string, string>).response) {
+        throw err
+      }
+      return rejectWithValue(err)
+    }
+  }
+)
 
 const userManagerActions = {
   getUserList,
-  createUser
+  createUser,
+  updateUser,
+  deleteUser
 }
 
 export default userManagerActions

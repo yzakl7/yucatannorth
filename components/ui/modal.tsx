@@ -42,11 +42,11 @@ const StyledModalContainer = styled(Container)`
 export const Modal = ({
   isVisible,
   content,
-  dismiss
+  onClose
 }: SharedModalProps) => {
   return (
     <StyledModalContainer isVisible={isVisible}>
-      <Container className="overlay" onClick={() => dismiss()} />
+      <Container className="overlay" onClick={() => onClose()} />
       <Container className="modal">{content}</Container>
     </StyledModalContainer>
   )

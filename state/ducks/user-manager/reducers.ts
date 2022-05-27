@@ -10,6 +10,7 @@ export type UserManagerState = {
 const initialState: UserManagerState = {
   isFetching: false,
   error: undefined,
+  users: []
 }
 
 const userManagerReducer = createReducer(initialState, (builder) => {

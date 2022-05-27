@@ -25,7 +25,7 @@ export const CreateUser = () => {
   const { selectUserManager } = userManagerSelectors
   
 
-  const { getUserList, createUser } = userManagerOperations
+  const { createUser } = userManagerOperations
   const { error } = useAppSelector(selectUserManager)
   const dispatch = useAppDispatch()
 
@@ -48,7 +48,7 @@ export const CreateUser = () => {
         </Container>
         <Container>
           <Text textType='p'>Rol</Text>
-          <select onChange={(e) => setRole(e.target.value)}>
+          <select value={role} onChange={(e) => setRole(e.target.value)}>
             <option value="sales">Ventas</option>
             <option value="admin">Administrador</option>
           </select>
