@@ -14,14 +14,11 @@ if (!admin.apps.length) {
 const auth = app.auth()
 
 const deleteUser = async ({ query }:any, res:any) => {
-
-  console.log('delete')
   const { uid } = query
   try {
     const data = await auth.deleteUser(uid)
     res.status(200).json({success: true, data});
   } catch(err) {
-    console.log({err})
     res.status(400).json(err);
   }
 }

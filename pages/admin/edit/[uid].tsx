@@ -34,13 +34,11 @@ export const UpdateUser = () => {
   // const selectedUser = users?.find(({uid}:any) => uid === query.uid)
 
   const onUpdateUser = () => {
-    console.log({found});
     dispatch(updateUser({ email, role, uid: found.uid }))
     push('/admin/user-manager')
   }
 
   useEffect(() => {
-    console.log({found});
     if (users) {
       setEmail(found.email)
       setRole(found.customClaims?.role)

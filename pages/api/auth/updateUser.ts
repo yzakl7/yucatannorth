@@ -27,7 +27,6 @@ const updateUser = async ({ query }:any, res:any) => {
     
     res.status(200).json({success: true, data});
   } catch(err) {
-    console.log({err})
     res.status(400).json(err);
   }
 }

@@ -40,11 +40,9 @@ const StyledHome = styled(Container)`
 
 `
 
-
 const Home = () => {
   return (
     <StyledHome>
-
       <EventsAndPromotions />
       <Text textType="h2">
         <span>C</span>ontamos con personal con <span>conocimiento técnico y mecánico</span> sobre el funcionamiento del motor.

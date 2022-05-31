@@ -33,14 +33,11 @@ export const Login = () => {
   }
 
   useEffect(() => {
-    console.log({isAuthenticated});
     if (isAuthenticated) {
       push('/admin')
     }
-    
   }, [isAuthenticated, push])
   
-
   return (
     <StyledLogin className='login-container'>
       <Container className='login-form-container' gap="32px">

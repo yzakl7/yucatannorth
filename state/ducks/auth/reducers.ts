@@ -21,7 +21,6 @@ const authReducer = createReducer(initialState, (builder) => {
       state.isFetching = true
     })
     .addCase(actions.logIn.fulfilled, (state, action) => {
-      console.log({action})
       state.isFetching = false
       state.user = action.payload.user
       state.error = undefined

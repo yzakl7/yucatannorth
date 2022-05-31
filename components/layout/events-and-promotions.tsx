@@ -1,13 +1,11 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { BiChevronLeft, BiChevronRight } from 'react-icons/bi'
 import { IoClose } from 'react-icons/io5'
 import styled from 'styled-components'
+import { hooks, settingsOperations, settingsSelectors } from '../../state'
 import { getColor } from '../../utils/theme'
 import { Button } from '../inputs'
 import { Container, Image, Text } from '../ui'
-
-const slide1 = 'https://firebasestorage.googleapis.com/v0/b/refacciones-solis.appspot.com/o/assets%2Fslide_1.png?alt=media&token=8dfba154-3070-4500-8e72-3c7f2528b7e6'
-const slide2 = 'https://firebasestorage.googleapis.com/v0/b/refacciones-solis.appspot.com/o/assets%2Fslide_2.png?alt=media&token=655cc9dc-c787-4ee1-83c7-e39450e19c31'
-const slide3 = 'https://firebasestorage.googleapis.com/v0/b/refacciones-solis.appspot.com/o/assets%2Fslide_1.png?alt=media&token=8dfba154-3070-4500-8e72-3c7f2528b7e6'
 
 const StyledEventsAndPromotions = styled(Container)`
   align-items: center;
@@ -106,23 +104,58 @@ const StyledSlides = styled(Container)`
       z-index: 3;
     }
   }
+  .nav-arrow {
+    position: absolute;
+    top: 50%;
+    &.left {
+      left: 25px;
+      z-index: 25;
+    }
+    &.right {
+      right: 25px;
+      z-index: 25;
+    }
+    font-size: 64px;
+    color: ${getColor('white')};
+  }
 `
 
-
 const Slides = () => {
+  const { useAppSelector, useAppDispatch } = hooks
+  const { selectSettings } = settingsSelectors
+  const { getSlides } = settingsOperations
+  const { slideList } = useAppSelector(selectSettings)
 
   const [firstSlide, setFirstSlide] = useState<string>('left')
   const [secondSlide, setSecondSlide] = useState<string>('focus')
   const [thirdSlide, setThirdSlide] = useState<string>('right')
   const [selectedSlide, setselectedSlide] = useState<any>()
+  const [focusedSlide, setFocusedSlide] = useState<any>(1)
+
+  const dispatch = useAppDispatch()
+
+  const onNavigateSlides = (move:number) => {
+    const action = [onFirstSlideClick, onSecondSlideClick, onThirdSlideClick]
+    setselectedSlide(undefined)
+
+    if (focusedSlide + move === 3) {
+      return action[0]()
+    }
+    if (focusedSlide + move === -1) {
+      return action[2]()
+    }
+  
+    return action[focusedSlide + move]()
+  }
 
   const onFirstSlideClick = () => {
     if ( firstSlide !== 'focus') {
       setFirstSlide('focus')
       setSecondSlide('right')
       setThirdSlide('left')
+      setFocusedSlide(0)
     } else {
-      setselectedSlide(slide1)
+      setselectedSlide(0)
     }
   }
   const onSecondSlideClick = () => {
@@ -130,8 +163,9 @@ const Slides = () => {
       setFirstSlide('left')
       setSecondSlide('focus')
       setThirdSlide('right')
+      setFocusedSlide(1)
     } else {
-      setselectedSlide(slide2)
+      setselectedSlide(1)
     }
   }
   const onThirdSlideClick = () => {
@@ -139,28 +173,44 @@ const Slides = () => {
       setFirstSlide('right')
       setSecondSlide('left')
       setThirdSlide('focus')
+      setFocusedSlide(2)
     } else {
-      setselectedSlide(slide3)
+      setselectedSlide(2)
     }
   }
+
+  useEffect(() => {
+    if (slideList.length < 1) {
+      dispatch(getSlides())
+    }
+  }, [dispatch, getSlides, slideList.length])
+  
+
   return (
     <StyledSlides>
+      {focusedSlide}
+      <Container className='nav-arrow left' onClick={() => onNavigateSlides(-1)}>
+        <Text textType='p'><BiChevronLeft /></Text>
+      </Container>
+      <Container className='nav-arrow right' onClick={() => onNavigateSlides(1)}>
+        <Text textType='p'><BiChevronRight /></Text>
+      </Container>
       <Container className={`slide ${firstSlide}`} onClick={onFirstSlideClick}>
-        <Image alt="¡promociones!" src={slide1} />
+        <Image alt="¡promociones!" src={slideList[0]?.url} />
       </Container>
       <Container className={`slide ${secondSlide}`} onClick={onSecondSlideClick}>
-        <Image alt="¡promociones!" src={slide2} />
+        <Image alt="¡promociones!" src={slideList[1]?.url} />
       </Container>
       <Container className={`slide ${thirdSlide}`} onClick={onThirdSlideClick}>
-        <Image alt="¡promociones!" src={slide3} />
+        <Image alt="¡promociones!" src={slideList[2]?.url} />
       </Container>
-      {selectedSlide && <Container className='fullscreen'>
+      {selectedSlide !== undefined && <Container className='fullscreen'>
         <Container className='background-area' />
 
         <Button action={() => setselectedSlide(undefined)}>
           <IoClose />
         </Button>
-        <Image alt="preview image" src={selectedSlide} />
+        <Image alt="preview image" src={slideList[selectedSlide]?.url} />
         <Container className='clickable-area' onClick={() => setselectedSlide(undefined)} />
       </Container>}
     </StyledSlides>

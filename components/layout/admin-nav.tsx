@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import React, { useState } from 'react'
 import { getColor } from '../../utils/theme'
 import { Container, Image, Text } from '../ui'
-import { FiUsers } from 'react-icons/fi'
+import { FiSettings, FiUsers } from 'react-icons/fi'
 import { authSelectors, hooks } from '../../state'
 import { Button } from '../inputs'
 
@@ -41,6 +41,12 @@ export const AdminNav = () => {
         <FiUsers />
         <Text textType='p'>
           Administar Usuarios
+        </Text>
+      </Button>
+      <Button action={() => push('/admin/settings')}>
+        <FiSettings />
+        <Text textType='p'>
+          Ajustes
         </Text>
       </Button>
     </StyledAdminNav>
