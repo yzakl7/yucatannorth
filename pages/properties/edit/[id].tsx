@@ -62,14 +62,6 @@ const Property = (props:any) => {
     alt: name
   }))
 
-  const propertyTypeKeys = {
-    casa: "house",
-    terreno: "land",
-    "lote premium": "premiumLand",
-    departamento: "apartment",
-    townhouse: "townhouse",
-  }
-
   const formData:any = [
     {
       type: 'title',
@@ -101,6 +93,8 @@ const Property = (props:any) => {
             {name: 'terreno', value: 'terreno'},
             {name: 'lote premium', value: 'lote premium'},
             {name: 'departamento', value: 'departamento'},
+            {name: 'oficina', value: 'office'},
+            {name: 'consultorio', value: 'consulting_room'},
             {name: 'townhouse', value: 'townhouse'}
           ]
         },
@@ -191,21 +185,12 @@ const Property = (props:any) => {
       wrap: true,
       array: [
         {
-          placeholder: 'Descripción corta en español',
-          label: 'Descripción corta en español',
+          placeholder: 'Descripción corta',
+          label: 'Descripción corta',
           type: 'textInput',
           minWidth: '350px',
-          name: 'short_description_es',
-          value: state.short_description_es,
-          multiline: '5',
-        },
-        {
-          placeholder: 'Descripción corta en ingles',
-          label: 'Descripción corta en ingles',
-          minWidth: '350px',
-          type: 'textInput',
-          value: state.short_description_en,
-          name: 'short_description_en',
+          name: 'short_description',
+          value: state.short_description,
           multiline: '5',
         }
       ]
@@ -216,21 +201,12 @@ const Property = (props:any) => {
       wrap: true,
       array: [
         {
-          placeholder: 'Descripción en español',
-          label: 'Descripción en español',
+          placeholder: 'Descripción',
+          label: 'Descripción',
           type: 'textInput',
           minWidth: '350px',
-          name: 'description_es',
-          value: state.description_es,
-          multiline: '10',
-        },
-        {
-          placeholder: 'Descripción en ingles',
-          label: 'Descripción en ingles',
-          minWidth: '350px',
-          type: 'textInput',
-          value: state.description_en,
-          name: 'description_en',
+          name: 'description',
+          value: state.description,
           multiline: '10',
         }
       ]
@@ -259,8 +235,8 @@ const Property = (props:any) => {
                   type: 'numberInput',
                   name: 'rooms',
                   value: state.rooms,
-                  placeholder: 'Cuartos',
-                  label: 'Cuartos',
+                  placeholder: 'Recámaras',
+                  label: 'Recámaras',
                 },
                 {
                   type: 'numberInput',
@@ -400,18 +376,11 @@ const Property = (props:any) => {
       return extractedMapSrc
     }
 
-   
-
     try {
-
-
-
-      const upload = {... state}
+      const upload = {...state}
       upload.measures = {}
       upload.features = {}
       upload.address = {}
-      upload.description = {}
-      upload.shortDescription = {}
       
       if (state.bottom) {
         upload.measures.bottom = state.bottom;
@@ -441,7 +410,7 @@ const Property = (props:any) => {
         upload.features.rooms = state.rooms;
       }
       if (state.mapSrc) {
-        upload.address.mapSrc = state.mapSrc;
+        upload.address.mapSrc = getMapSrc(state.mapSrc);
       }
       if (state.suburb) {
         upload.address.suburb = state.suburb;
@@ -449,17 +418,14 @@ const Property = (props:any) => {
       if (state.line_1) {
         upload.address.line_1 = state.line_1;
       }
-      if (state.description_en) {
-        upload.description.description_en = state.description_en;
+      if (state.description) {
+        upload.description = state.description;
       }
-      if (state.description_es) {
-        upload.description.description_es = state.description_es;
+      if (!state.type) {
+        upload.type = 'inversión';
       }
-      if (state.short_description_en) {
-        upload.shortDescription.short_description_en = state.short_description_en;
-      }
-      if (state.short_description_es) {
-        upload.shortDescription.short_description_es = state.short_description_es;
+      if (state.short_description) {
+        upload.short_description = state.short_description;
       }
 
       await updatePropertyData({ id:`${id}`, data: upload })
@@ -569,35 +535,33 @@ const Property = (props:any) => {
       delete newProperty.measures
 
       if (property.address) {
-        newProperty.line_1 = `${property.address.line_1}`
-        newProperty.suburb = `${property.address.suburb}`
-        newProperty.mapSrc = `${property.address.mapSrc}`
+        newProperty.line_1 = `${property.address.line_1 || '' }`
+        newProperty.suburb = `${property.address.suburb || '' }`
+        newProperty.mapSrc = `${property.address.mapSrc || '' }`
       }
 
       if (property.measures) {
-        newProperty.bottom = `${property.measures.bottom}`
-        newProperty.built_area = `${property.measures.built_area}`
-        newProperty.front = `${property.measures.front}`
-        newProperty.land_area = `${property.measures.land_area}`
-        newProperty.left = `${property.measures.left}`
-        newProperty.right = `${property.measures.right}`
+        newProperty.bottom = `${property.measures.bottom || '' }`
+        newProperty.built_area = `${property.measures.built_area || '' }`
+        newProperty.front = `${property.measures.front || '' }`
+        newProperty.land_area = `${property.measures.land_area || '' }`
+        newProperty.left = `${property.measures.left || '' }`
+        newProperty.right = `${property.measures.right || '' }`
       }
 
       if (property.features) {
-        newProperty.car_slots = `${property.features.car_slots}`
-        newProperty.bathrooms = `${property.features.bathrooms}`
-        newProperty.floors = `${property.features.floors}`
-        newProperty.rooms = `${property.features.rooms}`
+        newProperty.car_slots = `${property.features.car_slots || '' }`
+        newProperty.bathrooms = `${property.features.bathrooms || '' }`
+        newProperty.floors = `${property.features.floors || '' }`
+        newProperty.rooms = `${property.features.rooms || '' }`
       }
       
       if (property.description) {
-        newProperty.description_en = `${property.description.en}`
-        newProperty.description_es = `${property.description.es}`
+        newProperty.description = `${property.description || '' }`
       }
 
       if (property.shortDescription) {
-        newProperty.short_description_en = `${property.shortDescription.en}`
-        newProperty.short_description_es = `${property.shortDescription.es}`
+        newProperty.short_description = `${property.shortDescription || '' }`
       }
       setState(newProperty)
     }
@@ -670,7 +634,7 @@ const Property = (props:any) => {
 export async function getStaticPaths() {
   return {
     paths: [],
-    fallback: false,
+    fallback: true,
   }
 }
 

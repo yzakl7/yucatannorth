@@ -78,7 +78,7 @@ type PropertyCardType = {
     name: string
     id: string
     price_total: number
-    shortDescription: { es: string }
+    short_description: string
     currency: string
   }
 }
@@ -93,7 +93,7 @@ export const InvestmentCard = (props: PropertyCardType) => {
   const {
     name,
     price_total,
-    shortDescription,
+    short_description,
     currency,
     id
   } = data
@@ -113,6 +113,7 @@ export const InvestmentCard = (props: PropertyCardType) => {
     },`/properties/${name?.replaceAll(' ', '_')}`)
   }
 
+
   return (
     <StyledPropertyCard >
       <Container className='properties-pictures' flex='1' >
@@ -127,7 +128,7 @@ export const InvestmentCard = (props: PropertyCardType) => {
         </Container>
         <Container>
           <Text textType='h3'>
-            {shortDescription?.es}
+            {short_description}
           </Text>
         </Container>
         <Container>

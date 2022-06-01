@@ -22,7 +22,7 @@ const StyledAbout = styled(Container)`
 `
 
 const cardContent = {
-  title: 'Fernando Berzunza Asesor',
+  title: 'Fernando Berzunza Máster Broker',
   subtitle: 'Atención personalizada',
   description: 'Trabajamos de la mano con el inversionista para salvaguardar los recursos y el proceso legal hasta el momento del intercambio de partes.',
   image: 'https://www.jeancoutu.com/globalassets/revamp/photo/conseils-photo/20160302-01-reseaux-sociaux-profil/photo-profil_301783868.jpg'

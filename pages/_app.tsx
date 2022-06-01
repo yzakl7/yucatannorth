@@ -15,7 +15,6 @@ export const db = getFirestore();
 function MyApp({ Component, pageProps }: AppProps) {
   const newProps = { ...pageProps }
   const [modalContent, setModalContent] = useState<ReactNode>(<></>)
-  const [modalDismissCallback, setModalDismissCaback] = useState(() => null)
   const [modalVisibility, setModalVisibility] = useState(false)
 
   const [properties, setProperties] = useState<any>([])

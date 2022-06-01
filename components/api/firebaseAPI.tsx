@@ -46,7 +46,7 @@ export const deleteImage = async (id:string, name:string) => {
 
 export const uploadLandingPDF = async (id:string, name:string, file:any) => {
   try {
-    const response = await uploadBytes(getFileRef(id, name), file )
+    const response = await uploadBytes( (id, name), file )
     const pdfUrl = await getDownloadURL(response.ref)
     return pdfUrl
   } catch(err) {
@@ -156,6 +156,7 @@ export const getPropertyData = async (params:Record<string, string | Record<stri
   const docRef = doc(db, "properties", `${params.id}`);
   const querySnapshot = await getDoc(docRef);
   const data = querySnapshot.data()
+  console.log({data});
   return data
 }
 

@@ -23,6 +23,12 @@ const StyledPropertyDetails = styled(Container)`
       color: ${getColor('primary')};
       font-size: 36px;
       line-height: 42px
+
+    }
+    h3 {
+      text-align: center;
+      color: ${getColor('primary')};
+      font-size: 26px;
     }
     p {
       font-size: 20px;
@@ -91,7 +97,7 @@ export const PropertyDetails = (props:any) => {
 
   const tagKeys:any = {
     "bathrooms": "Baños",
-    "rooms": "Cuartos",
+    "rooms": "Recámaras",
     "car_slots": "Cajones de estacionamiento",
     "floors": "Pisos",
     "bottom": "Fondo",
@@ -138,8 +144,11 @@ export const PropertyDetails = (props:any) => {
         {propertyDetails?.images && <SlideShow data={propertyImages} />}
       </Container>
       <Container className='body-container'>
-        {propertyDetails?.name && <Text textType='h2'>{propertyDetails?.name}</Text>}
-        {propertyDetails?.description?.es && <Text textType='p'>{propertyDetails?.description.es}</Text>}
+        <Container>
+          {propertyDetails?.name && <Text textType='h2'>{propertyDetails?.name}</Text>}
+          {propertyDetails?.price && <Text textType='h3'>{propertyDetails?.price }</Text>}
+        </Container>
+        {propertyDetails?.description && <Text textType='p'>{propertyDetails?.description}</Text>}
         {propertyDetails?.pdf && (
           <Container align='center'>
             <Button action={downloadPDF} buttonStyle='custom'>

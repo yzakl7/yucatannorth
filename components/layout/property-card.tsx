@@ -58,7 +58,7 @@ export const PropertyCard = (props: Record<string, any>) => {
     <StyledInvestmentCard >
       <Favorite id={id}/>
       <Text textType='h3'>{name}</Text>
-      <Text textType='p'>{shortDescription?.es}</Text>
+      <Text textType='p'>{shortDescription}</Text>
       {images && (
         <Container className='image-wrapper' onClick={() => onInvestmentSelect()}>
           <Image src={images[0].imgUrl} alt={name} />
