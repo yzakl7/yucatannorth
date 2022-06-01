@@ -27,7 +27,17 @@ const userManagerReducer = createReducer(initialState, (builder) => {
       state.error = undefined
       state.users = action.payload.users
     })
-
+    .addCase(actions.deleteUser.pending, (state) => {
+      state.isFetching = true
+    })
+    .addCase(actions.deleteUser.rejected, (state, action) => {
+      state.isFetching = false
+      state.error = action.error
+    })
+    .addCase(actions.deleteUser.fulfilled, (state) => {
+      state.isFetching = false
+      state.error = undefined
+    })
     .addCase(actions.createUser.pending, (state) => {
       state.isFetching = true
     })
@@ -36,6 +46,17 @@ const userManagerReducer = createReducer(initialState, (builder) => {
       state.error = action.error
     })
     .addCase(actions.createUser.fulfilled, (state) => {
+      state.isFetching = false
+      state.error = undefined
+    })
+    .addCase(actions.updateUser.pending, (state) => {
+      state.isFetching = true
+    })
+    .addCase(actions.updateUser.rejected, (state, action) => {
+      state.isFetching = false
+      state.error = action.error
+    })
+    .addCase(actions.updateUser.fulfilled, (state) => {
       state.isFetching = false
       state.error = undefined
     })

@@ -1,7 +1,6 @@
 import styled from "@emotion/styled";
-import { useState } from "react"
 import { EventsAndPromotions, Map, RelatedBrands } from "../components/layout";
-import { Container, Image, Text } from "../components/ui";
+import { Container, Text } from "../components/ui";
 import { getColor } from "../utils/theme";
 
 const StyledHome = styled(Container)`
@@ -16,6 +15,12 @@ const StyledHome = styled(Container)`
   }
   gap: 32px;
   .video-container {
+    align-items: center;
+    iframe {
+      max-width: 1024px;
+      width: 100%;
+    }
+    width: 100%;
     height: 500px;
     @media (max-width: 720px) {
       height: 350px;

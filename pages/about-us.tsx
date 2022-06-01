@@ -52,7 +52,9 @@ const StyledAboutUs = styled(Container)`
         margin-bottom: 4px;
       }
     }
-
+    &:nth-last-of-type(1) {
+      padding-bottom: 64px;
+    }
     .side {
       min-width: 270px;
       p {

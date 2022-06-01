@@ -1,10 +1,14 @@
 import { useRouter } from 'next/router'
-import React from 'react'
+import React, { useEffect } from 'react'
 
 export const Admin = () => {
-  const { pathname } = useRouter()
+  const { push } = useRouter()
+  useEffect(() => {
+    push('/admin/settings')
+  }, [push])
+    
   return (
-    <div>{pathname}</div>
+    <></>
   )
 }
 

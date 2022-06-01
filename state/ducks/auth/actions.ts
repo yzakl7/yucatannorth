@@ -1,11 +1,7 @@
 import { createAction, createAsyncThunk } from '@reduxjs/toolkit'
-import env from "react-dotenv";
-import * as firebase from 'firebase/app'
-import axios from 'axios';
 import { browserLocalPersistence, getAuth, setPersistence, signInWithEmailAndPassword } from 'firebase/auth';
+import * as firebase from 'firebase/app'
 import firebaseConfig from '../../../firebase/firebaseConfig';
-import { getFirestore } from 'firebase/firestore';
-
 
 let firebaseApp
 
@@ -15,7 +11,7 @@ if (firebase.getApps().length === 0) {
   firebaseApp = firebase.getApp()
 }
 
-export const db = getFirestore();
+
 
 const auth = getAuth();
 

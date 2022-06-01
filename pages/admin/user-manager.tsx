@@ -48,7 +48,7 @@ export const UserManager = () => {
   const { getUserList, deleteUser, updateUser } = userManagerOperations
   const { selectUserManager } = userManagerSelectors
   const { push } = useRouter()
-  const { users } = useAppSelector(selectUserManager)
+  const { users, isFetching } = useAppSelector(selectUserManager)
   const dispatch = useAppDispatch()
 
   const onEdit = (uid:string) => {
@@ -141,7 +141,7 @@ export const UserManager = () => {
           </Container>
           <Container justify='' flex='0.5'>
             <Text textType='h3'>Estado:</Text>
-            <Text textType='p'>{`${!disabled ? 'Activo' : 'Inctivo'}`}</Text>
+            <Text textType='p'>{`${!disabled ? 'Activo' : 'Inactivo'}`}</Text>
           </Container>
           <Container justify='' flex='1'>
             <Text textType='h3'>Rol:</Text>
@@ -154,7 +154,7 @@ export const UserManager = () => {
                   <IconButton tooltip="Editar" onClick={() => onEdit(uid)}>
                     <RiEditBoxLine />
                   </IconButton>
-                  <IconButton tooltip="Desactivar" onClick={() => setDisableModal({visibility: true, user})}>
+                  <IconButton tooltip={`${disabled ? 'Activar' : 'Desactivar'}`} onClick={() => setDisableModal({visibility: true, user})}>
                     <AiOutlinePoweroff />
                   </IconButton>
                   <IconButton tooltip="Eliminar" onClick={() => setDeleteModal({visibility: true, user})}>
@@ -172,6 +172,10 @@ export const UserManager = () => {
   useEffect(() => {
     dispatch(getUserList())
   }, [dispatch, getUserList])
+
+  if (isFetching) {
+    return <Text textType='h3'>Loading</Text>
+  }
   
 
   return (

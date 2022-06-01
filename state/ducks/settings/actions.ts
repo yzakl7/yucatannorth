@@ -1,5 +1,16 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { deleteObject, getDownloadURL, getStorage, listAll, ref, uploadBytes } from "firebase/storage";
+import * as firebase from 'firebase/app'
+import firebaseConfig from '../../../firebase/firebaseConfig';
+
+let firebaseApp
+
+if (firebase.getApps().length === 0) {
+  firebaseApp = firebase.initializeApp(firebaseConfig)
+} else {
+  firebaseApp = firebase.getApp()
+}
+
 
 const storage = getStorage()
 
