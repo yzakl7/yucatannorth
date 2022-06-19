@@ -6,6 +6,7 @@ import { Container, Image, Text } from '../ui'
 import { FiSettings, FiUsers } from 'react-icons/fi'
 import { authSelectors, hooks } from '../../state'
 import { Button } from '../inputs'
+import { RiToolsFill } from 'react-icons/ri'
 
 const StyledAdminNav = styled(Container)`
   gap: 16px;
@@ -44,9 +45,15 @@ export const AdminNav = () => {
         </Text>
       </Button>
       <Button action={() => push('/admin/settings')}>
-        <FiSettings />
+        <RiToolsFill />
         <Text textType='p'>
           Ajustes
+        </Text>
+      </Button>
+      <Button action={() => push('/admin/spare-parts')}>
+        <FiSettings />
+        <Text textType='p'>
+          Refacciónes
         </Text>
       </Button>
     </StyledAdminNav>

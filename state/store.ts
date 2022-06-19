@@ -2,11 +2,13 @@ import { Action, configureStore, ThunkAction } from "@reduxjs/toolkit";
 import authReducer from "./ducks/auth";
 import settingsReducer from "./ducks/settings";
 import userManagerReducer from "./ducks/user-manager";
+import sparePartsReducer from "./ducks/spare-parts";
 
 const reducer = {
   auth: authReducer,
   userManager: userManagerReducer,
   settings: settingsReducer,
+  spareParts: sparePartsReducer,
 };
 
 export const store = configureStore({

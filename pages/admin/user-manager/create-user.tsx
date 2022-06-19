@@ -1,10 +1,10 @@
 import styled from '@emotion/styled'
 import { useRouter } from 'next/router'
 import React, { useState } from 'react'
-import { Button } from '../../components/inputs'
-import { Container, Text } from '../../components/ui'
-import { hooks } from '../../state'
-import { userManagerOperations, userManagerSelectors } from '../../state/ducks/user-manager'
+import { Button } from '../../../components/inputs'
+import { Container, Text } from '../../../components/ui'
+import { hooks } from '../../../state'
+import { userManagerOperations, userManagerSelectors } from '../../../state/ducks/user-manager'
 
 
 const StyledCreateUser = styled(Container)`

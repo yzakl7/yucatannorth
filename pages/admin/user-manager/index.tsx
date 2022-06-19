@@ -1,11 +1,11 @@
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { Button, IconButton } from '../../components/inputs'
-import { Container, Modal, Text } from '../../components/ui'
-import { hooks } from '../../state'
-import { userManagerOperations, userManagerSelectors } from '../../state/ducks/user-manager'
-import { getColor } from '../../utils/theme'
+import { Button, IconButton } from '../../../components/inputs'
+import { Container, Modal, Text } from '../../../components/ui'
+import { hooks } from '../../../state'
+import { userManagerOperations, userManagerSelectors } from '../../../state/ducks/user-manager'
+import { getColor } from '../../../utils/theme'
 import { AiOutlinePoweroff, AiOutlineDelete } from 'react-icons/ai'
 import { RiEditBoxLine } from 'react-icons/ri'
 
@@ -52,7 +52,7 @@ export const UserManager = () => {
   const dispatch = useAppDispatch()
 
   const onEdit = (uid:string) => {
-    push(`./edit/${uid}`)
+    push(`./user-manager/${uid}`)
   }
 
   const onDelete = (uid:string) => {
@@ -182,7 +182,7 @@ export const UserManager = () => {
     <StyledUserManager>
       <Text textType='h2'>Administrador de Usuarios</Text>
       <Container align='flex-end'>
-        <Button action={() => push('create-user')}><Text textType='p'>Crear Usuario</Text></Button>
+        <Button action={() => push('user-manager/create-user')}><Text textType='p'>Crear Usuario</Text></Button>
       </Container>
       {renderUsers()}
     </StyledUserManager>
