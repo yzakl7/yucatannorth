@@ -62,7 +62,7 @@ export const Footer = () => {
   return (
     <StyledFooter>
       <Container className='social-media-container'>
-        <IconButton onClick={() => push('https://wa.link/tgnevv')}>
+        <IconButton onClick={() => push('https://wa.link/vvgxf6')}>
           <BsWhatsapp />
         </IconButton>
         <IconButton>
@@ -74,15 +74,15 @@ export const Footer = () => {
       </Container>
       <Container className='bottom-container'>
         <Container  className='links-bottom-container'>
-          <Button action={() => push('/contact-us')} buttonStyle='link'><Text textType='p'>refaccionessolis@gmail.com</Text></Button>
+          <Button action={() => push('mailto:refaccionessolis@gmail.com')} buttonStyle='link'><Text textType='p'>refaccionesparamotorsolis@gmail.com</Text></Button>
           <Button buttonStyle='link'><Text textType='p'>Copyright © 2022</Text></Button>
           <Button action={() => push('/privacy')} buttonStyle='link'><Text textType='p'>Políticas de privacidad</Text></Button>
         </Container>
         <Container className='direction-container'>
           <Text textType='p'>Calle 65 No. 284 por 30 y 32 Centro CP 97000 Mérida, Yuc.</Text>
         </Container>
-        <Container align='center' onClick={() => push('/admin')} >
-          <Text textType='p'>Admin</Text>
+        <Container onClick={() => push('tel:999-286-2630')} align='center'>
+          <Text textType='p'>9992-86-26-30</Text>
         </Container>
       </Container>
     </StyledFooter>

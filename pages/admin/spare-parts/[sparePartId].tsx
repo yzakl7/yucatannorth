@@ -14,6 +14,7 @@ const StyledAddSparePart = styled(Container)`
     justify-content: space-between;
   }
   .body {
+    align-items: flex-start;
     flex-direction: row;
     flex: 1;
     gap: 32px;
@@ -62,6 +63,7 @@ export const AddSparePart = () => {
   const { selectSpareParts } = sparePartsSelectors
   const { updateSparePartItem, getSparePartItem } = sparePartsOperations
   const [name, setName] = useState('')
+  const [similars, setSimilars] = useState('')
   const [sku, setSku] = useState('')
   const [description, setDescription] = useState('')
   const [category, setCategory] = useState(categoryList[0])
@@ -103,6 +105,7 @@ export const AddSparePart = () => {
       line,
       productBrand,
       years,
+      similars
     }
     const callback = () => push('./')
     dispatch(updateSparePartItem({params: sparePartDetails, callback}))
@@ -131,6 +134,7 @@ export const AddSparePart = () => {
       setLine(sparePartItem.line)
       setProductBrand(sparePartItem.productBrand)
       setYears(sparePartItem.years)
+      setSimilars(sparePartItem.similars)
     }
 
   }, [sparePartItem])
@@ -166,28 +170,32 @@ export const AddSparePart = () => {
           </Container>
           <Container className='text-input'>
             <Text textType='p'>Clave del producto</Text>
-            <TextInput placeholder='Dejar vacío para generacion automática' value={sku} onChange={(e) => setSku(e.value)} />
+            <TextInput placeholder='Dejar vacío para generacion automática' value={sku || `${id}`} isDisabled />
           </Container>
           <Container className='text-input'>
-            <Text textType='p'>Resumen</Text>
-            <TextInput multiline='5' value={description} onChange={(e) => setDescription(e.value)} />
+            <Text textType='p'>Descripción</Text>
+            <TextInput multiline='15' value={description} onChange={(e) => setDescription(e.value)} />
+          </Container>
+          <Container className='text-input'>
+            <Text textType='p'>Similares</Text>
+            <TextInput multiline='15' value={similars} onChange={(e) => setSimilars(e.value)} />
           </Container>
         </Container>
         <Container className='right-container'>
           <Container className='select-container'>
-            <Text textType='p'>Categoría</Text>
+            <Text textType='p'>CATEGORÍA</Text>
             <Select value={category} options={categoryList.map((value) => ({name:value, value}))} onChange={(param) => setCategory(param)}/>
           </Container>
           <Container className='select-container'>
-            <Text textType='p'>Familia</Text>
+            <Text textType='p'>FAMILIA</Text>
             <Select value={family} options={familyList.map((value) => ({name:value, value}))} onChange={(param) => setFamily(param)}/>
           </Container>
           <Container className='select-container'>
-            <Text textType='p'>Marca</Text>
+            <Text textType='p'>MARCA DE AUTO</Text>
             <Select value={brand} options={brandList.map((value) => ({name:value, value}))} onChange={(param) => setBrand(param)}/>
           </Container>
           <Container className='select-container'>
-            <Text textType='p'>Cilindros</Text>
+            <Text textType='p'>CILINDROS</Text>
             <Select value={cilinders} options={cilindersList.map((value) => ({name:value, value}))} onChange={(param) => setCilinders(param)}/>
           </Container> 
           <Container className='select-container'>

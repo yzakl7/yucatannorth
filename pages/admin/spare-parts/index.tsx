@@ -11,11 +11,16 @@ import { RiEditBoxLine } from 'react-icons/ri'
 const StyledSpareParts = styled(Container)`
   padding: 16px;
   width: 100%;
+  max-width: calc(100% - 117px);
   .sparePart-container {
     border: 1px solid;
     gap: 16px;
     padding: 16px;
     border: 1px solid ${getColor('border')};
+    flex-direction: column;
+    .details-container {
+      flex-direction: row;
+    }
     .modal-content {
       justify-content: center;
       align-items: center;
@@ -35,6 +40,13 @@ const StyledSpareParts = styled(Container)`
         width: 100%;
       }
     }
+  }
+  .description-container {
+    white-space: break-spaces;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 32px;
+
   }
   white-space: nowrap;
 `
@@ -114,28 +126,38 @@ export const SpareParts = () => {
         id,
         description,
         disabled,
+        brand,
+        similars
       } = sparePart 
       return (
-        <Container className='sparePart-container' key={`${id}`} direction='row'>
+        <Container className='sparePart-container' key={`${id}`}>
           <Modal onClose={() => setDeleteModal({visibility: false, sparePart: {}})} isVisible={deleteModal.visibility} content={renderDeleteModal()}/>
           <Modal onClose={() => setDisableModal({visibility: false, sparePart: {}})} isVisible={disableModal.visibility} content={renderDisableModal()}/>
-          <Container justify='' flex='1'>
-            <Text textType='h3'>Nombre:</Text>
-            <Text textType='p'>{name}</Text>
+          <Container className='details-container' gap='32px'> 
+
+            <Container justify='' flex='1'>
+              <Text textType='h3'>Clave de producto:</Text>
+              <Text textType='p'>{sku || id}</Text>
+            </Container>
+            <Container justify='' flex='1'>
+              <Text textType='h3'>Marca de producto:</Text>
+              <Text textType='p'>{brand}</Text>
+            </Container>
+            {/* <Container justify='' flex='1'>
+              <Text textType='h3'>Nombre:</Text>
+              <Text textType='p'>{name}</Text>
+            </Container> */}
           </Container>
-          <Container justify='' flex='2'>
-            <Text textType='h3'>Descripción:</Text>
-            <Text textType='p'>{description}</Text>
-          </Container>
-          <Container justify='' flex='1'>
-            <Text textType='h3'>Clave de producto:</Text>
-            <Text textType='p'>{sku || id}</Text>
-          </Container>
-          <Container justify='' flex='0.5'>
-            <Text textType='h3'>Estado:</Text>
-            <Text textType='p'>{`${!disabled ? 'Activo' : 'Inactivo'}`}</Text>
-          </Container>
-  
+          {description && <Container className='description-container'>
+            <Container className='description'>
+              <Text textType='h3'>Descripción:</Text>
+              <Text textType='p'>{`${description}`}</Text>
+            </Container>
+            {similars && <Container className='similars'>
+              <Text textType='h3'>Similares:</Text>
+              <Text textType='p'>{`${similars}`}</Text>
+            </Container>}
+          </Container>}
           <Container direction='row' flex='0.5' align='center' justify='flex-end'>
             <IconButton tooltip="Editar" onClick={() => onEdit(sparePart.id)}>
               <RiEditBoxLine />
@@ -150,6 +172,7 @@ export const SpareParts = () => {
         </Container>
       )
     })
+           
   }
 
   useEffect(() => {

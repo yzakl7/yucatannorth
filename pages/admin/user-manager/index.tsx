@@ -110,6 +110,7 @@ export const UserManager = () => {
   const renderUsers = ( ) => {
     return users?.map((user: any) => {
       const {email, disabled, uid, metadata, customClaims} = user 
+      if (!customClaims) return <></>
       return (
         <Container className='user-container' key={`${uid}`} direction='row'>
           <Modal onClose={() => setDeleteModal({visibility: false, user: {}})} isVisible={deleteModal.visibility} content={renderDeleteModal()}/>
@@ -145,24 +146,18 @@ export const UserManager = () => {
           </Container>
           <Container justify='' flex='1'>
             <Text textType='h3'>Rol:</Text>
-            <Text textType='p'>{`${customClaims?.role || 'super admin'}`}</Text>
+            <Text textType='p'>{`${customClaims.role === "admin" ? "Administrador" : "Vendedor"}`}</Text>
           </Container>
           <Container direction='row' flex='0.5' align='center' justify='flex-end'>
-            {
-              customClaims && (
-                <>
-                  <IconButton tooltip="Editar" onClick={() => onEdit(uid)}>
-                    <RiEditBoxLine />
-                  </IconButton>
-                  <IconButton tooltip={`${disabled ? 'Activar' : 'Desactivar'}`} onClick={() => setDisableModal({visibility: true, user})}>
-                    <AiOutlinePoweroff />
-                  </IconButton>
-                  <IconButton tooltip="Eliminar" onClick={() => setDeleteModal({visibility: true, user})}>
-                    <AiOutlineDelete />
-                  </IconButton>
-                </>
-              )
-            }
+            <IconButton tooltip="Editar" onClick={() => onEdit(uid)}>
+              <RiEditBoxLine />
+            </IconButton>
+            <IconButton tooltip={`${disabled ? 'Activar' : 'Desactivar'}`} onClick={() => setDisableModal({visibility: true, user})}>
+              <AiOutlinePoweroff />
+            </IconButton>
+            <IconButton tooltip="Eliminar" onClick={() => setDeleteModal({visibility: true, user})}>
+              <AiOutlineDelete />
+            </IconButton>
           </Container>
         </Container>
       )

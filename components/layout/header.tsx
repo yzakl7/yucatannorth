@@ -60,6 +60,13 @@ const StyledHeader = styled(Container)`
       }
     }
   }
+  .admin-container {
+    position: absolute;
+    color: ${getColor('white')};
+    text-align: end;
+    right: 4px;
+    bottom: 4px;
+  }
   .menu-container {
     position: fixed;
     z-index: 5;
@@ -105,6 +112,9 @@ const StyledHeader = styled(Container)`
       top: 0;
       &.authenticated {
         top: 67x;
+      }
+      .admin-container {
+        visibility: hidden;
       }
       .main-nav-bar {
         transition: ease-in-out .3s all;
@@ -213,6 +223,9 @@ export const Header = () => {
               <a href="#"> CONTACTO </a>
             </li>
           </ul>
+          <Container align='center' className='admin-container' onClick={() => push('/admin')} >
+            <Text textType='p'>Admin</Text>
+          </Container>
         </nav>
       </Container>
       {renderCover()}

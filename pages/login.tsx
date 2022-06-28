@@ -7,7 +7,6 @@ import { authOperations, authSelectors, hooks } from '../state'
 
 const StyledLogin = styled(Container)`
   justify-content: center;
-  border: 1px solid red;
   flex:1 ;
   align-items: center;
   .login-form-container {

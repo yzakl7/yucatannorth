@@ -18,6 +18,7 @@ const StyledAddSparePart = styled(Container)`
     flex: 1;
     gap: 32px;
     padding: 16px;
+    align-items: flex-start;
     .left-container {
       flex: 1;
       max-width: 350px;
@@ -61,6 +62,7 @@ export const AddSparePart = () => {
   const { useAppDispatch } = hooks
   const { createSparePartItem } = sparePartsOperations
   const [name, setName] = useState('')
+  const [similars, setSimilars] = useState('')
   const [sku, setSku] = useState('')
   const [description, setDescription] = useState('')
   const [category, setCategory] = useState(categoryList[0])
@@ -136,8 +138,12 @@ export const AddSparePart = () => {
             <TextInput placeholder='Dejar vacío para generacion automática' value={sku} onChange={(e) => setSku(e.value)} />
           </Container>
           <Container className='text-input'>
-            <Text textType='p'>Resumen</Text>
-            <TextInput multiline='5' value={description} onChange={(e) => setDescription(e.value)} />
+            <Text textType='p'>Descripción</Text>
+            <TextInput multiline='15' value={description} onChange={(e) => setDescription(e.value)} />
+          </Container>
+          <Container className='text-input'>
+            <Text textType='p'>Similares</Text>
+            <TextInput multiline='15' value={similars} onChange={(e) => setSimilars(e.value)} />
           </Container>
           <Container className='select-container'>
             <CheckBox value={!disabled} onChange={(value) => setDisabled(!value)} >Activo</CheckBox>
@@ -145,19 +151,19 @@ export const AddSparePart = () => {
         </Container>
         <Container className='right-container'>
           <Container className='select-container'>
-            <Text textType='p'>Categoría</Text>
+            <Text textType='p'>CATEGORíA</Text>
             <Select value={category} options={categoryList.map((value) => ({name:value, value}))} onChange={(param) => setCategory(param)}/>
           </Container>
           <Container className='select-container'>
-            <Text textType='p'>Familia</Text>
+            <Text textType='p'>FAMILIA</Text>
             <Select value={family} options={familyList.map((value) => ({name:value, value}))} onChange={(param) => setFamily(param)}/>
           </Container>
           <Container className='select-container'>
-            <Text textType='p'>Marca</Text>
+            <Text textType='p'>MARCA DE AUTO</Text>
             <Select value={brand} options={brandList.map((value) => ({name:value, value}))} onChange={(param) => setBrand(param)}/>
           </Container>
           <Container className='select-container'>
-            <Text textType='p'>Cilindros</Text>
+            <Text textType='p'>CILINDROS</Text>
             <Select value={cilinders} options={cilindersList.map((value) => ({name:value, value}))} onChange={(param) => setCilinders(param)}/>
           </Container> 
           <Container className='select-container'>

@@ -20,7 +20,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
         <Page>
           <AdminHeader />
           {showWebLayout && <Header />}
-          <Container gap="0" direction={showAdminLayout ? 'row' : 'column'}>
+          <Container height='100%' gap="0" direction={showAdminLayout ? 'row' : 'column'}>
             {showAdminLayout && <AdminNav />}
             <Component { ...pageProps } />
           </Container>

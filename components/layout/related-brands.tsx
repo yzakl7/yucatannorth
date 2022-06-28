@@ -50,7 +50,6 @@ const StyledRelatedBrands = styled(Container)`
 `
 
 const brands = [
-  `https://firebasestorage.googleapis.com/v0/b/refacciones-solis.appspot.com/o/assets%2Fbrands%2FAJUSA.png?alt=media&token=ffedfce2-9086-4bb9-9621-7e1b15305f22`,
   `https://firebasestorage.googleapis.com/v0/b/refacciones-solis.appspot.com/o/assets%2Fbrands%2FANILLOS%20HASTINGS.png?alt=media&token=5049ec82-1daa-45e7-a302-df9508f1324d`,
   `https://firebasestorage.googleapis.com/v0/b/refacciones-solis.appspot.com/o/assets%2Fbrands%2FARBOMEX.jpg?alt=media&token=628b3680-a55e-4afa-b3da-84426816b235`,
   `https://firebasestorage.googleapis.com/v0/b/refacciones-solis.appspot.com/o/assets%2Fbrands%2FATSUGUI.jpg?alt=media&token=3a780b30-bd0d-4225-83ca-0872a467e499`,
@@ -58,13 +57,10 @@ const brands = [
   `https://firebasestorage.googleapis.com/v0/b/refacciones-solis.appspot.com/o/assets%2Fbrands%2FCHROMITE.png?alt=media&token=703c7071-5bb4-4144-9bda-1344186a7694`,
   `https://firebasestorage.googleapis.com/v0/b/refacciones-solis.appspot.com/o/assets%2Fbrands%2FCLEMEX.jpg?alt=media&token=e5d80569-23bc-4ce1-9a07-551d43a84903`,
   `https://firebasestorage.googleapis.com/v0/b/refacciones-solis.appspot.com/o/assets%2Fbrands%2FCLOYES.png?alt=media&token=d138f462-e017-42ca-b6cf-3acc5f8316c2`,
-  `https://firebasestorage.googleapis.com/v0/b/refacciones-solis.appspot.com/o/assets%2Fbrands%2FCLOYES.png?alt=media&token=d138f462-e017-42ca-b6cf-3acc5f8316c2`,
-  `https://firebasestorage.googleapis.com/v0/b/refacciones-solis.appspot.com/o/assets%2Fbrands%2FDC%20AUTO%20PARTS.png?alt=media&token=b5447a41-31c7-49f7-a8f4-503ea8ec6e06`,
   `https://firebasestorage.googleapis.com/v0/b/refacciones-solis.appspot.com/o/assets%2Fbrands%2FDYNAGEAR.png?alt=media&token=31a3405b-afba-4c3b-ada7-19b72f0478f3`,
   `https://firebasestorage.googleapis.com/v0/b/refacciones-solis.appspot.com/o/assets%2Fbrands%2FFM.png?alt=media&token=9d9c0f9d-01aa-4ba3-82b9-1f422d4aab3e`,
   `https://firebasestorage.googleapis.com/v0/b/refacciones-solis.appspot.com/o/assets%2Fbrands%2FFRACO.png?alt=media&token=407f3a41-0818-475b-a96f-20814f1ee1ff`,
   `https://firebasestorage.googleapis.com/v0/b/refacciones-solis.appspot.com/o/assets%2Fbrands%2FGARANTI.jpg?alt=media&token=ab8b2bda-a8e9-4667-8525-17f9c802ba9d`,
-  `https://firebasestorage.googleapis.com/v0/b/refacciones-solis.appspot.com/o/assets%2Fbrands%2FKING%20RACINGS.png?alt=media&token=afb53a4f-92f4-4a3b-a03f-865d809078d2`,
   `https://firebasestorage.googleapis.com/v0/b/refacciones-solis.appspot.com/o/assets%2Fbrands%2FKING.png?alt=media&token=f6f1c6fa-e43e-4736-b31e-14ba5d008ab8`,
   `https://firebasestorage.googleapis.com/v0/b/refacciones-solis.appspot.com/o/assets%2Fbrands%2FLODI.jpg?alt=media&token=10bdaa1f-6437-46fd-b807-19010f37265c`,
   `https://firebasestorage.googleapis.com/v0/b/refacciones-solis.appspot.com/o/assets%2Fbrands%2FMAHLE.jpg?alt=media&token=394c5d60-7603-4d34-b8cc-f91294ccaffc`,
