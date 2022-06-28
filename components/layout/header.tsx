@@ -216,9 +216,9 @@ export const Header = () => {
             <li onClick={() => push('/about-us')} className={`${pathname === '/about-us' ? 'active' : ''}`}>
               <a href="#"> NOSOTROS </a>
             </li>
-            <li onClick={() => push('/finder')} className={`${pathname === '/finder' ? 'active' : ''}`}>
+            {/* <li onClick={() => push('/finder')} className={`${pathname === '/finder' ? 'active' : ''}`}>
               <a href="#"> BUSCADOR </a>
-            </li>
+            </li> */}
             <li onClick={() => push('/contact-us')} className={`${pathname === '/contact-us' ? 'active' : ''}`}>
               <a href="#"> CONTACTO </a>
             </li>

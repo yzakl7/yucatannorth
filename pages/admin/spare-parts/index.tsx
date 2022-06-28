@@ -147,6 +147,17 @@ export const SpareParts = () => {
               <Text textType='h3'>Nombre:</Text>
               <Text textType='p'>{name}</Text>
             </Container> */}
+            <Container direction='row' flex='0.5' align='center' justify='flex-end'>
+              <IconButton tooltip="Editar" onClick={() => onEdit(sparePart.id)}>
+                <RiEditBoxLine />
+              </IconButton>
+              <IconButton tooltip={`${disabled ? 'Activar' : 'Desactivar'}`} onClick={() => setDisableModal({visibility: true, sparePart})}>
+                <AiOutlinePoweroff />
+              </IconButton>
+              <IconButton tooltip="Eliminar" onClick={() => setDeleteModal({visibility: true, sparePart})}>
+                <AiOutlineDelete />
+              </IconButton>
+            </Container>
           </Container>
           {description && <Container className='description-container'>
             <Container className='description'>
@@ -158,17 +169,7 @@ export const SpareParts = () => {
               <Text textType='p'>{`${similars}`}</Text>
             </Container>}
           </Container>}
-          <Container direction='row' flex='0.5' align='center' justify='flex-end'>
-            <IconButton tooltip="Editar" onClick={() => onEdit(sparePart.id)}>
-              <RiEditBoxLine />
-            </IconButton>
-            <IconButton tooltip={`${disabled ? 'Activar' : 'Desactivar'}`} onClick={() => setDisableModal({visibility: true, sparePart})}>
-              <AiOutlinePoweroff />
-            </IconButton>
-            <IconButton tooltip="Eliminar" onClick={() => setDeleteModal({visibility: true, sparePart})}>
-              <AiOutlineDelete />
-            </IconButton>
-          </Container>
+         
         </Container>
       )
     })

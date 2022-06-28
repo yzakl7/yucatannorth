@@ -6,6 +6,7 @@ import { ProtectRoute } from '../components/ProtectRoute'
 import { useRouter } from 'next/router'
 import { Provider } from 'react-redux'
 import { store } from '../state'
+import { useEffect } from 'react'
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   const { pathname } = useRouter()
@@ -14,6 +15,22 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
 
   const showWebLayout = !isLogin && !showAdminLayout
 
+
+  useEffect(() => {
+    console.log({pathname});
+    if (
+      pathname === '/about-us' 
+      || pathname === '/contact-us'
+    ) {
+      setTimeout(() => {
+        window.scrollTo({
+          top: 860,
+          behavior: 'smooth',
+        });
+      }, 650);
+    }
+  }, [pathname])
+  
   return (
     <Provider store={store}>
       <ProtectRoute>
