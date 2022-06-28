@@ -17,7 +17,6 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
 
 
   useEffect(() => {
-    console.log({pathname});
     if (
       pathname === '/about-us' 
       || pathname === '/contact-us'

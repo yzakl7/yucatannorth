@@ -5,7 +5,6 @@ sendgrid.setApiKey(`${process.env.NEXT_PUBLIC_SENDGRID_API}`);
 async function sendEmail(req:any, res:any) {
   
   try {
-    console.log("REQ.BODY", req.body);
     const { name, lastName, email, phone, message, location } = req.body
     const response = await sendgrid.send({
       to: `refaccionessolis@gmail.com`,
