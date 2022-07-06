@@ -44,9 +44,9 @@ export const deleteImage = async (id:string, name:string) => {
 
 
 
-export const uploadLandingPDF = async (id:string, name:string, file:any) => {
+export const uploadLandingPDF = async (id:string, name:any, file:any) => {
   try {
-    const response = await uploadBytes( (id, name), file )
+    const response = await uploadBytes( getFileRef(id, name), file )
     const pdfUrl = await getDownloadURL(response.ref)
     return pdfUrl
   } catch(err) {
