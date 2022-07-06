@@ -13,7 +13,12 @@ const StyledPropertyDetails = styled(Container)`
   }
   .property-slideshow-container {
     padding: 16px;
-    max-height: 750px;
+    max-height: calc(100vh - 65px);
+    .image-container {
+      img {
+        object-fit: contain;
+      }
+    }
   }
   .body-container {
     padding: 16px;

@@ -3,7 +3,7 @@ import { Fragment, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { Container, Text, Tooltip } from '.'
 import { getColor } from '../../utils/theme'
-import { CheckBox, Select, TextInput } from '../inputs'
+import { CheckBox, NumberInput, Select, TextInput } from '../inputs'
 import { CommonProps, ErrorsType, FormProps, FormStateProps, OnChangeType } from '../typings'
 
 const StyledForm = styled(Container)`
@@ -86,6 +86,7 @@ export const Form = ({ data, onChange }: FormProps) => {
       isPassword,
       isDisabled,
       validation,
+
       multiline,
       fallbackOnEmpty,
       type,
@@ -103,32 +104,60 @@ export const Form = ({ data, onChange }: FormProps) => {
         flex={flex}
         minWidth={minWidth}
       >
-        <TextInput
-          password={isPassword}
-          multiline={multiline}
-          isRequired={isRequired}
-          fallbackOnEmpty={fallbackOnEmpty}
-          bordered
-          isDisabled={isDisabled}
-          value={value}
-          onChange={({ value, isValid }) => {
-            const newFormState: typeof formState = {
-              ...formState,
-            }
-
-            if (name) {
-              newFormState[name] = {
-                value,
-                isValid,
-              }
-            }
-
-            return setFormState(newFormState)
-          }}
-          placeholder={placeholder}
-          label={label}
-          validation={validation}
-        />
+        {
+          type === 'textInput' &&
+            <TextInput
+              password={isPassword}
+              multiline={multiline}
+              isRequired={isRequired}
+              fallbackOnEmpty={fallbackOnEmpty}
+              bordered
+              isDisabled={isDisabled}
+              value={value}
+              onChange={({ value, isValid }) => {
+                const newFormState: typeof formState = {
+                  ...formState,
+                }
+    
+                if (name) {
+                  newFormState[name] = {
+                    value,
+                    isValid,
+                  }
+                }
+    
+                return setFormState(newFormState)
+              }}
+              placeholder={placeholder}
+              label={label}
+              validation={validation}
+            />
+        }
+                {
+          type === 'numberInput' &&
+            <NumberInput
+              isRequired={isRequired}
+              bordered
+              value={value}
+              onChange={({ value, isValid }) => {
+                const newFormState: typeof formState = {
+                  ...formState,
+                }
+    
+                if (name) {
+                  newFormState[name] = {
+                    value,
+                    isValid,
+                  }
+                }
+    
+                return setFormState(newFormState)
+              }}
+              placeholder={placeholder}
+              label={label}
+              validation={validation}
+            />
+        }
       </Container>
     )
   }

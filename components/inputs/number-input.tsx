@@ -1,20 +1,20 @@
 import { useEffect, useRef, useState } from 'react'
+import { RiEyeLine, RiEyeCloseLine } from 'react-icons/ri'
 import styled from 'styled-components'
+import { IconButton } from '.'
 import { Container, Text } from '../ui'
-import { NumberInputProps, StyledProps } from '../typings'
+import { StyledProps, TextInputProps } from '../typings'
 import { getColor } from '../../utils/theme'
 
 
-const StyledNumberInput = styled(Container)`
-  width: 100%;
+const StyledTextInput = styled(Container)`
   gap: 0;
   flex-direction: column;
+  width: 100%;
   label {
-    justify-content: space-between;
     display: flex;
-    flex-direction: row;
     width: 100%;
-    align-items: center;
+    flex-direction: column;
     button {
       background: none;
       margin-left: -32px
@@ -23,20 +23,18 @@ const StyledNumberInput = styled(Container)`
       z-index: 1;
       box-sizing: border-box;
       outline: none;
-      width: 150px;
+      width: 100%;
       height: 100%;
       min-height: 40px;
       padding: 0 9px;
-      border: 1px solid;
+      border-radius: 3px;
+      border: 1px solid ${getColor('border')};
       &.password {
         padding-right: 32px;
       }
       &:not(.bordered ) {
         border: none;
       }
-    }
-    .label-container {
-      flex-1
     }
   }
   .spacer {
@@ -64,7 +62,7 @@ const StyledNumberInput = styled(Container)`
         opacity: 0;
       }
       &.error {
-        border-color: ${getColor('danger')};
+          border-color: ${getColor('danger')};
         p {
           color: ${getColor('danger')};
         }
@@ -77,30 +75,30 @@ const StyledSharedTextAreaInput = styled.textarea`
   outline: none;
   padding: 9px;
   box-sizing: border-box;
-
   width: 100%;
-  border: 1px solid;
+  border: 1px solid ${getColor('border')};
   &:not(.bordered ) {
     border: none;
   }
 `
 
-export const NumberInput = (data: NumberInputProps) => {
-  const [showPassword, setShowPassword] = useState(false)
+export const NumberInput = ({
+  placeholder,
+  value,
+  bordered = false,
+  label,
+  password,
+  fallbackOnEmpty,
+  isRequired,
+  validation,
+  messageOverride,
+  onChange: propsOnChange = () => ({value: '', isValid: false}),
+}: TextInputProps) => {
   const [message, setmessage] = useState('')
   const [messageType, setmessageType] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
   const [messageHeight, setMessageHeight] = useState(0)
   const [shouldShowMessage, setShouldShowMessage] = useState(false)
-
-  const {
-    value,
-    bordered = false,
-    placeholder,
-    isRequired,
-    validation,
-    messageOverride,
-    onChange: propsOnChange = () => ({value: '', isValid: false}),
-  } = data
 
   const messageRef = useRef<HTMLInputElement>(null);
   
@@ -116,6 +114,13 @@ export const NumberInput = (data: NumberInputProps) => {
   const validate = (val?:string) => {
     const validations = {
       isEmail: () => {
+        const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        const isValid = re.test(String(val).toLowerCase());
+        const text = isValid ? '' : 'Invalid email format'
+        const type = isValid ? '' : 'error'
+        return { isValid, type, text }
+      },
+      isloquesae: () => {
         const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         const isValid = re.test(String(val).toLowerCase());
         const text = isValid ? '' : 'Invalid email format'
@@ -165,11 +170,18 @@ export const NumberInput = (data: NumberInputProps) => {
   }
 
   const onBlur = () => {
-    checkIsValid(value)
+    if (fallbackOnEmpty && !value?.trim()) {
+      propsOnChange({value: `${fallbackOnEmpty}`, isValid: true})
+      resetErrorState()
+    } else {
+      checkIsValid(value)
+      propsOnChange({value: `${value || ''}`, isValid: checkIsValid(value)})
+    }
   }
 
   const onChange = (val:string) => {
-    propsOnChange({value:val, isValid: checkIsValid(val)})
+    const newValue = val.replace (/^\s/g, '')
+    propsOnChange({value:`${newValue || ''}`, isValid: true})
   }
 
   useEffect(() => {
@@ -177,21 +189,34 @@ export const NumberInput = (data: NumberInputProps) => {
     setMessageHeight(height || 0)
   }, [message, messageOverride])
 
+  const shouldHideText = password && !showPassword
+
   return (
-    <StyledNumberInput>
+    <StyledTextInput>
       <label>
-        <Container className="label-container">
-          <Text textType="p">
-            {placeholder}
-          </Text>
+        <Text textType='p'>
+          {label}
+        </Text>
+        <Container minWidth='100%' justify='center'>
+          <input
+            onBlur={onBlur}
+            placeholder={placeholder}
+            className={`${bordered ? 'bordered' : ''} ${password ? 'password' : ''}`}
+            value={value || ''}
+            onChange={({target: {value}}) => onChange(value)}
+            type={'number'}
+          />
+          {password && (
+            <div style={{zIndex: 1}} >
+              <IconButton onClick={() => setShowPassword(!showPassword)}>
+                {showPassword 
+                  ? <RiEyeLine />
+                  : <RiEyeCloseLine />
+                }
+              </IconButton>
+            </div>
+          )}
         </Container>
-        <input
-          onBlur={onBlur}
-          className={`${bordered ? 'bordered' : ''}`}
-          value={value || ''}
-          onChange={({target: {value}}) => onChange(value)}
-          type='number'
-        />
       </label>
       <Container className="spacer" height={`${ messageOverride?.text || shouldShowMessage ? messageHeight : 0}px`} />
       
@@ -207,7 +232,7 @@ export const NumberInput = (data: NumberInputProps) => {
           {messageOverride ? messageOverride.text : message}
         </p>
       </Container>
-    </StyledNumberInput>
+    </StyledTextInput>
   )
 }
 

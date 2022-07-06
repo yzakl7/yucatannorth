@@ -68,13 +68,28 @@ const Property = (props:any) => {
       label: 'Detalle',
     },
     {
-      minWidth: '200px',
-      type: 'textInput',
-      name: 'name',
-      flex: "1",
-      value: state.name,
-      placeholder: 'Nombre',
-      label: 'Nombre',
+      name: 'locationGroup',
+      type: 'inputGroup',
+      wrap: true,
+      array: [
+        {
+          minWidth: '200px',
+          type: 'textInput',
+          name: 'name',
+          flex: "5",
+          value: state.name,
+          placeholder: 'Nombre',
+          label: 'Nombre',
+        },
+        {
+          type: 'numberInput',
+          name: 'priority',
+          value: state.priority,
+          flex: "1",
+          placeholder: 'Prioridad',
+          label: 'Prioridad',
+        },
+      ]
     },
     {
       name: 'locationGroup',
@@ -474,7 +489,6 @@ const Property = (props:any) => {
   const uploadFile = (e:any) => {
     setImageFetching(true)
     const fileList = e.target.files
-    const fileArray = []
     const doUpload = async (id:string, name:string, file:any) => {
       try {
         const response = await uploadImage(id, name, file)

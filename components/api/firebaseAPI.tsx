@@ -156,7 +156,6 @@ export const getPropertyData = async (params:Record<string, string | Record<stri
   const docRef = doc(db, "properties", `${params.id}`);
   const querySnapshot = await getDoc(docRef);
   const data = querySnapshot.data()
-  console.log({data});
   return data
 }
 

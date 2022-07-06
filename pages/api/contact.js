@@ -5,7 +5,6 @@ sendgrid.setApiKey(process.env.NEXT_PUBLIC_SENDGRID_API);
 async function sendEmail(req, res) {
   
   try {
-    console.log("REQ.BODY", req.body);
     const { name, lastName, email, phone, message, location } = req.body
     const response = await sendgrid.send({
       to: `fdobfajardo@gmail.com`,
@@ -22,7 +21,6 @@ async function sendEmail(req, res) {
         </div>
       `,
     });
-    console.log({response});
     res.status(200).json(response)
   } catch (error) {
     return res.status(error.statusCode || 500).json({ error: error.message });

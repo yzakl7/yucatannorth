@@ -248,6 +248,7 @@ export type ErrorsType = {
 export type FormElementType =
   | 'inputGroup'
   | 'textInput'
+  | 'numberInput'
   | 'select'
   | 'checkBox'
   | 'switch'

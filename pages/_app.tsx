@@ -1,7 +1,7 @@
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
 import { AuthProvider } from '../utils/auth/authContext'
-import { collection, doc, getDocs, getFirestore, setDoc } from 'firebase/firestore'
+import { collection, doc, getDocs, getFirestore, orderBy, query, setDoc, where } from 'firebase/firestore'
 import { ReactNode, useEffect, useState } from 'react'
 import Head from 'next/head'
 import { LangProvider } from '../utils/lang/langContext'
@@ -24,7 +24,9 @@ function MyApp({ Component, pageProps }: AppProps) {
   const getStnapshot = async () => {
     const newDocs: any[] = []
     try {
-      const querySnapshot = await getDocs(collection(db, "properties"));
+      const propertiesRef = collection(db, "properties")
+      const q = query(propertiesRef, orderBy("priority", "desc"));
+      const querySnapshot = await getDocs(q)
       querySnapshot.forEach((doc) => newDocs.push({...doc.data(), id: doc.id})); 
       setProperties(newDocs);
       return true

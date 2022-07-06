@@ -42,9 +42,8 @@ const Favorites = ({properties}: FavoritesProps) => {
     }, [])
 
     if (reduceResult) {
-       console.log({reduceResult});
       const newInvestmentsArray = reduceResult.filter((filter:any) => filter && filter?.type !== 'propiedad')
-      const newPropertiesArray = reduceResult.filter((filter:any) => { console.log({filter}); return filter && filter?.type === 'propiedad'})
+      const newPropertiesArray = reduceResult.filter((filter:any) => { return filter && filter?.type === 'propiedad'})
       setInvestmentsArray(newInvestmentsArray)
       setPropertiesArray(newPropertiesArray)
     }
