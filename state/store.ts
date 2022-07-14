@@ -3,12 +3,14 @@ import authReducer from "./ducks/auth";
 import settingsReducer from "./ducks/settings";
 import userManagerReducer from "./ducks/user-manager";
 import sparePartsReducer from "./ducks/spare-parts";
+import finderReducer from "./ducks/finder/reducers";
 
 const reducer = {
   auth: authReducer,
   userManager: userManagerReducer,
   settings: settingsReducer,
   spareParts: sparePartsReducer,
+  finder: finderReducer,
 };
 
 export const store = configureStore({

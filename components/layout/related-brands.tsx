@@ -99,7 +99,7 @@ export const RelatedBrands = () => {
       </Container>
       <Container className='bottom-container'>
         <Text textType="h2">
-          Más de <span>10</span> proveedores especializados.
+          Proveedores <span>E</span>specializados.
         </Text>
         <Container className='images-container'>
           {

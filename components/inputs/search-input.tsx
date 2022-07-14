@@ -1,91 +1,62 @@
-import { useEffect, useRef, useState } from 'react'
+import { Component, useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import { Container, Text } from '../ui'
 import { StyledProps } from '../typings'
 import { getColor } from '../../utils/theme'
+import { TextInput } from '.'
+import { FaSearch } from 'react-icons/fa'
 
 interface SearchInputProps {
   value: string
-  onChange: string
-  origin: []
+  onChange: (newValue: string) => void
   
 }
 
 const StyledSearchInput = styled(Container)`
-  width: 100%;
-  gap: 0;
-  flex-direction: column;
-  label {
-    justify-content: space-between;
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    align-items: center;
-    button {
-      background: none;
-      margin-left: -32px
-    }
-    input {
-      z-index: 1;
-      box-sizing: border-box;
-      outline: none;
-      width: 150px;
-      height: 100%;
-      min-height: 40px;
-      padding: 0 9px;
-      border: 1px solid;
-      &.password {
-        padding-right: 32px;
-      }
-      &:not(.bordered ) {
-        border: none;
-      }
-    }
-    .label-container {
-      flex-1
-    }
+  flex-direction: row;
+  align-items: center;
+  border: 1px solid ${getColor('border')};
+  padding: 0 16px; 
+  .search-icon-container {
+    color: ${getColor('primary')};
   }
-  .spacer {
-    transition: ease-in-out .3s all;
-  }
-  .message-container {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    .message {
-      transition: ease-in-out .3s all;
-      font-size: 14px;
-      @media (max-width: 720px) {
-        font-size: 11px;
-      }
-      text-align: center;
-      border-bottom: 1px solid transparent;
-      overflow: none;
-      z-index: 0;
-      &.visible {
-        transform: ${({messageHeight}: StyledProps) => `translateY(calc( - ${messageHeight }px))`};
-        visibility: visible;
-        opacity: 1;
-      }
-      &.hidden {
-        transform: ${({messageHeight}: StyledProps) => `translateY(calc( - ${messageHeight }px))`};
-        visibility: hidden;
-        opacity: 0;
-      }
-      &.error {
-        border-color: ${getColor('danger')};
-        p {
-          color: ${getColor('danger')};
-        }
-      }
-    }
+  input {
+    padding: 0!important;
   }
 `
 
-export const SearchInput = (data: SearchInputProps) => {
+export const SearchInput = ({value:defaultValue, onChange: propsOnchange}: SearchInputProps) => {
+  const [value, setValue] = useState(defaultValue)
+
+  const onChange = (e:any) => {
+    setValue(e.value)
+  }
+
+  const handleKeyPress = (e:any) => {
+    const enterPressed = e.key === 'Enter'
+    if(enterPressed){
+      onSearch()
+    }
+  }
+
+  const onSearch = () => {
+    propsOnchange(value)
+  }
+
+  useEffect(() => {
+    document.addEventListener("keydown", handleKeyPress);
+    return () => {
+      document.removeEventListener("keydown", handleKeyPress)
+    }
+  }, [value])
+  
   return (
-    <>
-    </>
+    <StyledSearchInput gap='8px' className='search-input-container'>
+      <TextInput value={value} onChange={onChange} />
+      <Container className='search-icon-container' onClick={onSearch}>
+        <FaSearch />
+      </Container>
+    </StyledSearchInput>
   )
 }
 

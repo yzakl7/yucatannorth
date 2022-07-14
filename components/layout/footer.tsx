@@ -43,7 +43,6 @@ const StyledFooter = styled(Container)`
     .links-bottom-container {
       flex-wrap: wrap;
       flex-direction: row;
-  
       justify-content: space-between;
       * {
         flex: 1;
@@ -53,6 +52,11 @@ const StyledFooter = styled(Container)`
       p {
         text-align: center;
       }
+    }
+  }
+  @media (max-width: 420px) {
+    p {
+      font-size: 12px;
     }
   }
 `

@@ -5,6 +5,7 @@ import { getColor } from '../../utils/theme'
 import { Container, Image, Text } from '../ui'
 import { IoMenu, IoClose } from 'react-icons/io5'
 import { authSelectors, hooks } from '../../state'
+import { SearchInput, TextInput } from '../inputs'
 
 const StyledHeader = styled(Container)`
   gap: 0;
@@ -173,6 +174,8 @@ export const Header = () => {
   const { isAuthenticatedSelector } = authSelectors
   const isAuthenticated = useAppSelector(isAuthenticatedSelector)
 
+  const isFinder = pathname === '/finder'
+
   const renderCover = () => {
     return (
       <Container className='cover-container'>
@@ -187,9 +190,17 @@ export const Header = () => {
         </Container>
         <Container className='cover-tagline-container'>
           <Text textType='h1'>
-            “Refacciones Solís, profesionales en ajustes de motor”
+            “Refacciones Solís, profesionales en ajuste de motor”
           </Text>
         </Container>
+      </Container>
+    )
+  }
+
+  const renderSearchBar = () => {
+    return (
+      <Container className='search-bar-container'>
+        <SearchInput value='' onChange={() => null} />
       </Container>
     )
   }
@@ -216,9 +227,9 @@ export const Header = () => {
             <li onClick={() => push('/about-us')} className={`${pathname === '/about-us' ? 'active' : ''}`}>
               <a href="#"> NOSOTROS </a>
             </li>
-            {/* <li onClick={() => push('/finder')} className={`${pathname === '/finder' ? 'active' : ''}`}>
+            <li onClick={() => push('/finder')} className={`${pathname === '/finder' ? 'active' : ''}`}>
               <a href="#"> BUSCADOR </a>
-            </li> */}
+            </li>
             <li onClick={() => push('/contact-us')} className={`${pathname === '/contact-us' ? 'active' : ''}`}>
               <a href="#"> CONTACTO </a>
             </li>
@@ -228,7 +239,7 @@ export const Header = () => {
           </Container>
         </nav>
       </Container>
-      {renderCover()}
+      {!isFinder && renderCover()}
     </StyledHeader>
   )
 }

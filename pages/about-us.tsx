@@ -105,7 +105,7 @@ const texts = [
       y la experiencia, la empresa se trasladó al oriente  
       de la ciudad de Mérida, en una avenida estrategia 
       para el ramo automotriz.
-      La calle 65 por 28 y 32, no. 284 en el Centro de la
+      La calle 65 por 30 y 32, no. 284 en el Centro de la
       ciudad de Mérida. Desde entonces se ha
       continuado dando el mejor servicio desde esta ubicación
     `
@@ -115,19 +115,21 @@ const texts = [
     id: 3569939699,
     text: `
       Cabe destacar que la empresa tiene como su principal zona 
-      de influencia comercial los polígonos vulnerables: 
-      Polígono 108, Melchor Ocampo II, Fidel Velázquez II Etapa, 
-      Los Reyes, Amalio Solornsano, Nueva Chichen, Brisas del Sur etc.
+      de influencia comercial más importante: Polígono 108, Melchor Ocampo II,
+      Fidel Velázquez II Etapa, Los Reyes, Amalia Solorsano, Nueva Chichen,
+      Brisas del Sur etc.
     `
   },
     {
     img: history5,
     id: 797979397997,
     text: `
-      En 2012 y 2015 se adquirió equipo de reparto para
+      Contamos con equipo de reparto para
       poder ofrecer un mejor servicio a nuestros clientes,
       integrando con esto servicio a domicilio, 
-      dentro de la ciudad de Mérida
+      dentro de la ciudad de Mérida.
+      Tambien surtimos al interior del estado y estados
+      vecinos como Campeche y Quintana Roo
     `
   },
 ]

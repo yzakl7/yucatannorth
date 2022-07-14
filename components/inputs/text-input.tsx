@@ -212,7 +212,7 @@ export const TextInput = ({
   
   const shouldHideText = password && !showPassword
   return (
-    <StyledTextInput>
+    <StyledTextInput gap='0'>
       <label>
         <Text textType='p'>
           {label}

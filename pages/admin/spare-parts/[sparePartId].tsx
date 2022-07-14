@@ -44,44 +44,36 @@ const StyledAddSparePart = styled(Container)`
   }
 `
 
-const categoryList = ["N/A", "ARTICULOS DE AFINACION"]
-const familyList = ["N/A", "FILTRO DE ACEITE"]
-const brandList = ["N/A", "AUDI"]
-const cilindersList = ["N/A", "V6"]
-const ltsList = ["N/A", "(2.8)"]
-const cmList = ["N/A"]
-const puList = ["N/A"]
-const motorList = ["N/A"]
-const valvesList = ["N/A"]
-const modelsList = ["N/A", '100']
-const specificationsList = ["N/A"]
-const lineList = ["N/A", "FA"]
-const productBrandList = ["N/A", "PART MASTER"]
+const filterValues = [
+  { label: 'CATEGORÍA', key:'category', options: ["N/A", "ARTICULOS DE AFINACION"]},
+  { label: 'FAMILIA', key:'family', options: ["N/A", "FILTRO DE ACEITE"]},
+  { label: 'MARCA DE AUTO', key:'brand', options: ["N/A", "AUDI"]},
+  { label: 'CILINDROS', key:'cilinders', options: ["N/A", "V6"]},
+  { label: 'LTS', key:'lts', options: ["N/A", "(2.8)"]},
+  { label: 'CM', key:'cm', options: ["N/A"]},
+  { label: 'PU', key:'pu', options: ["N/A"]},
+  { label: 'MOTOR', key:'motor', options: ["N/A"]},
+  { label: 'VÁLVULAS', key:'valves', options: ["N/A"]},
+  { label: 'MODELO', key:'models', options: ["N/A", '100']},
+  { label: 'ESPECIFICACIÓNES', key:'specifications', options: ["N/A"]},
+  { label: 'LINEA', key:'line', options: ["N/A", "FA"]},
+  { label: 'MARCA DE PRODUCTO', key:'productBrand', options: ["N/A", "PART MASTER"]},
+]
+
 
 export const AddSparePart = () => {
   const { useAppDispatch, useAppSelector } = hooks
-  const { selectSpareParts } = sparePartsSelectors
   const { updateSparePartItem, getSparePartItem } = sparePartsOperations
-  const [name, setName] = useState('')
-  const [similars, setSimilars] = useState('')
-  const [sku, setSku] = useState('')
-  const [description, setDescription] = useState('')
-  const [category, setCategory] = useState(categoryList[0])
-  const [family, setFamily] = useState(familyList[0])
-  const [brand, setBrand] = useState(brandList[0])
-  const [cilinders, setCilinders] = useState(cilindersList[0])
-  const [lts, setLts] = useState(ltsList[0])
-  const [cm, setCm] = useState(cmList[0])
-  const [pu, setPu] = useState(puList[0])
-  const [motor, setMotor] = useState(motorList[0])
-  const [valves, setValves] = useState(valvesList[0])
-  const [models, setModels] = useState(modelsList[0])
-  const [specifications, setSpecifications] = useState(specificationsList[0])
-  const [line, setLine] = useState(lineList[0])
-  const [productBrand, setProductBrand] = useState(productBrandList[0])
+  const { selectSpareParts } = sparePartsSelectors
+  const [ name, setName ] = useState('')
+  const [ similars, setSimilars ] = useState('')
+  const [ sku, setSku ] = useState('')
+  const [ description, setDescription ] = useState('')
+  const [ filters, setFilters ] = useState<Record<string, string>>()
+  const { sparePartItem } = useAppSelector(selectSpareParts)
+
   const [years, setYears] = useState([])
   const { push, query: { sparePartId: id } } = useRouter()
-  const { sparePartItem, isFetching } = useAppSelector(selectSpareParts)
   
   const dispatch = useAppDispatch()
 
@@ -91,58 +83,30 @@ export const AddSparePart = () => {
       name,
       sku,
       description,
-      category,
-      family,
-      brand,
-      cilinders,
-      lts,
-      cm,
-      pu,
-      motor,
-      valves,
-      models,
-      specifications,
-      line,
-      productBrand,
+      filters,
       years,
-      similars
+      similars,
     }
     const callback = () => push('./')
     dispatch(updateSparePartItem({params: sparePartDetails, callback}))
   }
-
-  useEffect(() => {
-    dispatch(getSparePartItem({id}))
-  }, [])
-  
   useEffect(() => {
     if (sparePartItem) {
       setName(sparePartItem.name)
       setSku(sparePartItem.sku || sparePartItem.id)
       setDescription(sparePartItem.description)
-      setCategory(sparePartItem.category)
-      setFamily(sparePartItem.family)
-      setBrand(sparePartItem.brand)
-      setCilinders(sparePartItem.cilinders)
-      setLts(sparePartItem.lts)
-      setCm(sparePartItem.cm)
-      setPu(sparePartItem.pu)
-      setMotor(sparePartItem.motor)
-      setValves(sparePartItem.valves)
-      setModels(sparePartItem.models)
-      setSpecifications(sparePartItem.specifications)
-      setLine(sparePartItem.line)
-      setProductBrand(sparePartItem.productBrand)
+      setFilters(sparePartItem.filters)
       setYears(sparePartItem.years)
       setSimilars(sparePartItem.similars)
     }
+    console.log({sparePartItem});
 
   }, [sparePartItem])
 
-  if (isFetching) {
-    return <Text textType='h3'>Loading</Text>
-  }
-
+  useEffect(() => {
+    dispatch(getSparePartItem({id}))
+  }, [])
+  
   return (
     <StyledAddSparePart>
       <Container className='title'> 
@@ -170,7 +134,7 @@ export const AddSparePart = () => {
           </Container>
           <Container className='text-input'>
             <Text textType='p'>Clave del producto</Text>
-            <TextInput placeholder='Dejar vacío para generacion automática' value={sku || `${id}`} isDisabled />
+            <TextInput placeholder='Dejar vacío para generacion automática' value={sku} onChange={(e) => setSku(e.value)} />
           </Container>
           <Container className='text-input'>
             <Text textType='p'>Descripción</Text>
@@ -182,58 +146,25 @@ export const AddSparePart = () => {
           </Container>
         </Container>
         <Container className='right-container'>
-          <Container className='select-container'>
-            <Text textType='p'>CATEGORÍA</Text>
-            <Select value={category} options={categoryList.map((value) => ({name:value, value}))} onChange={(param) => setCategory(param)}/>
-          </Container>
-          <Container className='select-container'>
-            <Text textType='p'>FAMILIA</Text>
-            <Select value={family} options={familyList.map((value) => ({name:value, value}))} onChange={(param) => setFamily(param)}/>
-          </Container>
-          <Container className='select-container'>
-            <Text textType='p'>MARCA DE AUTO</Text>
-            <Select value={brand} options={brandList.map((value) => ({name:value, value}))} onChange={(param) => setBrand(param)}/>
-          </Container>
-          <Container className='select-container'>
-            <Text textType='p'>CILINDROS</Text>
-            <Select value={cilinders} options={cilindersList.map((value) => ({name:value, value}))} onChange={(param) => setCilinders(param)}/>
-          </Container> 
-          <Container className='select-container'>
-            <Text textType='p'>LTS</Text>
-            <Select value={lts} options={ltsList.map((value) => ({name:value, value}))} onChange={(param) => setLts(param)}/>
-          </Container> 
-          <Container className='select-container'>
-            <Text textType='p'>CM</Text>
-            <Select value={cm} options={cmList.map((value) => ({name:value, value}))} onChange={(param) => setCm(param)}/>
-          </Container> 
-          <Container className='select-container'>
-            <Text textType='p'>PU</Text>
-            <Select value={pu} options={puList.map((value) => ({name:value, value}))} onChange={(param) => setPu(param)}/>
-          </Container> 
-          <Container className='select-container'>
-            <Text textType='p'>MOTOR</Text>
-            <Select value={motor} options={motorList.map((value) => ({name:value, value}))} onChange={(param) => setMotor(param)}/>
-          </Container> 
-          <Container className='select-container'>
-            <Text textType='p'>VALVULAS</Text>
-            <Select value={valves} options={valvesList.map((value) => ({name:value, value}))} onChange={(param) => setValves(param)}/>
-          </Container>
-          <Container className='select-container'>
-            <Text textType='p'>MODELO</Text>
-            <Select value={models} options={modelsList.map((value) => ({name:value, value}))} onChange={(param) => setModels(param)}/>
-          </Container>
-          <Container className='select-container'>
-            <Text textType='p'>ESPECIFICACIONES</Text>
-            <Select value={specifications} options={specificationsList.map((value) => ({name:value, value}))} onChange={(param) => setSpecifications(param)}/>
-          </Container> 
-          <Container className='select-container'>
-            <Text textType='p'>LINEA</Text>
-            <Select value={line} options={lineList.map((value) => ({name:value, value}))} onChange={(param) => setLine(param)}/>
-          </Container>
-          <Container className='select-container'>
-            <Text textType='p'>MARCA DE PRODUCTO</Text>
-            <Select value={productBrand} options={productBrandList.map((value) => ({name:value, value}))} onChange={(param) => setProductBrand(param)}/>
-          </Container> 
+          {
+            filterValues?.map(({key, label, options}:any) => {
+              console.log({filters});
+              return (
+                <Container key={key} className='select-container'>
+                  <Text textType='p'>{label}</Text>
+                  <Select
+                    value={filters && (filters as any)[key]}
+                    options={options.map((value:any) => ({value, name: value}))}
+                    onChange={(value) => {
+                      console.log({options, value, key})
+                      setFilters({ ...filters, [key]: value })
+                    }}
+                  />
+                </Container>
+              )}
+            )
+          }
+          
         </Container>
       </Container>
     </StyledAddSparePart>

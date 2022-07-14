@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios';
-import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, getFirestore, setDoc } from 'firebase/firestore';
+import { query, addDoc, collection, deleteDoc, where, doc, getDoc, getDocs, getFirestore, setDoc } from 'firebase/firestore';
 import * as firebase from 'firebase/app'
 import firebaseConfig from '../../../firebase/firebaseConfig';
 
@@ -14,14 +14,33 @@ if (firebase.getApps().length === 0) {
 
 const db = getFirestore();
 
+type SparePartListParams = {
+  search?: string,
+  filters?: Record<string, string>[]
+}
+
 const getSparePartList = createAsyncThunk(
   'spareParts/getSparePartList',
-  async (params: void, { rejectWithValue, dispatch }) => {
+  async (params: Record<string, string | Record<string, string>> | void, { rejectWithValue, dispatch }) => {
+    const filters = (params as any).filters || []
     try {
       const newDocs:any = []
-      const querySnapshot = await getDocs(collection(db, "spareParts"));
-      querySnapshot.forEach((doc:any) => newDocs.push({...doc.data(), id: doc.id})); 
-      return { sparePartList: newDocs }
+      const queryFilters = Object.keys(filters).map(
+        (filter:any) => {
+          console.log(filter, "==", filters[filter])
+          return where(filter, "==", filters[filter])
+        },
+      );
+      
+      const query_:any = query(
+        collection(db, "spareParts"),
+        ...queryFilters
+        )
+      const querySnapshot = await getDocs(query_)
+      querySnapshot.forEach((doc) => {
+        newDocs.push(doc.data());
+      });
+      return ({ sparePartList: newDocs })
     } catch (err) {
       if (!(err as Record<string, string>).response) {
         throw err
