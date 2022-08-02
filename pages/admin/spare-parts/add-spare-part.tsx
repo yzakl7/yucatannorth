@@ -54,6 +54,7 @@ export const AddSparePart = () => {
   const { createSparePartItem } = sparePartsOperations
   const [ name, setName ] = useState('')
   const [ similars, setSimilars ] = useState('')
+  const [ imageUrl, setImageUrl ] = useState('')
   const [ sku, setSku ] = useState('')
   const [ description, setDescription ] = useState('')
   const [ filters, setFilters ] = useState({})
@@ -80,6 +81,7 @@ export const AddSparePart = () => {
       years,
       similars,
       indexedKeywords,
+      imageUrl,
       ...filters
     }
 
@@ -113,12 +115,16 @@ export const AddSparePart = () => {
             <TextInput placeholder='Dejar vacío para generacion automática' value={sku} onChange={({target: { value }}) => setSku(value)} />
           </Container>
           <Container className='text-input'>
+            <Text textType='p'>ImageURL</Text>
+            <TextInput value={imageUrl} onChange={({target: { value }}) => setImageUrl(value)} />
+          </Container>
+          <Container className='text-input'>
             <Text textType='p'>Descripción</Text>
-            <TextInput  value={description} onChange={({target: { value }}) => setDescription(value)} />
+            <TextInput multiline='15' value={description} onChange={({target: { value }}) => setDescription(value)} />
           </Container>
           <Container className='text-input'>
             <Text textType='p'>Similares</Text>
-            <TextInput  value={similars} onChange={({target: { value }}) => setSimilars(value)} />
+            <TextInput multiline='15' value={similars} onChange={({target: { value }}) => setSimilars(value)} />
           </Container>
         </Container>
         <Container className='right-container'>

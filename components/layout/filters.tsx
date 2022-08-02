@@ -59,22 +59,49 @@ export const Filters = ({ onChange, value }:any) => {
   
 
   const renderFilters = () => {
-    return settings && Object.keys(values).map((cat:any, i:number) => {
-      return (
-        <Container className='filter-contaner' key={cat} zIndex={`${Object.keys(settings.categories).length - i}`}>
-          <Select label={settings.categories[cat].label} value={values[cat]} onChange={(newValue) => onSelect(newValue, cat)} options={settings.categories[cat].options}/>
-        </Container>
-      )
-        
-      // return settings.categories[cat].options?.map((opt:any) => (
-      //   <option key={opt}>
-      //     {opt}
-      //   </option>
-      // ))
 
+    const obj = settings && Object.keys(values).map((cat:any, i:number) => {
+      return ({
+        cat,
+        value: values[cat],
+        onSelect: (newValue:any) => onSelect(newValue, cat),
+        options: settings.categories[cat].options,
+        order: settings.categories[cat].order,
+        label: settings.categories[cat].label,
+        zIndex: Object.keys(settings.categories).length - i,
+
+      })
     })
 
-  
+    const compare = (a:any, b:any) => {
+      console.log({a:a.order, b:b.order});
+      if (Number(a.order) < Number(b.order)) {
+        return -1
+      }
+      if (Number(a.order) > Number(b.order)) {
+        return 1
+      }
+
+      return 0
+    }
+
+    const sortedObj = obj?.sort(compare)
+    return sortedObj?.map((params:any) => {
+      const {
+        cat,
+        value,
+        onSelect:paramsOnselect,
+        options,
+        order,
+        zIndex,
+        label
+      } = params
+      return (
+        <Container className='filter-contaner' key={cat} zIndex={`${Number(sortedObj.length) - Number(order)}`}>
+          <Select label={label} value={value} onChange={paramsOnselect} options={options}/>
+        </Container>
+      )
+    })
   }
 
   return (

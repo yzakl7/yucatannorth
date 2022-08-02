@@ -16,15 +16,17 @@ interface TextInputProps {
   type?: string,
   color?: string,
   background?: string
+  multiline?: string
 }
 
 const StyledInput = styled(Container)`
   position: relative;
   flex-direction: row;
   flex: 1;
-  input {
+  input, textarea {
     padding: 15px;
     outline: none;
+    flex: 1;
   }
   .label {
     flex: 1;
@@ -49,7 +51,9 @@ export const TextInput = ({
   onFocus,
   onBlur,
   onKeyDown,
+  multiline
 }: TextInputProps) => {
+ 
   return (
     <StyledInput className={'text-input'}>
       {label && <Container className={'label'}>
@@ -57,16 +61,34 @@ export const TextInput = ({
           {label}
         </Text>
       </Container>}
-      <input
-        placeholder={placeholder}
-        type={type}
-        value={value}
-        onChange={onChange}
-        onClick={onClick}
-        onFocus={onFocus}
-        onBlur={onBlur}
-        onKeyDown={onKeyDown}
-      />
+      {
+        multiline 
+        ? (
+          <textarea
+            placeholder={placeholder}
+            value={value}
+            onChange={({target: {value}}:any) => { 
+              if (onChange) {
+                onChange(value)
+              }
+            }}
+            rows={parseInt(multiline, 10)}
+            style={{resize: 'none'}}
+          />
+        )
+        : (
+          <input
+            placeholder={placeholder}
+            type={type}
+            value={value}
+            onChange={onChange}
+            onClick={onClick}
+            onFocus={onFocus}
+            onBlur={onBlur}
+            onKeyDown={onKeyDown}
+          />
+        )
+      }
     </StyledInput>
   )
 }

@@ -28,7 +28,7 @@ const userManagerReducer = createReducer(initialState, (builder) => {
     .addCase(actions.getSparePartList.fulfilled, (state,action) => {
       state.isFetching = false
       state.error = undefined
-      state.sparePartList = action.payload.sparePartList
+      state.sparePartList = action.payload?.sparePartList
     })
     .addCase(actions.getSparePartItem.pending, (state) => {
       state.isFetching = true

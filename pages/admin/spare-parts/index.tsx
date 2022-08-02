@@ -2,11 +2,12 @@ import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { Button, IconButton, SearchInput } from '../../../components/inputs'
-import { Container, Modal, Paginator, Text } from '../../../components/ui'
+import { Container, Image, Modal, Paginator, Text } from '../../../components/ui'
 import { hooks, settingsOperations, sparePartsOperations, sparePartsSelectors } from '../../../state'
 import { getColor } from '../../../utils/theme'
-import { AiOutlinePoweroff, AiOutlineDelete } from 'react-icons/ai'
+import { AiOutlinePoweroff, AiOutlineDelete, AiOutlinePicture } from 'react-icons/ai'
 import { RiEditBoxLine } from 'react-icons/ri'
+import { FcPicture } from 'react-icons/fc'
 import { FaSearch } from 'react-icons/fa'
 import { Filters } from '../../../components/layout'
 
@@ -47,6 +48,13 @@ const StyledSpareParts = styled(Container)`
     flex-direction: column;
     .details-container {
       flex-direction: row;
+      .image-container {
+        width: 75px;
+        height: 75px;
+        img {
+          object-fit: cover;
+        }
+      }
     }
 
   }
@@ -58,6 +66,10 @@ const StyledSpareParts = styled(Container)`
 
   }
   white-space: nowrap;
+  .no-results-filters-container {
+    max-width: 800px;
+    padding-top: 32px;
+  }
 `
 
 export const SpareParts = () => {
@@ -178,19 +190,31 @@ export const SpareParts = () => {
               id,
               description,
               car_brand,
-              similars
+              similars,
+              item_brand,
+              imageUrl
             } = sparePart 
             return (
               <Container className='sparePart-container' key={`${id}`}>
                 <Container className='details-container' gap='32px'> 
-
+                  <Container className='image-container'>
+                    {
+                      imageUrl
+                      ? <Image src={imageUrl} alt='spare part image' />
+                      : <FcPicture size={75}/>
+                    }
+                  </Container>
                   <Container justify='' flex='1'>
                     <Text textType='h3'>Clave de producto:</Text>
                     <Text textType='p'>{sku || id}</Text>
                   </Container>
                   <Container justify='' flex='1'>
-                    <Text textType='h3'>Marca de producto:</Text>
+                    <Text textType='h3'>Marca de vehículo:</Text>
                     <Text textType='p'>{car_brand}</Text>
+                  </Container>
+                  <Container justify='' flex='1'>
+                    <Text textType='h3'>Marca de producto:</Text>
+                    <Text textType='p'>{item_brand}</Text>
                   </Container>
                   <Container justify='' flex='1'>
                     <Text textType='h3'>Nombre:</Text>
@@ -240,17 +264,28 @@ export const SpareParts = () => {
   return (
     <StyledSpareParts>
       <Modal onClose={() => setFiltersModal(false)} isVisible={filtersModal} content={renderFiltersModal()}/>
-      <Container align='center' direction='row' justify='space-between'>
+      <Container align='center' direction='row'>
         <Button buttonStyle='primaryReverse' action={() => push('./spare-parts/add-spare-part')}><Text textType='p'>Agregar refaccion</Text></Button>
-        <Button buttonStyle='primary' action={() => setFiltersModal(true)}>
+        {!!sparePartList?.length && <Button buttonStyle='primary' action={() => setFiltersModal(true)}>
           <Text textType='p'>
             Encontrar refaccion
           </Text>
           <FaSearch color='white'/>
-        </Button>
-        
-        
+        </Button>}
       </Container>
+      { !sparePartList?.length && (
+        <Container className='no-results-filters-container' gap='32px'>
+          <Filters value={filters} onChange={(param:any) => setFilters(param)} />
+          <Container align='flex-end'>
+            <Button buttonStyle='primary' action={() => onSearchFilters()}>
+              <Text textType='p'>
+                Buscar
+              </Text>
+              <FaSearch color='white'/>
+            </Button>
+          </Container>
+        </Container>
+      )}
       {renderSpareParts()}
     </StyledSpareParts>
   )

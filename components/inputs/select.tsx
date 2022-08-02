@@ -20,6 +20,7 @@ const StyledSelect = styled(Container)`
     }
   }
   .label-container {
+    position: absolute;
     padding-left: 16px;
     padding-top: 4px;
     p {
