@@ -1,6 +1,6 @@
-import { createAsyncThunk } from '@reduxjs/toolkit'
+import { createAction, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios';
-import { query, addDoc, collection, deleteDoc, where, doc, getDoc, getDocs, getFirestore, setDoc } from 'firebase/firestore';
+import { query, addDoc, collection, deleteDoc, where, doc, getDoc, getDocs, getFirestore, setDoc, limit } from 'firebase/firestore';
 import * as firebase from 'firebase/app'
 import firebaseConfig from '../../../firebase/firebaseConfig';
 
@@ -21,26 +21,44 @@ type SparePartListParams = {
 
 const getSparePartList = createAsyncThunk(
   'spareParts/getSparePartList',
-  async (params: Record<string, string | Record<string, string>> | void, { rejectWithValue, dispatch }) => {
-    const filters = (params as any).filters || []
+  async (params: any, { rejectWithValue, dispatch }) => {
+    const filters = (params as any)?.filters || []
+    const { query: queryParam } = params
     try {
       const newDocs:any = []
+      const colRef = collection(db, "spareParts")
       const queryFilters = Object.keys(filters).map(
         (filter:any) => {
-          console.log(filter, "==", filters[filter])
           return where(filter, "==", filters[filter])
         },
       );
-      
-      const query_:any = query(
-        collection(db, "spareParts"),
-        ...queryFilters
+
+      if (queryFilters.length) {
+        const query_:any = query(
+          colRef,
+          ...queryFilters,
+          limit(500)
         )
-      const querySnapshot = await getDocs(query_)
-      querySnapshot.forEach((doc) => {
-        newDocs.push(doc.data());
-      });
-      return ({ sparePartList: newDocs })
+        const querySnapshot = await getDocs(query_)
+        querySnapshot.forEach((doc:any) => {
+          newDocs.push({...doc.data(), id: doc.id});
+        });
+        return ({ sparePartList: newDocs })
+      } 
+
+      if (queryParam) {
+        const query_:any = query(
+          colRef,
+          where("indexedKeywords", 'array-contains', queryParam),
+          limit(500)
+        )
+        const querySnapshot = await getDocs(query_)
+        querySnapshot.forEach((doc:any) => {
+          newDocs.push({...doc.data(), id: doc.id});
+        });
+        return ({ sparePartList: newDocs })
+      } 
+
     } catch (err) {
       if (!(err as Record<string, string>).response) {
         throw err
@@ -72,7 +90,6 @@ const createSparePartItem = createAsyncThunk(
   async ({ params, callback }: {params: any, callback?: () => void }, { rejectWithValue, dispatch }) => {
     try {
       await addDoc(collection(db, "spareParts"), { ...params })
-      dispatch(getSparePartList())
       if (callback) {
         callback()
       }
@@ -85,16 +102,28 @@ const createSparePartItem = createAsyncThunk(
   },
 )
 
+const clearSelectedSparePart = createAction(
+  'spareParts/clearSelectedSparePart',
+  () => ({payload: ''})
+)
+
+const clearSparePartList = createAction(
+  'spareParts/clearSparePartList',
+  () => ({payload: ''})
+)
+
 const updateSparePartItem = createAsyncThunk(
   'spareParts/updateSparePartItem',
   async ({ params, callback }: {params: any, callback?: () => void }, { rejectWithValue, dispatch }) => {
     try {
       await setDoc(doc(db, "spareParts", params.id), { ...params })
-      dispatch(getSparePartList())
+      console.log('success')
+      // dispatch(getSparePartList())
       if (callback) {
         callback()
       }
     } catch (err) {
+      console.log('no success',err)
       if (!(err as Record<string, string>).response) {
         throw err
       }
@@ -110,7 +139,7 @@ const deleteSparePartItem = createAsyncThunk(
   async ({ id, callback }: any, { rejectWithValue, dispatch }) => {
     try {
       await deleteDoc(doc(db, "spareParts", id));
-      dispatch(getSparePartList())
+      // dispatch(getSparePartList())
       if (callback) { callback() }
     } catch (err) {
       if (!(err as Record<string, string>).response) {
@@ -126,7 +155,9 @@ const userManagerActions = {
   getSparePartItem,
   createSparePartItem,
   updateSparePartItem,
-  deleteSparePartItem
+  deleteSparePartItem,
+  clearSelectedSparePart,
+  clearSparePartList
 }
 
 export default userManagerActions

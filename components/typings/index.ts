@@ -20,6 +20,7 @@ export interface ContainerProps {
   minWidth?: string
   flex?: string
   direction?: string
+  zIndex?: string
   gap?: string
   height?: string
   align?: string
@@ -86,7 +87,8 @@ export interface StyledProps extends ContainerProps {
 
 export interface SelectProps {
   placeholder?: string,
-  value?: string | number,
+  value?: string,
+  label?: string,
   onChange?: (x:string) => void,
   range?: number[],
   months?: boolean,

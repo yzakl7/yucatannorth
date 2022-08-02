@@ -9,6 +9,7 @@ import { FaSearch } from 'react-icons/fa'
 interface SearchInputProps {
   value: string
   onChange: (newValue: string) => void
+  onSearch: () => void
   
 }
 
@@ -16,43 +17,24 @@ const StyledSearchInput = styled(Container)`
   flex-direction: row;
   align-items: center;
   border: 1px solid ${getColor('border')};
-  padding: 0 16px; 
   .search-icon-container {
+    flex: unset;
+    padding: 8px;
     color: ${getColor('primary')};
   }
-  input {
+  .text-input {
     padding: 0!important;
+    input {
+      border: none;
+      flex: 1;
+    }
   }
 `
 
-export const SearchInput = ({value:defaultValue, onChange: propsOnchange}: SearchInputProps) => {
-  const [value, setValue] = useState(defaultValue)
-
-  const onChange = (e:any) => {
-    setValue(e.value)
-  }
-
-  const handleKeyPress = (e:any) => {
-    const enterPressed = e.key === 'Enter'
-    if(enterPressed){
-      onSearch()
-    }
-  }
-
-  const onSearch = () => {
-    propsOnchange(value)
-  }
-
-  useEffect(() => {
-    document.addEventListener("keydown", handleKeyPress);
-    return () => {
-      document.removeEventListener("keydown", handleKeyPress)
-    }
-  }, [value])
-  
+export const SearchInput = ({value, onChange, onSearch}: SearchInputProps) => {
   return (
     <StyledSearchInput gap='8px' className='search-input-container'>
-      <TextInput value={value} onChange={onChange} />
+      <TextInput value={value} onChange={(e) => onChange(e.target.value)} />
       <Container className='search-icon-container' onClick={onSearch}>
         <FaSearch />
       </Container>

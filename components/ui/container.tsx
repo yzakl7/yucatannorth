@@ -11,6 +11,11 @@ const StyledContainer = styled.div`
     css`
       flex-direction: ${direction};
     `}
+  ${({ zIndex }: ContainerProps ) =>
+    zIndex &&
+    css`
+      z-index: ${zIndex};
+    `}
   ${({ padding }: ContainerProps) =>
     padding &&
     css`

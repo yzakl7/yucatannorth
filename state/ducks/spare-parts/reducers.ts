@@ -43,6 +43,16 @@ const userManagerReducer = createReducer(initialState, (builder) => {
       state.error = undefined
       state.sparePartItem = action.payload.sparePartItem
     })
+    .addCase(actions.clearSelectedSparePart, (state,action) => {
+      state.isFetching = false
+      state.error = undefined
+      state.sparePartItem = undefined
+    })
+    .addCase(actions.clearSparePartList, (state,action) => {
+      state.isFetching = false
+      state.error = undefined
+      state.sparePartList = undefined
+    })
 })
 
 export default userManagerReducer

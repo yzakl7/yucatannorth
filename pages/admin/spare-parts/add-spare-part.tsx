@@ -2,11 +2,13 @@ import styled from '@emotion/styled'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import { Button, Select, TextInput } from '../../../components/inputs'
+import { Filters } from '../../../components/layout'
 import { Container, Text } from '../../../components/ui'
 import { hooks, sparePartsOperations, sparePartsSelectors } from '../../../state'
 import { getColor } from '../../../utils/theme'
 
 const StyledAddSparePart = styled(Container)`
+  flex: 1;
   .title {
     align-items: center;
     padding: 16px;
@@ -18,6 +20,7 @@ const StyledAddSparePart = styled(Container)`
     flex-direction: row;
     flex: 1;
     gap: 32px;
+    max-width: 1024px;
     padding: 16px;
     .left-container {
       flex: 1;
@@ -44,21 +47,6 @@ const StyledAddSparePart = styled(Container)`
   }
 `
 
-const filterValues = [
-  { label: 'CATEGORÍA', key:'category', options: ["N/A", "ARTICULOS DE AFINACION"]},
-  { label: 'FAMILIA', key:'family', options: ["N/A", "FILTRO DE ACEITE"]},
-  { label: 'MARCA DE AUTO', key:'brand', options: ["N/A", "AUDI"]},
-  { label: 'CILINDROS', key:'cilinders', options: ["N/A", "V6"]},
-  { label: 'LTS', key:'lts', options: ["N/A", "(2.8)"]},
-  { label: 'CM', key:'cm', options: ["N/A"]},
-  { label: 'PU', key:'pu', options: ["N/A"]},
-  { label: 'MOTOR', key:'motor', options: ["N/A"]},
-  { label: 'VÁLVULAS', key:'valves', options: ["N/A"]},
-  { label: 'MODELO', key:'models', options: ["N/A", '100']},
-  { label: 'ESPECIFICACIÓNES', key:'specifications', options: ["N/A"]},
-  { label: 'LINEA', key:'line', options: ["N/A", "FA"]},
-  { label: 'MARCA DE PRODUCTO', key:'productBrand', options: ["N/A", "PART MASTER"]},
-]
 
 
 export const AddSparePart = () => {
@@ -68,7 +56,7 @@ export const AddSparePart = () => {
   const [ similars, setSimilars ] = useState('')
   const [ sku, setSku ] = useState('')
   const [ description, setDescription ] = useState('')
-  const [ filters, setFilters ] = useState<Record<string, string>>()
+  const [ filters, setFilters ] = useState({})
 
   const [years, setYears] = useState([])
   const { push } = useRouter()
@@ -76,21 +64,29 @@ export const AddSparePart = () => {
   const dispatch = useAppDispatch()
 
   const onUpdateSparePart = () => {
+    const splitList = name.toLowerCase().split(' ')
+      const indexedKeywords = []
+
+      for (let i = 0; i < splitList.length; i++) {
+        for (let j = 0; j < splitList[i].length; j++) {
+          indexedKeywords.push(splitList[i].substring(0, j + 1))
+        }
+      
+      }
     const sparePartDetails = {
       name,
       sku,
       description,
-      filters,
       years,
-      similars
+      similars,
+      indexedKeywords,
+      ...filters
     }
-    const callback = () => push('./')
-    console.log({sparePartDetails});
-    dispatch(createSparePartItem({params: sparePartDetails, callback}))
-  }
 
-  useEffect(() => {
-  }, [])
+
+    const callback = () => push('./')
+    dispatch(createSparePartItem({params: { ...sparePartDetails }, callback}))
+  }
   
   return (
     <StyledAddSparePart>
@@ -99,11 +95,6 @@ export const AddSparePart = () => {
           Editar refacción
         </Text>
         <Container direction='row'>
-          <Button buttonStyle='primaryReverse' action={() => push('./')}>
-            <Text textType='p'>
-              Ver lsta de refacciónes
-            </Text>
-          </Button>
           <Button buttonStyle='primaryReverse' action={onUpdateSparePart}>
             <Text textType='p'>
               Guardar
@@ -115,41 +106,23 @@ export const AddSparePart = () => {
         <Container className='left-container'>
           <Container className='text-input'>
             <Text textType='p'>Nombre</Text>
-            <TextInput value={name} onChange={(e) => setName(e.value)} />
+            <TextInput value={name} onChange={({target: { value }}) => setName(value)} />
           </Container>
           <Container className='text-input'>
             <Text textType='p'>Clave del producto</Text>
-            <TextInput placeholder='Dejar vacío para generacion automática' value={sku} onChange={(e) => setSku(e.value)} />
+            <TextInput placeholder='Dejar vacío para generacion automática' value={sku} onChange={({target: { value }}) => setSku(value)} />
           </Container>
           <Container className='text-input'>
             <Text textType='p'>Descripción</Text>
-            <TextInput multiline='15' value={description} onChange={(e) => setDescription(e.value)} />
+            <TextInput  value={description} onChange={({target: { value }}) => setDescription(value)} />
           </Container>
           <Container className='text-input'>
             <Text textType='p'>Similares</Text>
-            <TextInput multiline='15' value={similars} onChange={(e) => setSimilars(e.value)} />
+            <TextInput  value={similars} onChange={({target: { value }}) => setSimilars(value)} />
           </Container>
         </Container>
         <Container className='right-container'>
-          {
-            filterValues?.map(({key, label, options}:any) => {
-              console.log({filters});
-              return (
-                <Container key={key} className='select-container'>
-                  <Text textType='p'>{label}</Text>
-                  <Select
-                    value={filters && (filters as any)[key]}
-                    options={options.map((value:any) => ({value, name: value}))}
-                    onChange={(value) => {
-                      console.log({options, value, key})
-                      setFilters({ ...filters, [key]: value })
-                    }}
-                  />
-                </Container>
-              )}
-            )
-          }
-          
+          <Filters value={filters} onChange={setFilters} />
         </Container>
       </Container>
     </StyledAddSparePart>

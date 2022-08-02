@@ -4,13 +4,14 @@ import actions from './actions'
 export type SettingsState = {
   isFetching: boolean
   slideList?: any
+  settings?: any
   error?: SerializedError
 }
 
 const initialState: SettingsState = {
   isFetching: false,
   error: undefined,
-  slideList: []
+  slideList: [],
 }
 
 const settingsReducer = createReducer(initialState, (builder) => {
@@ -26,6 +27,18 @@ const settingsReducer = createReducer(initialState, (builder) => {
       state.isFetching = false
       state.error = undefined
       state.slideList = action.payload.slideList
+    })
+    .addCase(actions.getSettings.pending, (state) => {
+      state.isFetching = true
+    })
+    .addCase(actions.getSettings.rejected, (state, action) => {
+      state.isFetching = false
+      state.error = action.error
+    })
+    .addCase(actions.getSettings.fulfilled, (state,action) => {
+      state.isFetching = false
+      state.error = undefined
+      state.settings = action.payload.settings
     })
     .addCase(actions.deleteSlide.pending, (state) => {
       state.isFetching = true

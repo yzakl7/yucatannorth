@@ -12,30 +12,30 @@ import { RiEditBoxLine } from 'react-icons/ri'
 const StyledUserManager = styled(Container)`
   padding: 16px;
   width: 100%;
+  .modal-content {
+    justify-content: center;
+    align-items: center;
+    background: ${getColor('white')};
+    height: 250px;
+    width: 350px;
+    padding: 32px;
+    justify-content: space-between;
+    h4 {
+      white-space: break-spaces;
+      text-align: center;
+      line-height: 32px;
+    }
+    .buttons-container {
+      justify-content: space-between;
+      flex-direction: row;
+      width: 100%;
+    }
+  }
   .user-container {
     border: 1px solid;
     gap: 16px;
     padding: 16px;
     border: 1px solid ${getColor('border')};
-    .modal-content {
-      justify-content: center;
-      align-items: center;
-      background: ${getColor('white')};
-      height: 250px;
-      width: 350px;
-      padding: 32px;
-      justify-content: space-between;
-      h4 {
-        white-space: break-spaces;
-        text-align: center;
-        line-height: 32px;
-      }
-      .buttons-container {
-        justify-content: space-between;
-        flex-direction: row;
-        width: 100%;
-      }
-    }
   }
   white-space: nowrap;
 `
@@ -113,8 +113,6 @@ export const UserManager = () => {
       if (!customClaims) return <></>
       return (
         <Container className='user-container' key={`${uid}`} direction='row'>
-          <Modal onClose={() => setDeleteModal({visibility: false, user: {}})} isVisible={deleteModal.visibility} content={renderDeleteModal()}/>
-          <Modal onClose={() => setDisableModal({visibility: false, user: {}})} isVisible={disableModal.visibility} content={renderDisableModal()}/>
           <Container justify='' flex='1.5'>
             <Text textType='h3'>Email:</Text>
             <Text textType='p'>{email}</Text>
@@ -179,6 +177,8 @@ export const UserManager = () => {
       <Container align='flex-end'>
         <Button action={() => push('user-manager/create-user')}><Text textType='p'>Crear Usuario</Text></Button>
       </Container>
+      <Modal onClose={() => setDeleteModal({visibility: false, user: {}})} isVisible={deleteModal.visibility} content={renderDeleteModal()}/>
+      <Modal onClose={() => setDisableModal({visibility: false, user: {}})} isVisible={disableModal.visibility} content={renderDisableModal()}/>
       {renderUsers()}
     </StyledUserManager>
   )

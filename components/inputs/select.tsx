@@ -1,84 +1,113 @@
+import { useEffect, useState } from 'react'
 import styled from 'styled-components'
+import { TextInput } from '.'
 import { getColor } from '../../utils/theme'
 import { SelectProps } from '../typings'
+import { Container, Dropdown, Text } from '../ui'
 
-const StyledSelect = styled.select`
-  display: flex;
-  flex: 1;
-  align-items: center;
+const StyledSelect = styled(Container)`
   height: 100%;
-  min-height: 40px;
-  padding-left: 8px;
-  border: 1px solid ${getColor('border')};
   outline: none;
+  .text-input {
+    input {
+      width: 100%;
+    }
+  }
+  .option {
+    padding: 16px;
+    &:hover {
+      background: rgba(0,0,0,.2);
+    }
+  }
+  .label-container {
+    padding-left: 16px;
+    padding-top: 4px;
+    p {
+      font-size: 11px;
+      font-weight: 800;
+    }
+  }
 `
 
 
 export const Select = ({
-  placeholder,
   value,
   options,
-  range,
-  disabled,
-  months,
+  label,
   onChange = () => null,
 }: SelectProps) => {
+  const [expandDropdown, setExpandDropdown] = useState(false)
+  const [searchValue, setSearchValue] = useState('')
+  const [fitleredOptions, setFitleredOptions] = useState(options)
+  const [isFocused, setIsFocused] = useState(false)
+  // return <select style={{maxWidth: '250px'}} key={cat}>
+  //         {
+  //           settings.categories[cat].options?.map((opt:any) => (
+  //             <option key={opt}>
+  //                 {opt}
+  //               </option>
+  //             )) 
+  //         }
+  //       </select>
 
-  if (months) {
-    const months = [placeholder, 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-    return (
-      <StyledSelect className='select-container' disabled={disabled} value={value} onChange={({target}) => {
-        const value = `${target.value}`
-        return (onChange(value))
-      }}>
-        {
-          months.map((month, i) => (
-            <option hidden={i === 0} value={i} key={month}>{month}</option>
-          ))
-        } 
-      </StyledSelect>
-    )
-  }
+  useEffect(() => {
+    if (!searchValue) {
+      setFitleredOptions(options)
+    } else {
+      const newOptions  = (options as any).filter((opt:any) => {
+
+        return opt.toLowerCase().indexOf(`${searchValue}`.toLowerCase()) !== -1
+
+      })
+      setFitleredOptions(newOptions)
+    }
+
+  }, [searchValue])
+
+  useEffect(() => {
+    setExpandDropdown(isFocused)
+    if (!isFocused) {
+      setTimeout(() => {
+        
+        setSearchValue('')
+      }, 1000);
+    }
+  }, [isFocused])
   
-  if (range) {
-    const rangeLength  = new Array(range[1] ? (range[1] - range[0]) : range[0]).length
-    const rangeArray = new Array(rangeLength).fill(undefined).map((val,idx) => `${idx}`)
-    rangeArray.unshift(placeholder || '')
-    return (
-      <StyledSelect disabled={disabled} value={value} onChange={(e) => {
-        const val = parseInt(e.target.value, 10)
-        return (
-          onChange(`${val}`)
-        )
-      }}>
-        {
-          rangeArray.map((el, i) => {
-            const key = Math.random()
-            return (
-              <option
-                hidden={el === placeholder}
-                value={range[1] ? range[0] + i : el}
-                key={key}
-              >
-                {
-                  el === placeholder 
-                    ? placeholder
-                    : range[1] ? range[0] + i : el
-                }
-              </option>
-            )
-          })
-        } 
-      </StyledSelect>
-    )
-  }
+  
   return (
-    <StyledSelect style={{background: disabled ? getColor('border') : 'unset'}} disabled={disabled} value={value} onChange={(e) => onChange(`${e.target.value}`)}>
-      {
-        (options as Record<string, string>[])?.map(({value, name}) => (
-          <option value={value} key={value}>{name}</option>
-        ))
-      }
+    <StyledSelect>
+      
+      <Dropdown
+        isExpanded={expandDropdown}
+        trigger={()=> (
+          <TextInput
+            onChange={({target}) => setSearchValue(target.value)}
+            value={isFocused ? searchValue : value}
+            onBlur={() => setIsFocused(false)}
+            onFocus={() => setIsFocused(true)}
+          />
+        )}
+        onClose={() => setExpandDropdown(false)}
+      >
+        
+        {
+          fitleredOptions?.map((opt:any) => (
+            <Container
+              className='option'
+              key={opt}
+              onClick={() => onChange(opt)}
+            >
+              {opt}
+            </Container>
+          )) 
+        }
+      </Dropdown>
+      <Container className='label-container'>
+        <Text textType='p'>
+          {label }
+        </Text>
+      </Container>
     </StyledSelect>
   )
 }

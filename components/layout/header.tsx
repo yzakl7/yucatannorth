@@ -197,14 +197,6 @@ export const Header = () => {
     )
   }
 
-  const renderSearchBar = () => {
-    return (
-      <Container className='search-bar-container'>
-        <SearchInput value='' onChange={() => null} />
-      </Container>
-    )
-  }
-
   return (
     <StyledHeader>
       <Container className={`${isAuthenticated ? 'menu-container authenticated' : 'menu-container'}`}>

@@ -5,7 +5,7 @@ import { Container, Modal, Page } from '../components/ui'
 import { ProtectRoute } from '../components/ProtectRoute'
 import { useRouter } from 'next/router'
 import { Provider } from 'react-redux'
-import { store } from '../state'
+import { hooks, settingsOperations, store } from '../state'
 import { useEffect } from 'react'
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
@@ -29,14 +29,15 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
       }, 650);
     }
   }, [pathname])
-  
+
+
   return (
     <Provider store={store}>
       <ProtectRoute>
         <Page>
           <AdminHeader />
           {showWebLayout && <Header />}
-          <Container height='100%' gap="0" direction={showAdminLayout ? 'row' : 'column'}>
+          <Container height='calc(100% - 67px)' gap="0" direction={showAdminLayout ? 'row' : 'column'}>
             {showAdminLayout && <AdminNav />}
             <Component { ...pageProps } />
           </Container>

@@ -5,6 +5,7 @@ import { Container, Image, Text } from '../../components/ui'
 import { hooks, settingsOperations, settingsSelectors } from '../../state'
 import { BiImageAdd } from 'react-icons/bi'
 import { getColor } from '../../utils/theme'
+import { CategoryManager } from '../../components/layout'
 
 const StyledSettings = styled(Container)`
   padding: 16px;
@@ -120,6 +121,7 @@ export const Settings = () => {
   return (
     <StyledSettings>
       { silderSection() }
+      <CategoryManager />
     </StyledSettings>
   )
 }

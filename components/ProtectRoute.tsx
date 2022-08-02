@@ -1,7 +1,7 @@
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useRouter } from "next/router";
 import { ReactElement, useEffect, useState } from "react";
-import { authOperations, authSelectors, hooks } from "../state";
+import { authOperations, authSelectors, hooks, settingsOperations } from "../state";
 
 type ProtectedRouteProps = {
   children: ReactElement<any, any>
@@ -18,6 +18,10 @@ export const ProtectRoute = ({ children }: ProtectedRouteProps) => {
   const isRestricted = !isAuthenticated && protectedRoute
   const authState = useAppSelector(selectAuth)
 
+  const { getSettings } = settingsOperations
+
+  
+
   const { setUser } = authOperations
   const dispatch = useAppDispatch()
   
@@ -33,6 +37,10 @@ export const ProtectRoute = ({ children }: ProtectedRouteProps) => {
       })
     }
   }, [pathname])
+
+  useEffect(() => {
+    dispatch(getSettings())
+  }, [])
   
   if (isRestricted) return <>Loading</>
       

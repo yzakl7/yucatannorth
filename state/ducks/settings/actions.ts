@@ -2,8 +2,10 @@ import { createAsyncThunk } from '@reduxjs/toolkit'
 import { deleteObject, getDownloadURL, getStorage, listAll, ref, uploadBytes } from "firebase/storage";
 import * as firebase from 'firebase/app'
 import firebaseConfig from '../../../firebase/firebaseConfig';
+import { collection, getDocs, getFirestore, query } from 'firebase/firestore';
 
 let firebaseApp
+const db = getFirestore();
 
 if (firebase.getApps().length === 0) {
   firebaseApp = firebase.initializeApp(firebaseConfig)
@@ -34,6 +36,27 @@ const getSlides = createAsyncThunk(
         )))
       )
       return ({ slideList })
+    } catch (err) {
+      if (!(err as Record<string, string>).response) {
+        throw err
+      }
+      return rejectWithValue(err)
+    }
+  },
+)
+
+const getSettings = createAsyncThunk(
+  'settings/getSettings',
+  async (params: void, { rejectWithValue, dispatch }) => {
+    const newDocs:any = []
+    const colRef = collection(db, "settings")
+    const query_:any = query(colRef)
+    try {
+      const querySnapshot = await getDocs(query_)
+      querySnapshot.forEach((doc:any) => {
+        newDocs.push({...doc.data(), id: doc.id});
+      });
+      return ({ settings: { categories: newDocs[0] }})
     } catch (err) {
       if (!(err as Record<string, string>).response) {
         throw err
@@ -81,7 +104,8 @@ export const uplad = async (id:string, name:string, file:any) => {
 const settingsActions = {
   getSlides,
   deleteSlide,
-  uploadSlide
+  uploadSlide,
+  getSettings
 }
 
 export default settingsActions
