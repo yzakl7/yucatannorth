@@ -10,6 +10,7 @@ import { RiEditBoxLine } from 'react-icons/ri'
 import { FcPicture } from 'react-icons/fc'
 import { FaSearch } from 'react-icons/fa'
 import { Filters } from '../../../components/layout'
+import { getFormattedGoogleDriveUrl } from '../../../utils/formatter'
 
 const StyledSpareParts = styled(Container)`
   padding: 16px;
@@ -200,7 +201,7 @@ export const SpareParts = () => {
                   <Container className='image-container'>
                     {
                       imageUrl
-                      ? <Image src={imageUrl} alt='spare part image' />
+                      ? <Image src={getFormattedGoogleDriveUrl(imageUrl)} alt='spare part image' />
                       : <FcPicture size={75}/>
                     }
                   </Container>

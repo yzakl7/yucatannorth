@@ -7,3 +7,10 @@ export const formatter = (data: number | string, format:string) => {
   }
   return formats[format]()
 }
+
+export const getFormattedGoogleDriveUrl = (url: string) => {
+  const processedUrl = url.replace('https://drive.google.com/file/d/', '')
+  const id = processedUrl.replace('/view?usp=sharing', '')
+
+  return `https://drive.google.com/uc?export=view&id=${id}`
+}

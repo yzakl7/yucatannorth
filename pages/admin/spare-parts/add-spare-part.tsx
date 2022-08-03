@@ -5,6 +5,7 @@ import { Button, Select, TextInput } from '../../../components/inputs'
 import { Filters } from '../../../components/layout'
 import { Container, Text } from '../../../components/ui'
 import { hooks, sparePartsOperations, sparePartsSelectors } from '../../../state'
+import { getFormattedGoogleDriveUrl } from '../../../utils/formatter'
 import { getColor } from '../../../utils/theme'
 
 const StyledAddSparePart = styled(Container)`
@@ -116,7 +117,7 @@ export const AddSparePart = () => {
           </Container>
           <Container className='text-input'>
             <Text textType='p'>ImageURL</Text>
-            <TextInput value={imageUrl} onChange={({target: { value }}) => setImageUrl(value)} />
+            <TextInput value={getFormattedGoogleDriveUrl(imageUrl)} onChange={({target: { value }}) => setImageUrl(value)} />
           </Container>
           <Container className='text-input'>
             <Text textType='p'>Descripción</Text>

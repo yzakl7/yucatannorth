@@ -72,9 +72,7 @@ export const Filters = ({ onChange, value }:any) => {
 
       })
     })
-
     const compare = (a:any, b:any) => {
-      console.log({a:a.order, b:b.order});
       if (Number(a.order) < Number(b.order)) {
         return -1
       }
