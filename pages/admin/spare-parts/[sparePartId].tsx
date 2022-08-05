@@ -312,11 +312,11 @@ export const AddSparePart = () => {
           </Container>
           <Container className='text-input'>
             <Text textType='p'>Descripción</Text>
-            <TextInput multiline='15' value={description} onChange={({target: { value }}) => setDescription(value)} />
+            <TextInput multiline='15' value={description} onChange={(val) => setDescription(`${val}`)} />
           </Container>
           <Container className='text-input'>
             <Text textType='p'>Similares</Text>
-            <TextInput multiline='15' value={similars} onChange={({target: { value }}) => setSimilars(value)} />
+            <TextInput multiline='15' value={similars} onChange={(val) => setSimilars(`${val}`)} />
           </Container>
         </Container>
         <Container className='right-container'>

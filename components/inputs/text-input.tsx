@@ -72,7 +72,7 @@ export const TextInput = ({
                 onChange(value)
               }
             }}
-            rows={parseInt(multiline, 10)}
+            rows={Number(multiline)}
             style={{resize: 'none'}}
           />
         )

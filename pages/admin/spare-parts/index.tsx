@@ -5,12 +5,13 @@ import { Button, IconButton, SearchInput } from '../../../components/inputs'
 import { Container, Image, Modal, Paginator, Text } from '../../../components/ui'
 import { hooks, settingsOperations, sparePartsOperations, sparePartsSelectors } from '../../../state'
 import { getColor } from '../../../utils/theme'
-import { AiOutlinePoweroff, AiOutlineDelete, AiOutlinePicture } from 'react-icons/ai'
+import { AiOutlineClear, AiOutlineDelete, AiOutlinePicture } from 'react-icons/ai'
 import { RiEditBoxLine } from 'react-icons/ri'
 import { FcPicture } from 'react-icons/fc'
 import { FaSearch } from 'react-icons/fa'
 import { Filters } from '../../../components/layout'
 import { getFormattedGoogleDriveUrl } from '../../../utils/formatter'
+import { v4 as uuid } from 'uuid'
 
 const StyledSpareParts = styled(Container)`
   padding: 16px;
@@ -71,9 +72,14 @@ const StyledSpareParts = styled(Container)`
     max-width: 800px;
     padding-top: 32px;
   }
+  .pill {
+    border: 1px solid ${getColor('border')};
+    padding: 4px 8px;
+    border-radius: 4px;
+  }
 `
 
-export const SpareParts = () => {
+export const SpareParts = ({noEdit}: {noEdit:boolean}) => {
   const { pathname } = useRouter()
   const [deleteModal, setDeleteModal] = useState<any>({visibility: false, sparePart: {}})
   const [filtersModal, setFiltersModal] = useState<any>(false)
@@ -181,8 +187,8 @@ export const SpareParts = () => {
   const renderSpareParts = ( ) => {
     return (
       <Container className='spare-part-list-container'>
-        <Modal onClose={() => setDeleteModal({visibility: false, sparePart: {}})} isVisible={deleteModal.visibility} content={renderDeleteModal()}/>
-        <Modal onClose={() => setDisableModal({visibility: false, sparePart: {}})} isVisible={disableModal.visibility} content={renderDisableModal()}/>
+        {noEdit && <Modal onClose={() => setDeleteModal({visibility: false, sparePart: {}})} isVisible={deleteModal.visibility} content={renderDeleteModal()}/>}
+        {noEdit && <Modal onClose={() => setDisableModal({visibility: false, sparePart: {}})} isVisible={disableModal.visibility} content={renderDisableModal()}/>}
         {
           sparePartList?.map((sparePart: any) => {
             const { 
@@ -193,8 +199,22 @@ export const SpareParts = () => {
               car_brand,
               similars,
               item_brand,
-              imageUrl
+              imageUrl,
+              category,
+              family,
+              liters,
+              motor,
+              support_models,
+              valves
             } = sparePart 
+            const filters = [
+              {key: "category", value: category, label: 'Categoría' },
+              {key: "family", value: family, label: 'Producto' },
+              {key: "liters", value: liters, label: 'Lts' },
+              {key: "motor", value: motor, label: 'Motor' },
+              {key: "support_models", value: support_models, label: 'Modelo' },
+              {key: "valves", value: valves, label: 'Válvulas' }
+            ]
             return (
               <Container className='sparePart-container' key={`${id}`}>
                 <Container className='details-container' gap='32px'> 
@@ -221,7 +241,7 @@ export const SpareParts = () => {
                     <Text textType='h3'>Nombre:</Text>
                     <Text textType='p'>{name}</Text>
                   </Container>
-                  <Container direction='row' flex='0.5' align='center' justify='flex-end'>
+                  {!noEdit && <Container direction='row' flex='0.5' align='center' justify='flex-end'>
                     <IconButton tooltip="Editar" onClick={() => onEdit(sparePart.id)}>
                       <RiEditBoxLine />
                     </IconButton>
@@ -231,7 +251,24 @@ export const SpareParts = () => {
                     <IconButton tooltip="Eliminar" onClick={() => setDeleteModal({visibility: true, sparePart})}>
                       <AiOutlineDelete />
                     </IconButton>
-                  </Container>
+                  </Container>}
+                </Container>
+                <Container direction='row' wrap='wrap'>
+                  {
+                      Object.keys(filters).map((filter:any) => (
+                        filters[filter].key
+                        ?
+                          <Container key={uuid()} className='pill' direction='row'>
+                            <Text textType='span'>
+                              {filters[filter].label}
+                            </Text>
+                            <Text textType='span'>
+                              {filters[filter].value}
+                            </Text>
+                          </Container>
+                        : <></>
+                      ))
+                    }
                 </Container>
                 {description && <Container className='description-container'>
                   <Container className='description'>
@@ -243,7 +280,6 @@ export const SpareParts = () => {
                     <Text textType='p'>{`${similars}`}</Text>
                   </Container>}
                 </Container>}
-              
               </Container>
             )
           })
@@ -263,16 +299,26 @@ export const SpareParts = () => {
   }
   
   return (
-    <StyledSpareParts>
+    <StyledSpareParts className='spare-parts-container'>
       <Modal onClose={() => setFiltersModal(false)} isVisible={filtersModal} content={renderFiltersModal()}/>
       <Container align='center' direction='row'>
-        <Button buttonStyle='primaryReverse' action={() => push('./spare-parts/add-spare-part')}><Text textType='p'>Agregar refaccion</Text></Button>
-        {!!sparePartList?.length && <Button buttonStyle='primary' action={() => setFiltersModal(true)}>
-          <Text textType='p'>
-            Encontrar refaccion
-          </Text>
-          <FaSearch color='white'/>
-        </Button>}
+        {!noEdit && <Button buttonStyle='primaryReverse' action={() => push('./spare-parts/add-spare-part')}><Text textType='p'>Agregar refaccion</Text></Button>}
+        {!!sparePartList?.length && (
+          <>
+            <Button buttonStyle='primary' action={() => setFiltersModal(true)}>
+              <Text textType='p'>
+                Encontrar refaccion
+              </Text>
+              <FaSearch color='white'/>
+            </Button>
+            <Button borders={false} action={() => dispatch(clearSparePartList())}>
+              <Text textType='p'>
+                Limpiar Búsqueda
+              </Text>
+              <AiOutlineClear />
+            </Button>
+          </>
+        )}
       </Container>
       { !sparePartList?.length && (
         <Container className='no-results-filters-container' gap='32px'>

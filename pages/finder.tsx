@@ -10,90 +10,10 @@ import { authSelectors, hooks, sparePartsOperations, sparePartsSelectors } from 
 import { usePrevious } from '../utils'
 import { getColor } from '../utils/theme'
 import { v4 as uuid } from 'uuid'
+import SpareParts from './admin/spare-parts'
 
 const logo = "https://firebasestorage.googleapis.com/v0/b/refacciones-solis.appspot.com/o/assets%2Frefacciones-solis-logo.png?alt=media&token=2368b436-f8fc-4b60-a0d2-4bb854471b8e"
-// const StyledFinder = styled(Container)`
-//   .auth-padding {
-//     height: 150px;
-//   }
-//   padding: 96px 32px;
-//   position: relative;
-//   .search-bar-container {
-//     background: ${getColor('white')};
-//     border-bottom: 1px solid ${getColor('border')};
-//     position: fixed;
-//     width: calc(100% - 64px);
-//     z-index: 1;
-//     top: 40px;
-//     .search-container {
-//       width: 100%;
-//       align-items: center;
-//     }
-//     @media (min-width: 1024px) {
-//       top: 65px;
-//     }
-//     padding-top: 32px;
-//     padding-bottom: 32px;
-//     @media (max-width: 1023px) {
-//       padding-top: 16px;
-//       padding-bottom: 16px;
-//     }
-//     flex-wrap: wrap;
-//     justify-content: center;
-//     align-items: center;
-//     .logo-container {
-//       max-width: 350px;
-//       img {
-//         object-fit: contain;
-//       }
-//     }
-//     .search-input-container {
-//       max-width: 550px;
-//       width: 100%;
-//     }
-//     &.column {
-//       border-bottom: none;
-//       .search-icon-container {
-//         padding: 0 16px;
-//         align-items: center;
-//       }
-//     }
-//     &.row {
-//       flex-direction: row;
-//       .logo-container {
 
-//         max-width: 85px;
-//         img {
-//           object-fit: contain;
-//         }
-//       }
-//     }
-//   }
-//   @media (max-width: 1024px) {
-//     padding: 64px 32px;
-//   }
-//   h2 {
-//     color: ${getColor('primary')};
-//   }
-//   h3 {
-//     padding-top: 8px;
-//     line-height: 24px;
-//   }
-//   .pill {
-//     border: 1px solid ${getColor('border')};
-//     padding: 4px 8px;
-//     border-radius: 4px;
-//   }
-//   .spare-part-list-container {
-//     padding-top: 150px;
-//     @media (max-width: 1024px) {
-//       padding-top: 115px;
-//     }
-
-//     .sparePart-container {
-//     }
-//   }
-// `
 const StyledFinder = styled(Container)`
 
   padding: 16px;
@@ -140,6 +60,14 @@ const StyledFinder = styled(Container)`
   h3 {
     padding-top: 8px;
     line-height: 24px;
+  }
+  .spare-parts-container {
+    align-self: center;
+    align-items: stretch;
+  }
+  .no-results-filters-container {
+    align-self: center;
+    width: 100%;
   }
 `
 export const Finder = () => {
@@ -276,9 +204,7 @@ export const Finder = () => {
 
   return (
     <StyledFinder gap='32px'>
-      {renderSearchBar()}
-      {renderSpareParts()}
-      {(sparePartList?.length / 10) > 1 && renderPaginator()}
+      <SpareParts noEdit/>
     </StyledFinder>
   )
 }

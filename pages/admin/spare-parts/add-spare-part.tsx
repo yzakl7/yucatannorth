@@ -1,11 +1,10 @@
 import styled from '@emotion/styled'
 import { useRouter } from 'next/router'
-import React, { useEffect, useState } from 'react'
-import { Button, Select, TextInput } from '../../../components/inputs'
+import React, { useState } from 'react'
+import { Button, TextInput } from '../../../components/inputs'
 import { Filters } from '../../../components/layout'
 import { Container, Text } from '../../../components/ui'
-import { hooks, sparePartsOperations, sparePartsSelectors } from '../../../state'
-import { getFormattedGoogleDriveUrl } from '../../../utils/formatter'
+import { hooks, sparePartsOperations } from '../../../state'
 import { getColor } from '../../../utils/theme'
 
 const StyledAddSparePart = styled(Container)`
@@ -59,21 +58,16 @@ export const AddSparePart = () => {
   const [ sku, setSku ] = useState('')
   const [ description, setDescription ] = useState('')
   const [ filters, setFilters ] = useState({})
-
   const [years, setYears] = useState([])
   const { push } = useRouter()
-  
   const dispatch = useAppDispatch()
-
   const onUpdateSparePart = () => {
     const splitList = name.toLowerCase().split(' ')
       const indexedKeywords = []
-
       for (let i = 0; i < splitList.length; i++) {
         for (let j = 0; j < splitList[i].length; j++) {
           indexedKeywords.push(splitList[i].substring(0, j + 1))
         }
-      
       }
     const sparePartDetails = {
       name,
@@ -117,15 +111,15 @@ export const AddSparePart = () => {
           </Container>
           <Container className='text-input'>
             <Text textType='p'>ImageURL</Text>
-            <TextInput value={getFormattedGoogleDriveUrl(imageUrl)} onChange={({target: { value }}) => setImageUrl(value)} />
+            <TextInput value={imageUrl} onChange={({target: { value }}) => setImageUrl(value)} />
           </Container>
           <Container className='text-input'>
             <Text textType='p'>Descripción</Text>
-            <TextInput multiline='15' value={description} onChange={({target: { value }}) => setDescription(value)} />
+            <TextInput multiline='15' value={description} onChange={(value) => setDescription(`${value}`)} />
           </Container>
           <Container className='text-input'>
             <Text textType='p'>Similares</Text>
-            <TextInput multiline='15' value={similars} onChange={({target: { value }}) => setSimilars(value)} />
+            <TextInput multiline='15' value={similars} onChange={(value) => setSimilars(`${value}`)} />
           </Container>
         </Container>
         <Container className='right-container'>

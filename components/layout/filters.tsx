@@ -23,7 +23,10 @@ export const Filters = ({ onChange, value }:any) => {
 
   const onSelect = (newValue:string, cat:string) => {
     if (newValue) {
-      setvalues({...values, [cat]: newValue})
+      console.log({newValue});
+      setvalues({...values, [cat]: newValue === 'delete' ? '' : newValue })
+    } else {
+      
     }
   }
   

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { FiDelete } from 'react-icons/fi'
 import styled from 'styled-components'
 import { TextInput } from '.'
 import { getColor } from '../../utils/theme'
@@ -23,9 +24,24 @@ const StyledSelect = styled(Container)`
     position: absolute;
     padding-left: 16px;
     padding-top: 4px;
+    width: 100%;
     p {
       font-size: 11px;
       font-weight: 800;
+    }
+    .delete-icon{
+      position: absolute;
+      height: 50px;
+      width: 35px;
+      top: 0;
+      right: 0;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      transition: ease-in-out all .3s;
+      &:hover {
+        background: rgba(0,0,0,.15);
+      }
     }
   }
 `
@@ -108,6 +124,12 @@ export const Select = ({
         <Text textType='p'>
           {label }
         </Text>
+        <Container
+          className='delete-icon'
+          onClick={() => onChange('delete')}
+        >
+          <FiDelete />
+        </Container>
       </Container>
     </StyledSelect>
   )
