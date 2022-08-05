@@ -23,7 +23,6 @@ export const Filters = ({ onChange, value }:any) => {
 
   const onSelect = (newValue:string, cat:string) => {
     if (newValue) {
-      console.log({newValue});
       setvalues({...values, [cat]: newValue === 'delete' ? '' : newValue })
     } else {
       
@@ -55,11 +54,6 @@ export const Filters = ({ onChange, value }:any) => {
       }
     }
   }, [values])
-
-  useEffect(() => {
-    // console.log({filters: value});
-  }, [value])
-  
 
   const renderFilters = () => {
 

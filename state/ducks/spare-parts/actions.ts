@@ -117,13 +117,10 @@ const updateSparePartItem = createAsyncThunk(
   async ({ params, callback }: {params: any, callback?: () => void }, { rejectWithValue, dispatch }) => {
     try {
       await setDoc(doc(db, "spareParts", params.id), { ...params })
-      console.log('success')
-      // dispatch(getSparePartList())
       if (callback) {
         callback()
       }
     } catch (err) {
-      console.log('no success',err)
       if (!(err as Record<string, string>).response) {
         throw err
       }

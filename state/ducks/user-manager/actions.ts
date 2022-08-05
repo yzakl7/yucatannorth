@@ -24,7 +24,6 @@ const createUser = createAsyncThunk(
       dispatch(getUserList())
       return { }
     } catch (err) {
-      console.log('Error adding user:', err);
       if (!(err as Record<string, string>).response) {
         throw err
       }

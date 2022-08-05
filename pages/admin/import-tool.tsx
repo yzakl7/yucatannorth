@@ -76,9 +76,7 @@ const processCSV_FILTERS = (str:string, callback: ({rows:[]}) =>  void) => {
 const processCSV_DB = (str:string, callback: ({rows:[], headers: []}) =>  void) => {
   const rowsArray = CSVToArray(str)
   const headers = rowsArray.shift() || []
-  console.log({curr: rowsArray.slice(0, 10)})
   const rows = rowsArray.slice(0, 500).map((row) => row.reduce((acc:any, curr, index) => {
-    console.log({curr});
     const header = headers[index]
     let prop = { ...acc, [header]: curr }
     // let prop = {...acc, filters: {...acc.filters, [header]:`${curr}` }}
@@ -120,44 +118,33 @@ const onUploadStock = ({ target: { files } }:any) => {
 }
 
 const onUploadStack = ({ target: { files } }:any) => {
-  console.log('sta');
   const file = files[0]
   fileToDataUri(file).then(string => {
     processCSV_DB(`${string}`, setCsvArray)
   })
 }
 
-useEffect(() => {
-  console.log({csvArray})
-
-
-}, [csvArray])
-
 const onUploadFilters = async () => {
   const batch = writeBatch(db);
   const docRef = doc(db, "settings", 'filters')
   batch.set( docRef, filters);
-try {
-  const data =  await batch.commit();
-  console.log({data});
-} catch(err) {
-  console.log({err});
-}
+  try {
+    const data =  await batch.commit();
+    } catch(err) {
+    }
 
-}
+  }
 
 
 const onUploadAll = async () => {
-  console.log('sube de ', sliceParams[0], ' a ', sliceParams[1])
   const batch = writeBatch(db);
   csvArray.rows.slice(sliceParams[0],sliceParams[1]).forEach((sparepart:any, i:number) => {
     const docRef = doc(db, "spareParts", uuid())
     batch.set( docRef, {...sparepart});
-    console.log({...sparepart});
   });
   try {
     // await addDoc(collection(db, "spareParts"), {...props})
-       await batch.commit();
+      await batch.commit();
       if (sliceParams[1] + 500 <= (csvArray.rows.length - 1)) {
         setSliceParams([sliceParams[1], sliceParams[1] + 500])
       } else if ( ((csvArray.rows.length - 1) - sliceParams[1]) > 0) {

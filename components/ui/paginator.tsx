@@ -51,8 +51,6 @@ export const Paginator = ({
   onChange,
   maxValue,
 }:any) => {
-
-  console.log({maxValue});
   const getPages = () => {
     const pagesArray = Array.from(new Array(Math.ceil(maxValue) + 1).keys());
     let sliceRangeStart = value < 7 ? 0 : value - 5
