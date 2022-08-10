@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit'
 import { deleteObject, getDownloadURL, getStorage, listAll, ref, uploadBytes } from "firebase/storage";
 import * as firebase from 'firebase/app'
 import firebaseConfig from '../../../firebase/firebaseConfig';
-import { collection, getDocs, getFirestore, query } from 'firebase/firestore';
+import { collection, doc, getDocs, getFirestore, query, setDoc } from 'firebase/firestore';
 
 let firebaseApp
 const db = getFirestore();
@@ -45,6 +45,23 @@ const getSlides = createAsyncThunk(
   },
 )
 
+const updateFiters = createAsyncThunk(
+  'settings/updateFiters',
+  async (params: any, { rejectWithValue, dispatch }) => {
+    const docRef = doc(db, "settings", "filters")
+    try {
+      await setDoc(docRef, { ...params })
+      await dispatch(getSettings())
+      return
+    } catch (err) {
+      if (!(err as Record<string, string>).response) {
+        throw err
+      }
+      return rejectWithValue(err)
+    }
+  },
+)
+
 const getSettings = createAsyncThunk(
   'settings/getSettings',
   async (params: void, { rejectWithValue, dispatch }) => {
@@ -54,7 +71,7 @@ const getSettings = createAsyncThunk(
     try {
       const querySnapshot = await getDocs(query_)
       querySnapshot.forEach((doc:any) => {
-        newDocs.push({...doc.data(), id: doc.id});
+        newDocs.push({...doc.data()});
       });
       return ({ settings: { categories: newDocs[0] }})
     } catch (err) {
@@ -105,7 +122,8 @@ const settingsActions = {
   getSlides,
   deleteSlide,
   uploadSlide,
-  getSettings
+  getSettings,
+  updateFiters
 }
 
 export default settingsActions

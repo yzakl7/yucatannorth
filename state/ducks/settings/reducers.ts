@@ -46,6 +46,13 @@ const settingsReducer = createReducer(initialState, (builder) => {
     .addCase(actions.uploadSlide.pending, (state) => {
       state.isFetching = true
     })
+    .addCase(actions.updateFiters.pending, (state) => {
+      state.isFetching = true
+    })
+    .addCase(actions.updateFiters.rejected, (state) => {
+      state.isFetching = false
+    })
+
 })
 
 export default settingsReducer

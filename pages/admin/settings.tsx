@@ -5,7 +5,7 @@ import { Container, Image, Text } from '../../components/ui'
 import { hooks, settingsOperations, settingsSelectors } from '../../state'
 import { BiImageAdd } from 'react-icons/bi'
 import { getColor } from '../../utils/theme'
-import { CategoryManager } from '../../components/layout'
+import { CategoryManager, ImportTool } from '../../components/layout'
 
 const StyledSettings = styled(Container)`
   padding: 16px;
@@ -51,7 +51,7 @@ const StyledSettings = styled(Container)`
 export const Settings = () => {
   const { useAppDispatch, useAppSelector } = hooks
   const { selectSettings } = settingsSelectors
-  const { getSlides, deleteSlide, uploadSlide } = settingsOperations
+  const { getSlides, deleteSlide, uploadSlide, getSettings } = settingsOperations
   const [ selectedSlide, setSelectedSlide ] = useState('')
   const dispatch = useAppDispatch()
   const { slideList, isFetching } = useAppSelector(selectSettings)
@@ -73,17 +73,20 @@ export const Settings = () => {
         <Text textType='h4'>Portada</Text>
         <Container direction='row' flex='1' wrap='wrap'>
           { slideList.map(({ url:src, name }:{ url: string, name:string }) => (
-            <Container className='slide-card' key={src}>
-              <Image alt={src} src={src} />
-              <Container direction='row' gap='16px' justify='space-between' padding='16px;'>
-                <label className='label-button' onClick={() => setSelectedSlide(name)} htmlFor='upload-photo' >
-                  <Text textType='p'>Cambiar imagen</Text>
-                </label>
-                <label className='label-button' onClick={() => dispatch(deleteSlide(name))}>
-                  <Text textType='p'>Eliminar imagen</Text>
-                </label>
+            <>
+              <Container className='slide-card' key={src}>
+                <Image alt={src} src={src} />
+                <Container direction='row' gap='16px' justify='space-between' padding='16px;'>
+                  <label className='label-button' onClick={() => setSelectedSlide(name)} htmlFor='upload-photo' >
+                    <Text textType='p'>Cambiar imagen</Text>
+                  </label>
+                  <label className='label-button' onClick={() => dispatch(deleteSlide(name))}>
+                    <Text textType='p'>Eliminar imagen</Text>
+                  </label>
+                </Container>
               </Container>
-            </Container>
+            </>
+
           )).sort((a:any, b:any) => {
               if (a.name > b.name) {
                   return -1;
@@ -112,7 +115,8 @@ export const Settings = () => {
 
   useEffect(() => {
     dispatch(getSlides())
-  }, [dispatch, getSlides])
+    dispatch(getSettings())
+  }, [dispatch])
 
   if (isFetching) {
     return <Text textType='h3'>Loading</Text>

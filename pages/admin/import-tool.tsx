@@ -175,14 +175,14 @@ useEffect(() => {
 
 return (
   <>
-    select filters
+    {/* select filters
           <input type="file" onChange={onUploadStock} />
           select db
           <input type="file" onChange={onUploadStack} />
 
 
           <button onClick={onUploadAll} >uplad db</button>
-          <button onClick={onUploadFilters} >uplad filters</button>
+          <button onClick={onUploadFilters} >uplad filters</button> */}
   </>
 
 )

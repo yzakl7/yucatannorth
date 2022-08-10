@@ -9,7 +9,7 @@ import { FaSearch } from 'react-icons/fa'
 interface SearchInputProps {
   value: string
   onChange: (newValue: string) => void
-  onSearch: () => void
+  onSearch?: () => void
   
 }
 
