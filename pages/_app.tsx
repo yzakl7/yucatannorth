@@ -7,6 +7,16 @@ import { useRouter } from 'next/router'
 import { Provider } from 'react-redux'
 import { hooks, settingsOperations, store } from '../state'
 import { useEffect } from 'react'
+import * as firebase from 'firebase/app'
+import firebaseConfig from '../firebase/firebaseConfig';
+
+let firebaseApp
+
+if (firebase.getApps().length === 0) {
+  firebaseApp = firebase.initializeApp(firebaseConfig)
+} else {
+  firebaseApp = firebase.getApp()
+}
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   const { pathname } = useRouter()

@@ -107,19 +107,47 @@ export const CategoryManager = () => {
   const [ selectedCategory, setSelectedCategory ] = useState()
   const [ searchValue, setSearchValue ] = useState('')
 
+  const filterObject = 
+    filteredCategories 
+      ?
+        Object.keys(filteredCategories).map((cat, i) => {
+          return ({
+            filterKey: cat,
+            order: settings.categories[cat].order,
+          })
+
+        })
+      :
+        []
+
+  const compare = (a:any, b:any) => {
+    if (Number(a.order) < Number(b.order)) {
+      return -1
+    }
+    if (Number(a.order) > Number(b.order)) {
+      return 1
+    }
+
+    return 0
+  }
+
+  const sortedObj = filterObject?.sort(compare)
+
   const filters = (
     <>
       {
-        filteredCategories && Object.keys(filteredCategories)?.map((filterKey:any) => {
+        sortedObj.map(({filterKey}:any) => {
           const isSelected = selectedCategory === filterKey
-          console.log({filterKey, l:filteredCategories[filterKey]});
           return (
-            <Container className={`filter-container${ isSelected ? ' selected' : ''}`} key={filterKey} onClick={() => setSelectedCategory(filterKey)}>
+            <Container
+              className={`filter-container${ isSelected ? ' selected' : ''}`}
+              key={filterKey}
+              onClick={() => setSelectedCategory(filterKey)}
+            >
               <Text textType='p'>{filteredCategories[filterKey].label}</Text>
             </Container>
           )
         })
-
       }
     </>
   )
@@ -143,7 +171,6 @@ export const CategoryManager = () => {
   }
   
   const deleteOption = (opt: string) => {
-    console.log({selectedCategory, opt});
     const newOptiopns = categories[(selectedCategory as any)].options.filter((optn:string) => optn !== opt)
 
     const newCategories = {
@@ -154,13 +181,21 @@ export const CategoryManager = () => {
       }}
     setCategories(newCategories)
   }
+
+  const sortedOptions = selectedCategory 
+    ?
+      [...filteredCategories[selectedCategory].options].sort(
+        (a:any, b:any) => a.toUpperCase().localeCompare(b.toUpperCase())
+      ) 
+    :
+      []
   
   const categoryOptions = (
     <>
       { selectedCategory 
         && filteredCategories[selectedCategory] 
         && (
-          filteredCategories[selectedCategory].options.map((opt:any) => (
+          sortedOptions.map((opt:any) => (
             <Container className='option' key={opt}>
               <Text textType='p'>{opt}</Text>
               <Container className='delete-option' onClick={() => deleteOption(opt)}>
@@ -194,7 +229,6 @@ export const CategoryManager = () => {
         return opt.toLowerCase().indexOf(`${searchValue}`.toLowerCase()) !== -1
 
       })
-      // console.log({searchValue, newOptions: settings?.categories[selectedCategory].options});
       setFilteredCategories({
         ...filteredCategories,
         [(selectedCategory as any)]: {
@@ -221,10 +255,6 @@ export const CategoryManager = () => {
     setSearchValue('')
   }, [selectedCategory])
   
-  useEffect(() => {
-    console.log({selectedCategory, sel: selectedCategory ? filteredCategories[selectedCategory] : ''});
-  }, [selectedCategory])
-
   return (
     <StyledCategoryManager>
       <Text textType='h4'>Categorías</Text>

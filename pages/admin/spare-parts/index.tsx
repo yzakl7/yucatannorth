@@ -85,6 +85,7 @@ export const SpareParts = ({noEdit}: {noEdit:boolean}) => {
   const [filtersModal, setFiltersModal] = useState<any>(false)
   const [disableModal, setDisableModal] = useState<any>({visibility: false, sparePart: {}})
   const [searchValue, setSearchValue] = useState('')
+  const [year, setYear] = useState('')
   const [currentPage, setCurrentPage] = useState(1)
   const [filters, setFilters] = useState({})
   const { useAppDispatch, useAppSelector } = hooks
@@ -118,14 +119,14 @@ export const SpareParts = ({noEdit}: {noEdit:boolean}) => {
 
   const onSearchFilters = () => {
     setFiltersModal(false)
-    dispatch(getSparePartList(({filters})))
+    dispatch(getSparePartList(({filters, year})))
   }
 
   const renderFiltersModal = () => {
     return (
       <Container className='modal-content'>
         <Container />
-        <Filters value={filters} onChange={(param:any) => setFilters(param)} />
+        <Filters value={filters} onChange={(param:any) => onChangeFilters(param)} />
         <Container className='buttons-container'>
           <Button buttonStyle='borderless' action={() => setFiltersModal(false)}>
             <Text textType='p'>
@@ -205,7 +206,8 @@ export const SpareParts = ({noEdit}: {noEdit:boolean}) => {
               liters,
               motor,
               support_models,
-              valves
+              valves,
+              years
             } = sparePart 
             const filters = [
               {key: "category", value: category, label: 'Categoría' },
@@ -213,7 +215,10 @@ export const SpareParts = ({noEdit}: {noEdit:boolean}) => {
               {key: "liters", value: liters, label: 'Lts' },
               {key: "motor", value: motor, label: 'Motor' },
               {key: "support_models", value: support_models, label: 'Modelo' },
-              {key: "valves", value: valves, label: 'Válvulas' }
+              {key: "valves", value: valves, label: 'Válvulas' },
+              {
+                key: "years", value: `${years[0] } - ${years[1]}`, label: 'Años'
+              }
             ]
             return (
               <Container className='sparePart-container' key={`${id}`}>
@@ -288,6 +293,13 @@ export const SpareParts = ({noEdit}: {noEdit:boolean}) => {
     )
   }
 
+  const onChangeFilters = (filters:any) => {
+    const newFilters = {...filters}
+    delete newFilters.year
+    setYear(filters.year)
+    setFilters(newFilters)
+  }
+
   useEffect(() => {
     dispatch(clearSelectedSparePart())
     dispatch(clearSparePartList())
@@ -322,7 +334,7 @@ export const SpareParts = ({noEdit}: {noEdit:boolean}) => {
       </Container>
       { !sparePartList?.length && (
         <Container className='no-results-filters-container' gap='32px'>
-          <Filters value={filters} onChange={(param:any) => setFilters(param)} />
+          <Filters value={filters} onChange={(param:any) => onChangeFilters(param)} />
           <Container align='flex-end'>
             <Button buttonStyle='primary' action={() => onSearchFilters()}>
               <Text textType='p'>

@@ -28,7 +28,13 @@ const StyledAddSparePart = styled(Container)`
       .text-input {
         background: ${getColor('secondary')};
         padding: 8px;
-        input {
+        .years-container {
+          .text-input {
+            width: 50%;
+          }
+          input {
+            min-width: 0px;
+          }
         }
       }
     }
@@ -58,7 +64,7 @@ export const AddSparePart = () => {
   const [ sku, setSku ] = useState('')
   const [ description, setDescription ] = useState('')
   const [ filters, setFilters ] = useState({})
-  const [years, setYears] = useState([])
+  const [years, setYears] = useState<string[]>([])
   const { push } = useRouter()
   const dispatch = useAppDispatch()
   const onUpdateSparePart = () => {
@@ -106,6 +112,13 @@ export const AddSparePart = () => {
             <TextInput value={name} onChange={({target: { value }}) => setName(value)} />
           </Container>
           <Container className='text-input'>
+            <Text textType='p'>Años</Text>
+            <Container className='years-container' direction='row'>
+              <TextInput value={years[0]} onChange={({target: { value }}) => setYears([value, years[1] ])} />
+              <TextInput value={years[1]} onChange={({target: { value }}) => setYears([years[0], value])} />
+            </Container>
+          </Container>
+          <Container className='text-input'>
             <Text textType='p'>Clave del producto</Text>
             <TextInput placeholder='Dejar vacío para generacion automática' value={sku} onChange={({target: { value }}) => setSku(value)} />
           </Container>
@@ -123,7 +136,7 @@ export const AddSparePart = () => {
           </Container>
         </Container>
         <Container className='right-container'>
-          <Filters value={filters} onChange={setFilters} />
+          <Filters value={filters} noYear onChange={setFilters} />
         </Container>
       </Container>
     </StyledAddSparePart>

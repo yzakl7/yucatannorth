@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { hooks, settingsSelectors } from '../../state'
 import { Container, Dropdown, Text } from '../ui'
 import { v4 as uuid } from 'uuid'
-import { DropdownInput, Select } from '../inputs'
+import { DropdownInput, Select, TextInput } from '../inputs'
 import { useEffectOnDemand } from '../../utils'
 
 const StyledFilters = styled(Container)`
@@ -13,14 +13,26 @@ const StyledFilters = styled(Container)`
   .filter-contaner {
     min-height: 40px!important;
   }
+
+  .year-input {
+    .label {
+      position: absolute;
+      top: 4px;
+      left: 16px;
+      padding: 0;
+      p {
+        font-weight: 800;
+      }
+    }
+  }
 `
 
-export const Filters = ({ onChange, value }:any) => {
+export const Filters = ({ onChange, value, noYear }:any) => {
   const { selectSettings } = settingsSelectors
   const { useAppSelector } = hooks
   const { settings } = useAppSelector(selectSettings)
   const [ values, setvalues ] = useState<any>({})
-
+  const [ year, setYear ] = useState('')
   const onSelect = (newValue:string, cat:string) => {
     if (newValue) {
       setvalues({...values, [cat]: newValue === 'delete' ? '' : newValue })
@@ -49,11 +61,9 @@ export const Filters = ({ onChange, value }:any) => {
         }
         return ({...acc})
       }, {}) 
-      if (Object.keys(newFilters).length) {
-        onChange(newFilters)
-      }
+      onChange({...newFilters, year})
     }
-  }, [values])
+  }, [values, year])
 
   const renderFilters = () => {
 
@@ -66,7 +76,6 @@ export const Filters = ({ onChange, value }:any) => {
         order: settings.categories[cat].order,
         label: settings.categories[cat].label,
         zIndex: Object.keys(settings.categories).length - i,
-
       })
     })
     const compare = (a:any, b:any) => {
@@ -91,9 +100,10 @@ export const Filters = ({ onChange, value }:any) => {
         zIndex,
         label
       } = params
+      const sortedOptions:any = [...options].sort((a:any, b:any) => a.toUpperCase().localeCompare(b.toUpperCase()))
       return (
-        <Container className='filter-contaner' key={cat} zIndex={`${Number(sortedObj.length) - Number(order)}`}>
-          <Select label={label} value={value} onChange={paramsOnselect} options={options}/>
+        <Container className='filter-contaner' key={cat} zIndex={`${(Number(sortedObj.length) * 10) - Number(order)}`}>
+          <Select label={label} value={value} onChange={paramsOnselect} options={sortedOptions}/>
         </Container>
       )
     })
@@ -103,6 +113,13 @@ export const Filters = ({ onChange, value }:any) => {
     <StyledFilters>
       {
         renderFilters()
+      }
+      {
+        !noYear && (
+          <Container className='year-input'>
+            <TextInput label='Año' value={year} onChange={(e) => setYear(e.target.value)} />
+          </Container>
+        )
       }
     </StyledFilters>
   )
