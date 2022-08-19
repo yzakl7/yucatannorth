@@ -355,7 +355,7 @@ const Property = (props:any) => {
               ]
             },
             {
-              type: 'numberInput',
+              type: 'textInput',
               minWidth: '180px',
               value: state.price,
               name: 'price',
@@ -424,6 +424,9 @@ const Property = (props:any) => {
       if (state.rooms) {
         upload.features.rooms = state.rooms;
       }
+      if (state.bathrooms) {
+        upload.features.bathrooms = state.bathrooms;
+      }
       if (state.mapSrc) {
         upload.address.mapSrc = getMapSrc(state.mapSrc);
       }
@@ -443,6 +446,7 @@ const Property = (props:any) => {
         upload.short_description = state.short_description;
       }
 
+      console.log({upload})
       await updatePropertyData({ id:`${id}`, data: upload })
       await getStnapshot()
       push('/admin')

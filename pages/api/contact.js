@@ -7,7 +7,7 @@ async function sendEmail(req, res) {
   try {
     const { name, lastName, email, phone, message, location } = req.body
     const response = await sendgrid.send({
-      to: `fdobfajardo@gmail.com`,
+      to: `asesor.fernandoberzunza@gmail.com`,
       from: "yucatannorth.adm@gmail.com", // your website email address here
       subject: `Nuevo mensaje de Yucatán North Web`,
       html: `

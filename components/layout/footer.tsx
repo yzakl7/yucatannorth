@@ -53,7 +53,7 @@ export const Footer = () => {
         </IconButton>
       </Container>
       <Container className='links-bottom-container'>
-        <Button action={() => push('/contact-us')} buttonStyle='link'><Text textType='p'>fdobfajardo@gmail.com</Text></Button>
+        <Button action={() => push('/contact-us')} buttonStyle='link'><Text textType='p'>asesor.fernandoberzunza@gmail.com</Text></Button>
         <Button buttonStyle='link'><Text textType='p'>Copyright 2022 Yucatán North</Text></Button>
         <Button buttonStyle='link'><Text textType='p'>Políticas de privacidad</Text></Button>
       </Container>

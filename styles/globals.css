@@ -138,3 +138,7 @@ table {
 #__next {
   height: 100vh
 }
+
+p {
+  white-space: break-spaces;
+}

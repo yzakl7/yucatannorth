@@ -38,7 +38,7 @@ const cardContent2 = {
 const cardContent3 = {
   title: 'Grandes inversiones y grandes historias',
   subtitle: 'Invierte en las mejores opciones',
-  description: 'En Yucatán North buscamos brindar no solo información Inmobiliaria, sino ampliar la forma y manera de que lo que se está invirtiendo. No es un producto si no una historia.',
+  description: 'En Yucatán North buscamos que la consultoría en la información inmobiliaria amplié la visión de que lo se está invirtiendo se convierta en tu gran historia de éxito.',
   image: "https://firebasestorage.googleapis.com/v0/b/yucatan-north-web.appspot.com/o/web%20assets%2Fabout_us%2FCASA.jpg?alt=media&token=2dc9e53d-ba2d-45f5-81d5-4c4031c5e59c"
 }
 
