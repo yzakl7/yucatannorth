@@ -79,7 +79,7 @@ export const Select = ({
       setFitleredOptions(newOptions)
     }
 
-  }, [searchValue])
+  }, [searchValue, options])
 
   useEffect(() => {
     setExpandDropdown(isFocused)
@@ -90,6 +90,11 @@ export const Select = ({
       }, 1000);
     }
   }, [isFocused])
+  
+  useEffect(() => {
+    // console.log({options})
+  
+  }, [options])
   
   
   return (

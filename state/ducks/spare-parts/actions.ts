@@ -31,7 +31,7 @@ const getSparePartList = createAsyncThunk(
             colRef,
             where("indexedYears", 'array-contains', params.year),
             ...queryFilters,
-            limit(500)
+            limit(50)
           )
 
         } else {

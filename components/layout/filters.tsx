@@ -68,11 +68,55 @@ export const Filters = ({ onChange, value, noYear }:any) => {
   const renderFilters = () => {
 
     const obj = settings && Object.keys(values).map((cat:any, i:number) => {
+      
+      const getFilteredOptions = () => {
+        const rawOptions = settings.categories[cat].options
+        const hasRelated = Object.keys(settings.categories[cat]?.rel || {}).length
+        let filteredOptions = rawOptions
+        if (hasRelated) {
+          const rel = settings.categories[cat].rel
+          const related_Keys = Object.keys(settings.categories[cat].rel)
+          filteredOptions = rawOptions.reduce((acc:any, curr:any) => {
+            const relatedFilter = related_Keys.find((key:string) => curr === key )
+            let preventRender = true
+
+            Object.keys(rel[curr] || {}).forEach((el) => {
+              preventRender = !rel[curr][el].find((elem:any) => elem === values[el])
+              if (rel[curr][el].find((elem:any) => elem === values[el])) {
+                preventRender = false
+              }
+            })
+
+
+            if (!preventRender) {
+              return [ ...acc, curr]
+            }
+            if (!relatedFilter) {
+              return [ ...acc, curr]
+            }
+            // const relatedFilterKeys = Object.keys(relatedFilter)
+            // relatedFilterKeys.forEach(element => {
+            //   const shouldRenderOption = rel[curr].find((key:any) =>  {
+            //     console.log({key, values, element, keyElement: key[element]});
+            //     return key[element]?.find((el:any) => el === values[element] ) 
+            //   } )
+            //   console.log({relcurr: rel[curr], relatedFilter});
+            //   if (shouldRenderOption) {
+            //     return [ ...acc, curr]
+
+            //   }
+            // });
+            return [ ...acc]
+          }, [])
+        }
+        return filteredOptions
+      }
+
       return ({
         cat,
         value: values[cat],
         onSelect: (newValue:any) => onSelect(newValue, cat),
-        options: settings.categories[cat].options,
+        options: getFilteredOptions(),
         order: settings.categories[cat].order,
         label: settings.categories[cat].label,
         zIndex: Object.keys(settings.categories).length - i,

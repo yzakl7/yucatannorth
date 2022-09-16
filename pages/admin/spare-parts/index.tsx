@@ -119,6 +119,7 @@ export const SpareParts = ({noEdit}: {noEdit:boolean}) => {
 
   const onSearchFilters = () => {
     setFiltersModal(false)
+    console.log({filters, year});
     dispatch(getSparePartList(({filters, year})))
   }
 
@@ -193,7 +194,6 @@ export const SpareParts = ({noEdit}: {noEdit:boolean}) => {
         {
           sparePartList?.map((sparePart: any) => {
             const { 
-              name,
               sku,
               id,
               description,
@@ -241,10 +241,6 @@ export const SpareParts = ({noEdit}: {noEdit:boolean}) => {
                   <Container justify='' flex='1'>
                     <Text textType='h3'>Marca de producto:</Text>
                     <Text textType='p'>{item_brand}</Text>
-                  </Container>
-                  <Container justify='' flex='1'>
-                    <Text textType='h3'>Nombre:</Text>
-                    <Text textType='p'>{name}</Text>
                   </Container>
                   {!noEdit && <Container direction='row' flex='0.5' align='center' justify='flex-end'>
                     <IconButton tooltip="Editar" onClick={() => onEdit(sparePart.id)}>

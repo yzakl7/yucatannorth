@@ -36,6 +36,8 @@ const StyledCategoryManager = styled(Container)`
     }
     .filter-options-wrapper {
       flex: 2;
+      border-left: 1px solid ${getColor('border')};
+      padding-left: 16px;
       gap: 8px;
       .filter-options-header {
         flex-direction: row;
@@ -260,36 +262,41 @@ export const CategoryManager = () => {
       <Text textType='h4'>Categorías</Text>
       <Container className='category-manager-body'>
         <Container className='filter-list'>{ filters }</Container>
-        {selectedCategory &&  <Container className='filter-options-wrapper'>
-          <Container className='filter-options-header'>
-            {/* <TextInput value={selectedCategory} /> */}
-            <SearchInput value={searchValue} onChange={setSearchValue}/>
-            <Container className='category-action-buttons'>
-              <Container className='delete-category' onClick={deleteCategory}>
-                <AiOutlineDelete color={getColor('danger')} size={24}/>
+        <Container className='filter-options-wrapper'>
+        { 
+          selectedCategory &&  (
+            <>
+              <Container className='filter-options-header'>
+                {/* <TextInput value={selectedCategory} /> */}
+                <SearchInput value={searchValue} onChange={setSearchValue}/>
+                <Container className='category-action-buttons'>
+                  <Container className='delete-category' onClick={deleteCategory}>
+                    <AiOutlineDelete color={getColor('danger')} size={24}/>
+                  </Container>
+                  <Container className='reset-category' onClick={resetData}>
+                    <BiReset color={getColor('text')} size={24}/>
+                  </Container>
+                  <Container className='reset-category' onClick={saveFilters}>
+                    <BiSave color={getColor('text')} size={24}/>
+                  </Container>
+                </Container>
               </Container>
-              <Container className='reset-category' onClick={resetData}>
-                <BiReset color={getColor('text')} size={24}/>
+              <Container className='filter-options'>
+                { 
+                  categoryOptions
+                }
+                {
+                  searchValue && !filteredCategories[selectedCategory].options.length && (
+                  <Container className='add-option-button' onClick={addOption}>
+                    <Text textType='p'>{searchValue}</Text>
+                    <BiMessageSquareAdd color={getColor('danger')} size={24}/>
+                  </Container>)
+                }
               </Container>
-              <Container className='reset-category' onClick={saveFilters}>
-                <BiSave color={getColor('text')} size={24}/>
-              </Container>
-            </Container>
-          </Container>
-          <Container className='filter-options'>
-            { 
-              categoryOptions
-            }
-            {
-              searchValue && !filteredCategories[selectedCategory].options.length && (
-              <Container className='add-option-button' onClick={addOption}>
-                <Text textType='p'>{searchValue}</Text>
-                <BiMessageSquareAdd color={getColor('danger')} size={24}/>
-              </Container>)
-            }
-          </Container>
-
-        </Container>}
+            </>
+          )
+        }
+        </Container>
       </Container>
     </StyledCategoryManager>
   )
